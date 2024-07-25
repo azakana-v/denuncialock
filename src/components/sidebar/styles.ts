@@ -11,7 +11,7 @@ export const SideContainer = styled.div`
 `
 
 export const GhostDiv = styled.div`
-border-top: 0.1rem solid #2C088D;
+border-top: 0.2rem solid #2C088D;
 padding-bottom: 1rem;
 display: flex;
 justify-content: center;
