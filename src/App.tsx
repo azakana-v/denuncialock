@@ -1,11 +1,15 @@
-
 import './App.css';
+import styled from 'styled-components';
+import Navbar from './components/navbar';
+
+const MainContainer = styled.div`
+`;
 
 function App() {
   return (
-    <div className="App">
-
-    </div>
+    <MainContainer>
+        <Navbar />
+    </MainContainer>
   );
 }
 
