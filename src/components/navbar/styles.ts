@@ -3,7 +3,6 @@ import styled from "styled-components"
 export const NavContainer = styled.nav`
     position: absolute;
     min-width: 100%; 
-    color: red;
     background-color: #5B0390;
     height: 4.5rem;
     display: flex;
