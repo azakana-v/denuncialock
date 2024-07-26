@@ -31,6 +31,7 @@ export const Tooltip = styled.span`
   transform: translateY(-50%);
   opacity: 0;
   transition: opacity 0.3s;
+  z-index: 1;
     &::before {
     content: '';
     position: absolute;

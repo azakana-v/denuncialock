@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const ReportContainer = styled.div`
     margin-top: 1rem;
-    width: 100%;
+    width: 95%;
     height: 22rem;
     background-color: #fff;
     border: 3px solid #5B0390;
@@ -11,6 +11,14 @@ export const ReportContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+     &:hover {
+        // transform: scale(1.01);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
 ` 
 
 export const Row = styled.div`
