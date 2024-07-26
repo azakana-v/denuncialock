@@ -7,14 +7,19 @@ export const ReportContainer = styled.div`
     background-color: #fff;
     border: 3px solid #5B0390;
     border-radius: 1rem;
-    padding: 1rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 ` 
 
 export const Row = styled.div`
     display: flex;
     gap: 5rem;
+    justify-content: space-between;
 `
 export const ReportTitleDescription = styled.div`
+
 
 `
 
@@ -56,4 +61,44 @@ export const Logo = styled.img`
 margin-top: 1rem;
    width: 4rem;
    height: 4rem;
+`
+export const User = styled.div`
+display: flex;
+gap: 1rem;
+
+`
+
+export const UserIcon = styled.img`
+width: 3rem;
+
+`
+export const UserName = styled.div`
+display: flex;
+flex-direction: column;
+color: #5B0390;
+
+`
+export const Name = styled.span`
+    color: #5B0390;
+    font-size: 2rem;
+    font-weight: bold;
+`
+export const Status = styled.div`
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+
+`
+export const StatusText = styled.div`
+color: #5B0390;
+font-size: 1.5rem;
+
+`
+export const StatusCircle = styled.div`
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: 1px solid #F3CD01;
+    background-color: #F3CD01;
+
 `

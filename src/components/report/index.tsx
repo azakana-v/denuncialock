@@ -1,5 +1,6 @@
 import * as Styles from './styles';
 import Logo from '../../assets/Logo2.svg'
+import userIcon from '../../assets/icons/user.svg'
 
 function Report(){
     return(
@@ -19,6 +20,21 @@ function Report(){
                     </Styles.Date>
                     <Styles.Logo src={Logo}/>
                 </Styles.ReportDate>
+            </Styles.Row>
+            <Styles.Row>
+                <Styles.User>
+                    <Styles.UserIcon src={userIcon} />
+                    <Styles.UserName>
+                        Responsável:
+                        <Styles.Name>
+                            Pedro
+                        </Styles.Name>
+                    </Styles.UserName>
+                </Styles.User>
+                <Styles.Status>
+                    <Styles.StatusCircle></Styles.StatusCircle>
+                    <Styles.StatusText>Em andamento</Styles.StatusText>
+                </Styles.Status>
             </Styles.Row>
         </Styles.ReportContainer>
     )
