@@ -1,10 +1,17 @@
 import * as Styles from './styles';
 import Logo from '../../assets/Logo2.svg'
 import userIcon from '../../assets/icons/user.svg'
+import { useNavigate } from 'react-router-dom';
 
 function Report(){
+    const navigate = useNavigate();
+
+    const handleRedirect = () => {
+        navigate('/report')
+        // Uso provisório antes da entrada de um possível ID para cada report
+    }
     return(
-        <Styles.ReportContainer>
+        <Styles.ReportContainer onClick={handleRedirect}>
             <Styles.Row>
                 <Styles.ReportTitleDescription>
                     <Styles.Title>
