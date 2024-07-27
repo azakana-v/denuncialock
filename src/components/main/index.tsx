@@ -6,7 +6,6 @@ import comoFunciona from '../../assets/icons/comofunciona.svg'
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import './scrollbar.css';
-import { useNavigate } from 'react-router-dom';
 
 function Main(){
 
@@ -20,6 +19,9 @@ function Main(){
                 </Styles.ReportsTitle>
                 <PerfectScrollbar style={{ width: '100%', height: '72vh' }}>
                         <Styles.ReportList>
+                            <Report />
+                            <Report />
+                            <Report />
                             <Report />
                         </Styles.ReportList>
                     </PerfectScrollbar>

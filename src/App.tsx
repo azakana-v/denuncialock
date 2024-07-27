@@ -16,7 +16,7 @@ function App() {
     <MainContainer>
       <Router>
         <Navbar />
-        {/* <Sidebar /> */}
+        <Sidebar />
         <Routes>
           <Route path='/' element={ <Reports /> }></Route>
           <Route path='/report' element={ <Report /> }></Route>

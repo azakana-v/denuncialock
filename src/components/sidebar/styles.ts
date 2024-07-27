@@ -4,10 +4,11 @@ export const SideContainer = styled.div`
     width: 5rem;
     background-color: #5B0390;
     height: 100vh;
-    padding-top: 5rem ; 
+    padding: 5rem 1rem 0rem 1rem ; 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    z-index: 1;
 `
 
 export const GhostDiv = styled.div`

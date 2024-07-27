@@ -7,6 +7,7 @@ export const NavContainer = styled.nav`
     height: 4.5rem;
     display: flex;
     justify-content: center;
+    box-shadow: 0px 5px 5px 0px rgba(143,135,143,1);
 `
 
 export const NavLogo = styled.img`

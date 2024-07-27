@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const ReportContainer = styled.div`
     margin-top: 1rem;
-    width: 95%;
-    height: 22rem;
+    width: 96%;
+    height: auto;
     background-color: #fff;
     border: 3px solid #5B0390;
     border-radius: 1rem;
@@ -23,7 +23,7 @@ export const ReportContainer = styled.div`
 
 export const Row = styled.div`
     display: flex;
-    gap: 5rem;
+    gap: 0rem;
     justify-content: space-between;
 `
 export const ReportTitleDescription = styled.div`
@@ -33,7 +33,7 @@ export const ReportTitleDescription = styled.div`
 
 export const Title = styled.h3`
     color: #5B0390;  
-    font-size: 2.4rem;
+    font-size: 2rem;
     font-weight: bold;
     &::before {
     content: '•'; 
@@ -60,7 +60,7 @@ export const ReportDate = styled.div`
 
 export const Date = styled.span`
     color: #5B0390;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-style: italic;
     white-space: nowrap;
     
@@ -88,7 +88,7 @@ color: #5B0390;
 `
 export const Name = styled.span`
     color: #5B0390;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: bold;
 `
 export const Status = styled.div`
@@ -99,7 +99,7 @@ export const Status = styled.div`
 `
 export const StatusText = styled.div`
 color: #5B0390;
-font-size: 1.5rem;
+font-size: 1rem;
 
 `
 export const StatusCircle = styled.div`
