@@ -2,6 +2,7 @@ import Details from '../components/details'
 import styled from "styled-components";
 import TimeLine from "../components/timeLine";
 
+
 const MainContainer = styled.div`
     display: flex;
 

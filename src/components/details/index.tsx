@@ -1,12 +1,17 @@
 import * as Styles from "./styles";
 import Logo from "../../assets/Logo2.svg";
 import Trash from '../../assets/icons/trash.svg';
+import DeleteModal from "../modal";
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import './scrollbar.css';
+import { useState } from "react";
 
 
 function Details() {
+  const [showModal, setShowModal] = useState(false);
+  const closeModal = () => setShowModal(false);
+  const openModal = () => setShowModal(true);
   return (
     <Styles.DetailsContainer>
       <Styles.DetailsTitle>
@@ -59,12 +64,15 @@ function Details() {
             </Styles.Slots>
         </Styles.Evidence>
         <Styles.Delete>
-            <Styles.DeleteButton>
+            <Styles.DeleteButton onClick={() => setShowModal(true)}>
                 <Styles.Icon src={Trash}/>
                 <Styles.BtnTitle>Deletar</Styles.BtnTitle>
             </Styles.DeleteButton>
         </Styles.Delete>
       </Styles.Details>
+      {showModal && (
+        <DeleteModal isOpen={showModal} onClose={closeModal} />
+      )}
     </Styles.DetailsContainer>
   );
 }
