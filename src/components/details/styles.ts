@@ -50,8 +50,10 @@ font-style: italic;
 export const Text = styled.p`
 color: #5B0390;
 font-size: 1.8rem;
- border-bottom: 3px solid #5B0390;
+
  padding: 2rem 0rem;
+ max-height: 38rem;
+
 `
 
 export const Evidence = styled.div``

@@ -1,6 +1,10 @@
 import * as Styles from "./styles";
 import Logo from "../../assets/Logo2.svg";
-import Trash from '../../assets/icons/trash.svg'
+import Trash from '../../assets/icons/trash.svg';
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import './scrollbar.css';
+
 
 function Details() {
   return (
@@ -19,20 +23,32 @@ function Details() {
             <Styles.StatusText>Em andamento</Styles.StatusText>
           </Styles.Status>
         </Styles.Row>
-        <Styles.Text>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
-          excepturi ea iure odit quaerat iusto aut facilis, soluta quisquam.
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
-          excepturi ea iure odit quaerat iusto aut facilis, soluta quisquam.
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
-          excepturi ea iure odit quaerat iusto aut facilis, soluta quisquam.
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
-          excepturi ea iure odit quaerat iusto aut facilis, soluta quisquam.
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
-          excepturi ea iure odit quaerat iusto aut facilis, soluta quisquam.
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
-          excepturi ea iure odit quaerat iusto aut facilis, soluta quisquam.
-        </Styles.Text>
+        <PerfectScrollbar style={{ maxHeight: '38rem', overflow: 'auto' }}>
+          <Styles.Text >
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
+            excepturi ea iure odit quaerat iusto aut facilis, soluta quisquam.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
+            excepturi ea iure odit quaerat iusto aut facilis, soluta quisquam.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
+            excepturi ea iure odit quaerat iusto aut facilis, soluta quisquam.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
+            excepturi ea iure odit quaerat iusto aut facilis, soluta quisquam.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
+            excepturi ea iure odit quaerat iusto aut facilis, soluta quisquam.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
+            excepturi ea iure odit quaerat iusto aut facilis, soluta quisquam.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
+            excepturi ea iure odit quaerat iusto aut facilis, soluta quisquam.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
+            excepturi ea iure odit quaerat iusto aut facilis, soluta quisquam.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
+            excepturi ea iure odit quaerat iusto aut facilis, soluta quisquam.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
+            excepturi ea iure odit quaerat iusto aut facilis, soluta quisquam.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
+            excepturi ea iure odit quaerat iusto aut facilis, soluta quisquam.
+          </Styles.Text>
+        </PerfectScrollbar>
         <Styles.Evidence>
             <Styles.EvidenceTitle>Evidências</Styles.EvidenceTitle>
             <Styles.Slots>
