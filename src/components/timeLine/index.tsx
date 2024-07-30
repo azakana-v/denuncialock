@@ -11,7 +11,7 @@ function TimeLine(){
                 <Styles.TimeLineContainer>
                     {
                         timeLineData.map((data, index) =>(
-                            <TimeLineItem data={data} key={index}/>
+                            <TimeLineItem data={data} key={index} odd={index % 2 !== 0}/>
                         ))
                     }
                 </Styles.TimeLineContainer>
