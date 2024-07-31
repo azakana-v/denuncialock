@@ -1,8 +1,14 @@
 import * as Styles from './styles';
 
-function SideBtn({icon, toolTip}:{icon: any, toolTip: string}){
+interface SideButtonProps{
+    icon: any,
+    toolTip: string,
+    onClick?: () => void
+}
+
+function SideBtn({icon, toolTip, onClick}:SideButtonProps){
     return(
-        <Styles.ButtonContainer>
+        <Styles.ButtonContainer onClick={onClick}>
             <Styles.ButtonIcon src={icon}/>
             <Styles.Tooltip>{toolTip}</Styles.Tooltip>
         </Styles.ButtonContainer>
