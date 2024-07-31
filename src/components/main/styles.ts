@@ -71,6 +71,7 @@ export const Intro = styled.div`
 export const IntroTitle = styled.h3`
     font-size: 2.6rem;
     color: #5B0390;
+    text-align: center;
 `
 
 export const IntroText = styled.p`
@@ -101,5 +102,5 @@ export const SecondGhostDiv = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    padding: 10rem 2.5rem;
+    padding: 2rem 2.5rem;
 `
