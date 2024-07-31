@@ -3,7 +3,7 @@ import * as Styles from './styles';
 interface TimeLineProps {
   data: {
     title: string;
-    date: string;
+    date?: string;
   };
   odd: boolean;
 }
@@ -15,7 +15,8 @@ function TimeLineItem({ data, odd }: TimeLineProps) {
       <span style={{ fontSize: '1.2rem' }}>{data.title}</span>
       <span>{data.date}</span>
       </div>
-      <Styles.Circle odd={odd}/>
+      <Styles.Circle odd={odd} hasDate={!!data.date}/>
+      {/* DOIS SINAIS DE EXCLAMAÇÃO CONVERTEM O VALOR PARA BOOLEANO */}
     </Styles.TimeLineItem>
   );
 }

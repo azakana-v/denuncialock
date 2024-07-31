@@ -19,8 +19,8 @@ export const TimeLineItem = styled.div<{ odd: boolean }>`
     `}
 `;
 
-export const Circle = styled.div<{ odd: boolean }>`
-  background-color: #5B0390;
+export const Circle = styled.div<{ odd: boolean; hasDate: boolean }>`
+  background-color: ${({hasDate}) => (hasDate ? '#5B0390' : '#fff')};
   border: 2px solid #5B0390;
   border-radius: 50%;
   position: absolute;
