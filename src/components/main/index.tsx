@@ -1,4 +1,5 @@
 import * as Styles from './styles';
+import { useNavigate } from 'react-router-dom';
 import Logo from '../../assets/Logo2.svg'
 import Report from '../report';
 import NewBtn from '../../assets/icons/newBtn.svg'
@@ -8,7 +9,11 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import './scrollbar.css';
 
 function Main(){
+    const navigate = useNavigate();
 
+    const redirectNewReport = () => {
+        navigate('/newReport')
+    } 
     return(
         <Styles.MainContainer>
            <Styles.Grid>
@@ -26,7 +31,7 @@ function Main(){
                         </Styles.ReportList>
                     </PerfectScrollbar>
             </Styles.Reports>
-            <Styles.Action>
+            <Styles.Action onClick={redirectNewReport}>
                 <Styles.NewBtn src={NewBtn}/>
                 <Styles.NewReport>Adicionar Denúncia</Styles.NewReport>
             </Styles.Action>

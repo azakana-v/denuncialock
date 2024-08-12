@@ -9,9 +9,8 @@ display: flex;
 function Reports(){
     return(
         <MainContainer>
-    
-        <Main />
-    </MainContainer>
+            <Main />
+        </MainContainer>
     )
 }
 
