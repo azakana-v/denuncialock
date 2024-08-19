@@ -25,7 +25,7 @@ function App() {
         <Routes>
           <Route path='/' element={ <Reports /> }></Route>
           <Route path='/report' element={ <Report /> }></Route>
-          <Route path='/newReport' element={ <NewReport /> }></Route>
+          <Route path='/newReport' element={ <NewReport/>  }></Route>
         </Routes>
       </Router>
       </MainContainer>
