@@ -19,6 +19,7 @@ const Title = styled.div`
   align-items: end;
   gap: 1rem;
   border-bottom: 3px solid #2c088d;
+ 
 `;
 
 const TitleLogo = styled.img`
@@ -55,9 +56,9 @@ const LabelForm = styled.label`
 
 const TitleInput = styled.input`
   color: #5b0390;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   width: 50%;
-  height: 2rem;
+  height: 3rem;
   padding: 1.2rem;
   border: 2px solid #5b0390;
   outline: none;
@@ -71,7 +72,7 @@ const TitleInput = styled.input`
 
 const ReportDescription = styled.textarea`
   color: #5b0390;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   height: 30rem;
   width: 100%;
   border: 2px solid #5b0390;
@@ -85,6 +86,7 @@ const ReportDescription = styled.textarea`
 
 const ActionSection = styled.div`
   display: flex;
+  justify-content: space-around;
 `;
 
 const DividerSection = styled.div`
@@ -116,6 +118,27 @@ const ClearButton = styled.div`
   justify-content: center;
   gap: 1rem;
 `;
+
+const Cards = styled.div`  
+  display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    max-height: 200px; 
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 1rem;
+   
+`
+const Card = styled.div`
+     width: 80px;
+    height: 80px;
+    background-color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    position: relative;
+`
 
 function NewReport() {
   const [title, setTitle] = useState("");
@@ -159,11 +182,7 @@ function NewReport() {
         <ActionSection>
           <SendSection>
             <FileUpload onFileChange={handleFileChange} />
-            <ul>
-              {files.map((file, index) => (
-                <li key={index}>{file.name}</li>
-              ))}
-            </ul>
+          
             <ClearButton onClick={handleClear}>
               <span
                 style={{
@@ -181,7 +200,13 @@ function NewReport() {
             <div className="ghostDiv" style={{ background: '#2C088D', height: '70%', width: '0.2rem'}}></div>
             <img src={logo} style={{ width: '4rem', height: '4rem' }} />
           </DividerSection>
-          <SendSection></SendSection>
+          <SendSection>
+            <Cards>
+                {files.map((file, index) => (
+                    <Card key={index}>{file.name}</Card>
+                ))}
+              </Cards>
+          </SendSection>
         </ActionSection>
       </FormContainer>
     </MainContainer>
