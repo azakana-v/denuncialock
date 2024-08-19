@@ -3,6 +3,11 @@ import logo from "../assets/Logo2.svg";
 import React, { useState } from "react";
 import FileUpload from "../components/fileUpload/FileUpload";
 import icon from "../assets/icons/multiply 1.svg";
+import send from "../assets/icons/send-message 1.svg";
+
+interface SwitchProps {
+    isChecked: boolean;
+  }
 
 const MainContainer = styled.div`
   width: 100%;
@@ -105,6 +110,8 @@ const SendSection = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  justify-content: space-around;
+  
 `;
 
 const ClearButton = styled.div`
@@ -118,7 +125,55 @@ const ClearButton = styled.div`
   justify-content: center;
   gap: 1rem;
 `;
+const SendButton = styled.div`
 
+  cursor: pointer;
+  width: 250px;
+  height: 38px;
+  border: 2px solid #5B0390;
+  color: #fff;
+  background: #5B0390;
+  border-radius: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem 1rem;
+`;
+
+const SwitchContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 1rem;
+`;
+
+const SwitchLabel = styled.label`
+  font-size: 16px;
+  color: #5B0390; 
+  font-weight: bold;
+`;
+
+const Switch = styled.div<SwitchProps>`
+  position: relative;
+  width: 50px;
+  height: 25px;
+  background-color: ${({ isChecked }) => (isChecked ? '#5B0390' : '#ccc')};
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+`;
+
+const SwitchButton = styled.div<SwitchProps>`
+  position: absolute;
+  top: 2.5px;
+  left: ${({ isChecked }) => (isChecked ? '25px' : '2.5px')};
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: left 0.3s ease;
+`;
 const Cards = styled.div`  
   display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -144,6 +199,11 @@ function NewReport() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [files, setFiles] = useState<File[]>([]);
+  const [isChecked, setIsChecked] = useState(false);
+
+  const toggleSwitch = () => {
+    setIsChecked(!isChecked);
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -201,11 +261,36 @@ function NewReport() {
             <img src={logo} style={{ width: '4rem', height: '4rem' }} />
           </DividerSection>
           <SendSection>
-            <Cards>
+          <SwitchContainer>
+      <SwitchLabel>Permanecer Anônimo?</SwitchLabel>
+      <Switch onClick={toggleSwitch} isChecked={isChecked}>
+        <SwitchButton isChecked={isChecked} />
+      </Switch>
+    </SwitchContainer>
+    {files.length > 0 ? (
+              <Cards>
                 {files.map((file, index) => (
-                    <Card key={index}>{file.name}</Card>
+                  <Card key={index}>{file.name}</Card>
                 ))}
               </Cards>
+            ) : (
+                <div style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
+              <p style={{ color: "#5B0390", fontSize: "1.8rem", fontWeight: "bold" }}>
+                Suas evidências serão carregadas aqui!
+              </p>
+              </div>
+            )}
+             <SendButton >
+              <span
+                style={{
+                  fontSize: "1.8rem",
+                  fontWeight: "bold",
+                }}
+              >
+                Enviar Denúncia
+              </span>
+              <img src={send} alt="Icone de envio" />
+            </SendButton>
           </SendSection>
         </ActionSection>
       </FormContainer>
