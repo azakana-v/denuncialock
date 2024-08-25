@@ -8,6 +8,7 @@ export const ReportContainer = styled.div`
     border: 3px solid #5B0390;
     border-radius: 1rem;
     padding: 2rem;
+    gap: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -49,7 +50,8 @@ export const Title = styled.h3`
 
 export const Description = styled.span`
     color: #5B0390;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+
 `
 
 export const ReportDate = styled.div`
@@ -102,11 +104,21 @@ color: #5B0390;
 font-size: 1rem;
 
 `
-export const StatusCircle = styled.div`
+export const StatusCircle = styled.div<{ status: string }>`
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
-    border: 1px solid #F3CD01;
-    background-color: #F3CD01;
+    background-color: ${({ status }) => {
+        switch(status){
+            case 'pendente':
+                return '#F3CD01'
+            
+            case 'Em aberto':
+                return 'green'
+
+            case 'Encerrada':
+                return 'red'
+        }
+    }};
 
 `

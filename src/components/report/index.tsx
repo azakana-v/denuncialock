@@ -21,6 +21,20 @@ function Report({ report }: ReportProps){
         // Uso provisório antes da entrada de um possível ID para cada report
     }
 
+    const truncateDescription = (description: string, maxLength: number) => {
+        if (description.length <= maxLength) return description;
+        return description.slice(0, maxLength) + '...';
+    };
+
+    const formatDate = (dateString: string) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('pt-BR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+        });
+    };
+
     return(
         <Styles.ReportContainer onClick={handleRedirect}>
             <Styles.Row>
@@ -29,12 +43,12 @@ function Report({ report }: ReportProps){
                         {report.titulo}
                     </Styles.Title>
                     <Styles.Description>
-                        {report.descricao}
+                        {truncateDescription(report.descricao, 150)}
                     </Styles.Description>
                 </Styles.ReportTitleDescription>
                 <Styles.ReportDate>
                     <Styles.Date>
-                        {report.data}
+                        {formatDate(report.data)}
                     </Styles.Date>
                     <Styles.Logo src={Logo}/>
                 </Styles.ReportDate>
@@ -50,7 +64,7 @@ function Report({ report }: ReportProps){
                     </Styles.UserName>
                 </Styles.User>
                 <Styles.Status>
-                    <Styles.StatusCircle></Styles.StatusCircle>
+                    <Styles.StatusCircle status={report.status}></Styles.StatusCircle>
                     <Styles.StatusText>{report.status}</Styles.StatusText>
                 </Styles.Status>
             </Styles.Row>

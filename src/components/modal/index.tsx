@@ -4,9 +4,21 @@ import returnIcon from '../../assets/icons/back.svg';
 import trashBtn from '../../assets/icons/trash.svg';
 import X from '../../assets/icons/x.svg'
 
+interface DeleteModalProps{
+    isOpen: boolean,
+    onClose: () => void,
+    onConfirm: (reportId: string) => void,
+    reportId: string
+}
 
-function DeleteModal({ isOpen, onClose }: any) {
+function DeleteModal({ isOpen, onClose, onConfirm, reportId  }: DeleteModalProps) {
     if (!isOpen) return null;
+
+    const handleConfirm = () => {
+        console.log('Report ID no Modal:', reportId);  // Deve mostrar o ID correto aqui
+        onConfirm(reportId);  // Passa o reportId para a função de confirmação
+    };
+
     return (
         <Styles.MainContainer>
         <Styles.Overlay onClick={onClose} />
@@ -21,9 +33,9 @@ function DeleteModal({ isOpen, onClose }: any) {
                 <Styles.ReturnIcon src={returnIcon}/>
                 Voltar
             </Styles.ReturnBtn>
-            <Styles.DeleteBtn>
+            <Styles.DeleteBtn  onClick={handleConfirm}>
                 <Styles.ReturnIcon src={trashBtn}/>
-                Voltar
+                Deletar
             </Styles.DeleteBtn>
           
             </Styles.Buttons>

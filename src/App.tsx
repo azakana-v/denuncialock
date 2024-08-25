@@ -24,7 +24,7 @@ function App() {
         <Sidebar />
         <Routes>
           <Route path='/' element={ <Reports /> }></Route>
-          <Route path='/report' element={ <Report /> }></Route>
+          <Route path='/report/:reportId' element={ <Report /> }></Route>
           <Route path='/newReport' element={ <NewReport/>  }></Route>
         </Routes>
       </Router>
