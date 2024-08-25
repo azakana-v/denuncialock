@@ -10,6 +10,7 @@ interface ReportProps {
         data: string;
         autor: string;
         status: string;
+        id: string;
     };
 }
 
@@ -17,8 +18,8 @@ function Report({ report }: ReportProps){
     const navigate = useNavigate();
 
     const handleRedirect = () => {
-        navigate('/report')
-        // Uso provisório antes da entrada de um possível ID para cada report
+        console.log('Report ID:', report.id);
+        navigate(`report/${report.id}`)
     }
 
     const truncateDescription = (description: string, maxLength: number) => {
