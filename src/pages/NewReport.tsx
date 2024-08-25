@@ -1,9 +1,11 @@
+import axios from "axios";
 import styled from "styled-components";
 import logo from "../assets/Logo2.svg";
 import React, { useState } from "react";
 import FileUpload from "../components/fileUpload/FileUpload";
 import icon from "../assets/icons/multiply 1.svg";
 import send from "../assets/icons/send-message 1.svg";
+import { useNavigate } from "react-router-dom";
 
 interface SwitchProps {
     isChecked: boolean;
@@ -196,10 +198,13 @@ const Card = styled.div`
 `
 
 function NewReport() {
+  const baseUrl = "http://localhost:3000";
+  const userId = '66c4bb87a93ff03ddc53d5cd';
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [files, setFiles] = useState<File[]>([]);
   const [isChecked, setIsChecked] = useState(false);
+  const navigate = useNavigate();
 
   const toggleSwitch = () => {
     setIsChecked(!isChecked);
@@ -216,6 +221,28 @@ function NewReport() {
     setDescription("");
     setFiles([]);
   };
+
+    const handleSubmit = async(event: React.FormEvent) => {
+      event.preventDefault();
+
+      const reportData = {
+        titulo: title,
+        descricao: description,
+        usuarioId: userId,
+        evidencias: files.map(file => file.name) 
+      };
+    try{
+        const response = await axios.post(`${baseUrl}/denuncias`, reportData, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        console.log(response.data);
+        navigate('/')
+      }catch(error){
+        console.log('Erro ao enviar denúncia: ', error)
+      }
+    }
   return (
     <MainContainer>
       <Title>
@@ -223,7 +250,7 @@ function NewReport() {
         <TitleText>Formulário de Denúncia</TitleText>
       </Title>
       <FormContainer>
-        <FormStyle>
+        <FormStyle onSubmit={handleSubmit}>
           <LabelForm>Descrição da Denúncia</LabelForm>
           <TitleInput
             type="text"
@@ -280,7 +307,9 @@ function NewReport() {
               </p>
               </div>
             )}
-             <SendButton >
+             <SendButton 
+             onClick={handleSubmit} 
+             >
               <span
                 style={{
                   fontSize: "1.8rem",

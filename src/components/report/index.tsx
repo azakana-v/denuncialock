@@ -3,27 +3,38 @@ import Logo from '../../assets/Logo2.svg'
 import userIcon from '../../assets/icons/user.svg'
 import { useNavigate } from 'react-router-dom';
 
-function Report(){
+interface ReportProps {
+    report: {
+        titulo: string;
+        descricao: string;
+        data: string;
+        autor: string;
+        status: string;
+    };
+}
+
+function Report({ report }: ReportProps){
     const navigate = useNavigate();
 
     const handleRedirect = () => {
         navigate('/report')
         // Uso provisório antes da entrada de um possível ID para cada report
     }
+
     return(
         <Styles.ReportContainer onClick={handleRedirect}>
             <Styles.Row>
                 <Styles.ReportTitleDescription>
                     <Styles.Title>
-                        Título da denúncia
+                        {report.titulo}
                     </Styles.Title>
                     <Styles.Description>
-                    Descrição denúncia: Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium excepturi ea iure odit quaerat iusto aut facilis, soluta quisquam....
+                        {report.descricao}
                     </Styles.Description>
                 </Styles.ReportTitleDescription>
                 <Styles.ReportDate>
                     <Styles.Date>
-                        Data: 11/09/2001
+                        {report.data}
                     </Styles.Date>
                     <Styles.Logo src={Logo}/>
                 </Styles.ReportDate>
@@ -34,13 +45,13 @@ function Report(){
                     <Styles.UserName>
                         Responsável:
                         <Styles.Name>
-                            Pedro
+                            {report.autor}
                         </Styles.Name>
                     </Styles.UserName>
                 </Styles.User>
                 <Styles.Status>
                     <Styles.StatusCircle></Styles.StatusCircle>
-                    <Styles.StatusText>Em andamento</Styles.StatusText>
+                    <Styles.StatusText>{report.status}</Styles.StatusText>
                 </Styles.Status>
             </Styles.Row>
         </Styles.ReportContainer>

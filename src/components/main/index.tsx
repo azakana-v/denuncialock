@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import * as Styles from './styles';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../../assets/Logo2.svg'
@@ -9,7 +11,31 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import './scrollbar.css';
 
 function Main(){
+    const baseUrl = "http://localhost:3000";
+    const userId = '66c4bb87a93ff03ddc53d5cd';
     const navigate = useNavigate();
+    const [reports, setReports] = useState([]); 
+
+    useEffect(()=>{
+       getReports();
+    }, [])
+
+    const getReports = async () => {
+        try{
+            const response = await axios.get(`${baseUrl}/denuncias/usuario/${userId}`);
+            setReports(response.data);
+        }catch(error){
+            console.log('Erro ao buscar denúncias anteriores', error)
+        }
+    }
+    const createReport = async () => {
+        try{
+            
+        }catch(error){
+            console.log('Erro ao gerar denúncia', error)
+        }
+    }
+
 
     const redirectNewReport = () => {
         navigate('/newReport')
@@ -24,10 +50,9 @@ function Main(){
                 </Styles.ReportsTitle>
                 <PerfectScrollbar style={{ width: '100%', height: '72vh' }}>
                         <Styles.ReportList>
-                            <Report />
-                            <Report />
-                            <Report />
-                            <Report />
+                            {reports.map((report, index) => (
+                                <Report key={index} report={report} />
+                            ))}
                         </Styles.ReportList>
                     </PerfectScrollbar>
             </Styles.Reports>
