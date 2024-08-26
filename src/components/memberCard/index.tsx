@@ -1,9 +1,4 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
 import * as Styles from "./styles";
-import { useNavigate } from "react-router-dom";
-import Logo from "../../assets/Logo2.svg";
-import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import "./scrollbar.css";
 import User from "../../assets/icons/profile.svg"

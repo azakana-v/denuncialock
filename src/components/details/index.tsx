@@ -7,7 +7,7 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import './scrollbar.css';
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { IReportDetailsProps } from "./IReportDetailsProps";
 import { useUser } from "../../UserContext";
 import AttrModal from "../attrModal";
@@ -22,7 +22,7 @@ function Details({ report }: IReportDetailsProps) {
   const [selectedReportId, setSelectedReportId] = useState<string | null>(null);
   const closeModal = () => setShowModal(false);
   const openModal = () => setShowModal(true);
-
+  
  
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -53,13 +53,6 @@ const attrReport = async (reportId: string, agentId: string) => {
     console.error('Erro ao atribuir a denúncia', error);
   }
 };
-
-// Verifica se report está definido e define o reportId
-useEffect(() => {
-  if (report) {
-    setSelectedReportId(report._id);
-  }
-}, [report]);
 
   return (
     <Styles.DetailsContainer>
