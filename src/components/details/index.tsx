@@ -5,7 +5,7 @@ import DeleteModal from "../modal";
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import './scrollbar.css';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { IReportDetailsProps } from "./IReportDetailsProps";
@@ -19,6 +19,7 @@ function Details({ report }: IReportDetailsProps) {
   const baseUrl = "http://localhost:3000";
   const userId = '66c4bb87a93ff03ddc53d5cd';
   const [showModal, setShowModal] = useState(false);
+  const [selectedReportId, setSelectedReportId] = useState<string | null>(null);
   const closeModal = () => setShowModal(false);
   const openModal = () => setShowModal(true);
 
@@ -43,10 +44,23 @@ const deleteReport = async (reportId: string) => {
   }
 };
 
-const attrReport = async () =>{
-  console.log("atribuir report");
-  
-}
+const attrReport = async (reportId: string, agentId: string) => {
+  try {
+    await axios.patch(`${baseUrl}/denuncias/${reportId}`, { agente: agentId });
+    console.log('Denúncia atribuída com sucesso');
+    navigate('/'); // Ou qualquer outra navegação apropriada
+  } catch (error) {
+    console.error('Erro ao atribuir a denúncia', error);
+  }
+};
+
+// Verifica se report está definido e define o reportId
+useEffect(() => {
+  if (report) {
+    setSelectedReportId(report._id);
+  }
+}, [report]);
+
   return (
     <Styles.DetailsContainer>
       <Styles.DetailsTitle>
@@ -95,9 +109,11 @@ const attrReport = async () =>{
         }
       </Styles.Details>
       {!admin && showModal && (
-        <DeleteModal isOpen={showModal} onClose={closeModal} onConfirm={deleteReport} reportId={report._id}/>
+        <DeleteModal isOpen={showModal} onClose={closeModal} onConfirm={deleteReport} reportId={selectedReportId || ''} />
       )}
-      {admin && showModal && (<AttrModal isOpen={showModal} onClose={closeModal} onConfirm={attrReport} reportId={report._id}/>)}
+      {admin && showModal && (
+        <AttrModal isOpen={showModal} onClose={closeModal} onConfirm={attrReport} reportId={selectedReportId || ''} />
+      )}
     </Styles.DetailsContainer>
   );
 }

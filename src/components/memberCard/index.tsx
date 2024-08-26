@@ -9,21 +9,27 @@ import "./scrollbar.css";
 import User from "../../assets/icons/profile.svg"
 import { IMember } from "./IMember";
 
-interface MemberCardProps extends IMember {
-  selected?: boolean;
+interface AgentCardProps{
+  selected?: boolean,
+  member: {
+    _id: string,
+    nome: string,
+    reports: string[],
+    profile: string
+  }
 }
 
-function MemberCard({ member, selected }: MemberCardProps) {
- 
+function MemberCard({ member, selected }: AgentCardProps) {
+ const reportCount = member.reports.length;
   return (
-    <Styles.MainContainer style={{cursor: "pointer", borderRadius: "10px", border: selected == true ? "2px solid purple" : ""}}>
+    <Styles.MainContainer style={{ cursor: "pointer", borderRadius: "10px", border: selected === true ? "2px solid purple" : "" }}>
       <Styles.ProfileImage alt={`foto do membro ${member.nome}`} src={member.profile ? member.profile : User}/>
 
       <Styles.InfoContainer>
         <Styles.Name>{member.nome}</Styles.Name>
         <Styles.ReportsAttrContainer>
             <Styles.CircleIcon status={"Em aberto"}></Styles.CircleIcon>
-            <Styles.ReportsAttr>{member.reports == 0 ? "" : member.reports} {member.reports == 1 ? "denúncia atribuída" : member.reports == 0 ? "Nenhuma denúncia atribuida" : "denúncias atribuídas" }</Styles.ReportsAttr>
+            <Styles.ReportsAttr>{reportCount == 0 ? "" : reportCount} {reportCount == 1 ? "denúncia atribuída" : reportCount == 0 ? "Nenhuma denúncia atribuida" : "denúncias atribuídas" }</Styles.ReportsAttr>
         </Styles.ReportsAttrContainer>
       </Styles.InfoContainer>
 

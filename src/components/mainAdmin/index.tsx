@@ -12,45 +12,16 @@ import MemberCard from "../memberCard";
 import {IMember} from "../memberCard/IMember"
 import ReportAdmin from "../reportAdmin";
 
-let membrosXumbados = [{
-  member: {
-    nome: "João Silva",
-    reports: 5,
-    profile: "https://i.pinimg.com/originals/24/16/a5/2416a57ec634dfebcfcc3cf6fad1bc7d.jpg",
-  }
-},
-{
-  member: {
-    nome: "Cleber Costa",
-    reports: 1,
-    profile: "https://odia.ig.com.br/_midias/jpg/2022/01/25/rodrigo_2-24122582.jpeg",
-  },
-},
-{
-  member: {
-    nome: "Antonio Fagundes",
-    reports: 0,
-    profile: "https://media.licdn.com/dms/image/C4E03AQGF5aKSpEsuzw/profile-displayphoto-shrink_800_800/0/1626398366369?e=2147483647&v=beta&t=GHvlAlFGOa---kpeLJ5tja2HrLXTclqOiF_PBrtrLcA",
-  },
-},
-{
-  member: {
-    nome: "Rosana Meire",
-    reports: 5,
-    profile: "https://th.bing.com/th/id/OIP.nPzEKJFfbv8fL_7pYv89oQAAAA?rs=1&pid=ImgDetMain",
-  },
-}
-]
-
 function MainAdmin() {
   const baseUrl = "http://localhost:3000";
   const userId = "66c4bb87a93ff03ddc53d5cd";
   const navigate = useNavigate();
   const [reports, setReports] = useState([]);
-  const [members, setMembers] = useState<IMember[]>(membrosXumbados);
+  const [members, setMembers] = useState([]);
 
   useEffect(() => {
     getReports();
+    getMembers();
   }, []);
 
   const getReports = async () => {
@@ -61,6 +32,19 @@ function MainAdmin() {
       console.log(response.data);
       
       setReports(response.data);
+    } catch (error) {
+      console.log("Erro ao buscar denúncias anteriores", error);
+    }
+  };
+  
+  const getMembers = async () => {
+    try {
+      const response = await axios.get(
+        `${baseUrl}/agentes`
+      );
+      console.log(response.data);
+      
+      setMembers(response.data);
     } catch (error) {
       console.log("Erro ao buscar denúncias anteriores", error);
     }
@@ -103,7 +87,7 @@ function MainAdmin() {
               <PerfectScrollbar style={{width: "100%", height: "72vh" }}>
               {members.map((member, index) => (
                   
-                  <MemberCard member={member.member} key={index} />
+                  <MemberCard member={member} key={index} />
               ))}
               </PerfectScrollbar>
               </Styles.MembersContent>
