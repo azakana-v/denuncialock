@@ -4,13 +4,13 @@ export const ReportContainer = styled.div`
     margin-top: 1rem;
     margin-left: 1rem;
     min-height: 22rem;
-    width: 70%;
+    width: 90%;
     height: auto;
     background-color: #fff;
-    border: 3px solid #5B0390;
+    border: 6px solid #5B0390;
     border-radius: 1rem;
     padding: 2rem;
-    gap: 1rem;
+    padding-top: 0;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -24,10 +24,19 @@ export const ReportContainer = styled.div`
 
 ` 
 
+export const OwnerAndUserContainer = styled.div`
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+height: 100%;
+flex:1;
+`
+
 export const Row = styled.div`
     display: flex;
     gap: 0rem;
     justify-content: space-between;
+    width: 100%;
 `
 export const ReportTitleDescription = styled.div`
 
@@ -57,9 +66,9 @@ export const Description = styled.span`
 `
 
 export const ReportDate = styled.div`
-    display: flex;
+    /* display: flex;
  flex-direction: column;
- align-items: center;
+ align-items: center; */
 `
 
 export const Date = styled.span`
@@ -77,11 +86,12 @@ margin-top: 1rem;
 export const User = styled.div`
 display: flex;
 gap: 1rem;
-
+margin-top: 1rem;
 `
 
 export const UserIcon = styled.img`
-width: 3rem;
+min-width: 3rem;
+max-width: 3rem;
 
 `
 export const UserName = styled.div`
@@ -98,12 +108,12 @@ export const Name = styled.span`
 export const Status = styled.div`
     display: flex;
     gap: 0.5rem;
-    align-items: center;
+    align-items: end;
 
 `
 export const StatusText = styled.div`
 color: #5B0390;
-font-size: 1.7rem;
+font-size: 1.4rem;
 
 `
 export const StatusCircle = styled.div<{ status: string }>`

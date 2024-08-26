@@ -8,18 +8,13 @@ import './scrollbar.css';
 import { useState } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { IReportDetailsProps } from "./IReportDetailsProps";
+import { useUser } from "../../UserContext";
+import AttrModal from "../attrModal";
 
-interface ReportDetailsProps{
-  report:{
-    titulo: string,
-    data: string,
-    status: string,
-    descricao: string,
-    _id: string
-  }
-}
 
-function Details({ report }: ReportDetailsProps) {
+function Details({ report }: IReportDetailsProps) {
+  const {admin} = useUser();
   const navigate = useNavigate();
   const baseUrl = "http://localhost:3000";
   const userId = '66c4bb87a93ff03ddc53d5cd';
@@ -47,25 +42,30 @@ const deleteReport = async (reportId: string) => {
     console.log('Erro ao deletar a denúncia', error);
   }
 };
+
+const attrReport = async () =>{
+  console.log("atribuir report");
+  
+}
   return (
     <Styles.DetailsContainer>
       <Styles.DetailsTitle>
         <Styles.DetailsLogo src={Logo} />
         <Styles.Title>
-          {report.titulo}
+          {report?.titulo}
         </Styles.Title>
       </Styles.DetailsTitle>
       <Styles.Details>
         <Styles.Row>
-          <Styles.Date>Data: {formatDate(report.data)}</Styles.Date>
+          <Styles.Date>Data: {formatDate(report?.data)}</Styles.Date>
           <Styles.Status>
             <Styles.StatusCircle></Styles.StatusCircle>
-            <Styles.StatusText>{report.status}</Styles.StatusText>
+            <Styles.StatusText>{report?.status}</Styles.StatusText>
           </Styles.Status>
         </Styles.Row>
-        <PerfectScrollbar style={{ maxHeight: '38rem', overflow: 'auto' }}>
+        <PerfectScrollbar id="scrollbar-container" style={{ maxHeight: '38rem', overflow: 'auto' }}>
           <Styles.Text >
-            {report.descricao}
+            {report?.descricao}
           </Styles.Text>
         </PerfectScrollbar>
         <Styles.Evidence>
@@ -77,16 +77,27 @@ const deleteReport = async (reportId: string) => {
             <Styles.Slot></Styles.Slot>
             </Styles.Slots>
         </Styles.Evidence>
+        {admin ? 
         <Styles.Delete>
+              <Styles.AttrButton onClick={() => setShowModal(true)}>
+                  <div style={{color: "white", fontSize: "3rem"}}>+</div>
+                  <Styles.BtnTitle>Atribuir</Styles.BtnTitle>
+              </Styles.AttrButton>
+        </Styles.Delete>
+        :
+
+         <Styles.Delete>
             <Styles.DeleteButton onClick={() => setShowModal(true)}>
                 <Styles.Icon src={Trash}/>
                 <Styles.BtnTitle>Deletar</Styles.BtnTitle>
             </Styles.DeleteButton>
         </Styles.Delete>
+        }
       </Styles.Details>
-      {showModal && (
+      {!admin && showModal && (
         <DeleteModal isOpen={showModal} onClose={closeModal} onConfirm={deleteReport} reportId={report._id}/>
       )}
+      {admin && showModal && (<AttrModal isOpen={showModal} onClose={closeModal} onConfirm={attrReport} reportId={report._id}/>)}
     </Styles.DetailsContainer>
   );
 }

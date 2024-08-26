@@ -26,7 +26,7 @@ export const Tooltip = styled.span`
   border-radius: 6px;
   padding: 0.5rem 1rem;
   position: absolute;
-  left: 70px;
+  left: 50px;
   top: 50%;
   transform: translateY(-50%);
   opacity: 0;

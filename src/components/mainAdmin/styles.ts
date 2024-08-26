@@ -11,7 +11,7 @@ export const Grid = styled.div`
     display: inline-grid;
     width: 100%;
     height: 100%;
-    grid-template-columns: 1fr .5fr .5fr;
+    grid-template-columns: 3fr 1fr;
 `
 
 export const Reports = styled.div`
@@ -38,6 +38,9 @@ font-size: 5rem;
 export const ReportList = styled.div`
 
     max-height: 70vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0px;
 `
 
 export const Action = styled.div`
@@ -94,17 +97,38 @@ export const IntroLogo = styled.img`
 `
 
 export const GhostDiv = styled.div`
-     width: 1rem;
-    height: 65%;
+     width: 0.2rem;
+    height: 90%;
     background-color: #2C088D;
     margin: auto auto;
 `
 
 export const SecondGhostDiv = styled.div`
      max-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 2rem 2.5rem;
-`
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: space-between;
+     padding: 2rem 2.5rem;
+     `
+     export const MembersContainer = styled.div`
+     width: 100%;
+     height: 100;
+     display: flex;
+     flex-direction: column;
+     justify-content: end;
+     `
+     export const MembersTittleContainer = styled.div`
+     width: 100%;
+     display: flex;
+     align-items: end;
+     justify-content: center;
+     `
+     export const MembersTittle = styled.span`
+     font-size: 3.6rem;
+     `
+     export const MembersLogo = styled.img`
+     width: 15%;
+     `
+     export const MembersContent = styled.div``
+

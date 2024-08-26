@@ -6,6 +6,7 @@ export const DetailsContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  flex: 1;
 `;
 export const Title = styled.h2`
   font-size: 2rem;

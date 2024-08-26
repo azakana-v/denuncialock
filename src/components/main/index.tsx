@@ -14,7 +14,71 @@ function Main() {
   const baseUrl = "http://localhost:3000";
   const userId = "66c4bb87a93ff03ddc53d5cd";
   const navigate = useNavigate();
-  const [reports, setReports] = useState([]);
+  const [reports, setReports] = useState([{
+    titulo: "Introdução ao TypeScript",
+    descricao: "Um guia completo sobre como usar TypeScript em seus projetos.",
+    data: "2024-08-26",
+    autor: "João Silva",
+    status: "Em aberto",
+    id: "123456",
+  },{
+    titulo: "Introdução ao TypeScript",
+    descricao: "Um guia completo sobre como usar TypeScript em seus projetos.",
+    data: "2024-08-26",
+    autor: "João Silva",
+    status: "Em aberto",
+    id: "123456",
+  },{
+    titulo: "Introdução ao TypeScript",
+    descricao: "Um guia completo sobre como usar TypeScript em seus projetos.",
+    data: "2024-08-26",
+    autor: "João Silva",
+    status: "Em aberto",
+    id: "123456",
+  },{
+    titulo: "Introdução ao TypeScript",
+    descricao: "Um guia completo sobre como usar TypeScript em seus projetos.",
+    data: "2024-08-26",
+    autor: "João Silva",
+    status: "Em aberto",
+    id: "123456",
+  },{
+    titulo: "Introdução ao TypeScript",
+    descricao: "Um guia completo sobre como usar TypeScript em seus projetos.",
+    data: "2024-08-26",
+    autor: "João Silva",
+    status: "Em aberto",
+    id: "123456",
+  },{
+    titulo: "Introdução ao TypeScript",
+    descricao: "Um guia completo sobre como usar TypeScript em seus projetos.",
+    data: "2024-08-26",
+    autor: "João Silva",
+    status: "Em aberto",
+    id: "123456",
+  },{
+    titulo: "Introdução ao TypeScript",
+    descricao: "Um guia completo sobre como usar TypeScript em seus projetos.",
+    data: "2024-08-26",
+    autor: "João Silva",
+    status: "Em aberto",
+    id: "123456",
+  },{
+    titulo: "Introdução ao TypeScript",
+    descricao: "Um guia completo sobre como usar TypeScript em seus projetos.",
+    data: "2024-08-26",
+    autor: "João Silva",
+    status: "Em aberto",
+    id: "123456",
+  },{
+    titulo: "Introdução ao TypeScript",
+    descricao: "Um guia completo sobre como usar TypeScript em seus projetos.",
+    data: "2024-08-26",
+    autor: "João Silva",
+    status: "Em aberto",
+    id: "123456",
+  },
+  ]);
 
   useEffect(() => {
     getReports();
@@ -30,12 +94,6 @@ function Main() {
       console.log("Erro ao buscar denúncias anteriores", error);
     }
   };
-  const createReport = async () => {
-    try {
-    } catch (error) {
-      console.log("Erro ao gerar denúncia", error);
-    }
-  };
 
   const redirectNewReport = () => {
     navigate("/newReport");
@@ -46,7 +104,7 @@ function Main() {
         <Styles.Reports>
           <Styles.ReportsTitle>
             <Styles.ReportsLogo src={Logo} />
-            <Styles.Title>Denúncias recentes</Styles.Title>
+            <Styles.Title>Denúncias <br /> recentes.</Styles.Title>
           </Styles.ReportsTitle>
           <PerfectScrollbar style={{ width: "100%", height: "72vh" }}>
             <Styles.ReportList>
@@ -56,8 +114,8 @@ function Main() {
             </Styles.ReportList>
           </PerfectScrollbar>
         </Styles.Reports>
-        <Styles.Action onClick={redirectNewReport}>
-          <Styles.NewBtn src={NewBtn} />
+        <Styles.Action >
+          <Styles.NewBtn onClick={redirectNewReport} src={NewBtn} />
           <Styles.NewReport>Adicionar Denúncia</Styles.NewReport>
         </Styles.Action>
         <Styles.Intro>
