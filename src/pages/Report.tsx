@@ -24,15 +24,9 @@ function Report(){
     const baseUrl = "http://localhost:3000";
     const userId = '66c4bb87a93ff03ddc53d5cd';
     const { reportId } = useParams();
-    const [report, setReport] = useState<IReportDetailsProps>({
-        report:{
-        titulo: "Aprendendo JavaScript",
-        data: "2024-08-26",
-        status: "Em progresso",
-        descricao: "Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.Explorando os fundamentos do JavaScript moderno.",
-        _id: "7891011",
-      }});
-
+    const [report, setReport] = useState<IReportDetailsProps>();
+    console.log(report);
+    
 
 
       
@@ -43,7 +37,7 @@ function Report(){
                 
                 const response = await axios.get(`${baseUrl}/denuncias/${reportId}/usuario/${userId}`);
                 console.log(response.data)
-                setReport(response.data);
+                setReport({report:response.data});
             }catch(error){
                 console.log('Erro ao buscar detalhes da denúncia: ', error)
             }
@@ -52,7 +46,7 @@ function Report(){
     }, [reportId])
     return(
         <MainContainer>
-            {report && <Details report={report.report} />}
+            {report?.report ?  <Details report={report.report}  /> : ""}
             <Divisor></Divisor>
             <TimeLine />
         </MainContainer>
