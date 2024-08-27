@@ -17,7 +17,8 @@ function Details({ report }: IReportDetailsProps) {
   const {admin} = useUser();
   const navigate = useNavigate();
   const baseUrl = "http://localhost:3000";
-  const userId = '66c4bb87a93ff03ddc53d5cd';
+  const { userId } = useUser();
+  const { reportId } = useParams<{ reportId: string }>();
   const [showModal, setShowModal] = useState(false);
   const [selectedReportId, setSelectedReportId] = useState<string | null>(null);
   const closeModal = () => setShowModal(false);
@@ -33,8 +34,7 @@ function Details({ report }: IReportDetailsProps) {
     });
 };
 
-const deleteReport = async (reportId: string) => {
-  console.log('Report ID na função deleteReport:', reportId); 
+const deleteReport = async () => {
   try {
     const response = await axios.delete(`${baseUrl}/denuncias/${userId}/${reportId}`);
     console.log('Denúncia deletada com sucesso', response.data);
@@ -48,7 +48,7 @@ const attrReport = async (reportId: string, agentId: string) => {
   try {
     await axios.patch(`${baseUrl}/denuncias/${reportId}`, { agente: agentId });
     console.log('Denúncia atribuída com sucesso');
-    navigate('/'); // Ou qualquer outra navegação apropriada
+    navigate('/'); // Navegação apropriada após atribuir
   } catch (error) {
     console.error('Erro ao atribuir a denúncia', error);
   }
@@ -105,7 +105,12 @@ const attrReport = async (reportId: string, agentId: string) => {
         <DeleteModal isOpen={showModal} onClose={closeModal} onConfirm={deleteReport} reportId={selectedReportId || ''} />
       )}
       {admin && showModal && (
-        <AttrModal isOpen={showModal} onClose={closeModal} onConfirm={attrReport} reportId={selectedReportId || ''} />
+       <AttrModal
+       isOpen={showModal}
+       onClose={closeModal}
+       onConfirm={attrReport}
+       reportId={reportId || ''}
+     />
       )}
     </Styles.DetailsContainer>
   );

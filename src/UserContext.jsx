@@ -8,6 +8,7 @@ export const UserProvider = ({ children }) => {
     const [userData, setUserData] = useState(null);
     const [logged, setLogged] = useState(true);
     const [admin, setAdmin] = useState(true);
+    const [userId, setUserId] = useState('66c4bb87a93ff03ddc53d5cd')
     const fakeId = '1234';
 
     // useEffect(() => {
@@ -25,7 +26,7 @@ export const UserProvider = ({ children }) => {
     // }, [])
 
     return(
-        <UserContext.Provider value={{ userData, setUserData, logged, setLogged, admin,  setAdmin}}>
+        <UserContext.Provider value={{ userData, setUserData, logged, setLogged, admin,  setAdmin, userId, setUserId}}>
             {children}
         </UserContext.Provider>
     )
