@@ -1,8 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from "./logo-branco-info.png"
 import "./Login.css";
+import axios from 'axios';
 
 
 const Container = styled.div``;
@@ -16,17 +17,21 @@ const Botao = styled.button``;
 
 const Login = () => {
   const navigate = useNavigate();
+  const baseUrl = "http://localhost:3000";
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [senha, setSenha] = useState('');
   const [loginInvalido, setLoginInvalido] = useState(false);
 
 
-  const onLogin = async (e: any) => {
-    e.preventDefault();
+  const onLogin = async (event: FormEvent) => {
+    event.preventDefault();
     try {
-    //   await signIn(email, password);
+      const response = await axios.post(`${baseUrl}/login`, {email, senha});
+
+      const token = response.data.token;
+      localStorage.setItem('token', token);
       navigate('/home');
-      // O login foi bem-sucedido, você pode redirecionar o usuário ou realizar outras ações necessárias.
+      
     } catch (error) {
 
       console.error('Erro ao fazer login:', error);
@@ -56,10 +61,10 @@ const Login = () => {
                 type="password"
                 required
                 placeholder="Senha"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => setSenha(e.target.value)}
               />
 
-              <button className="login-button" onClick={()=>{}}>
+              <button className="login-button" onClick={onLogin}>
                 Entrar
               </button>
             </form>
