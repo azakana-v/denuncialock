@@ -2,6 +2,8 @@ import * as Styles from './styles';
 import Logo from '../../assets/Logo2.svg'
 import userIcon from '../../assets/icons/user.svg'
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 interface ReportProps {
     report: {
@@ -9,6 +11,7 @@ interface ReportProps {
         descricao: string;
         data: string;
         autor: string;
+        agente: string;
         status: string;
         id: string;
     };
@@ -16,6 +19,10 @@ interface ReportProps {
 
 function ReportAdmin({ report }: ReportProps){
     const navigate = useNavigate();
+    const [agenteName, setAgentName] = useState<string | null>(null);
+
+    
+    
 
     const handleRedirect = () => {
         console.log('Report ID:', report.id);
@@ -61,7 +68,7 @@ function ReportAdmin({ report }: ReportProps){
                         <Styles.UserName>
                             Responsável:
                             <Styles.Name>
-                                {report.autor ? report.autor : "Requer atribuição!"}
+                            {agenteName ? agenteName : "Requer atribuição!"}
                             </Styles.Name>
                         </Styles.UserName>
                     </Styles.User>

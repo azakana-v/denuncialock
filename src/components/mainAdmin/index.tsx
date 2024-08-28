@@ -28,9 +28,7 @@ function MainAdmin() {
     try {
       const response = await axios.get(
         `${baseUrl}/denuncias`
-      );
-      console.log(response.data);
-      
+      ); 
       setReports(response.data);
     } catch (error) {
       console.log("Erro ao buscar denúncias anteriores", error);

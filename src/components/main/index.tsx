@@ -14,71 +14,7 @@ function Main() {
   const baseUrl = "http://localhost:3000";
   const userId = "66c4bb87a93ff03ddc53d5cd";
   const navigate = useNavigate();
-  const [reports, setReports] = useState([{
-    titulo: "Introdução ao TypeScript",
-    descricao: "Um guia completo sobre como usar TypeScript em seus projetos.",
-    data: "2024-08-26",
-    autor: "João Silva",
-    status: "Em aberto",
-    id: "123456",
-  },{
-    titulo: "Introdução ao TypeScript",
-    descricao: "Um guia completo sobre como usar TypeScript em seus projetos.",
-    data: "2024-08-26",
-    autor: "João Silva",
-    status: "Em aberto",
-    id: "123456",
-  },{
-    titulo: "Introdução ao TypeScript",
-    descricao: "Um guia completo sobre como usar TypeScript em seus projetos.",
-    data: "2024-08-26",
-    autor: "João Silva",
-    status: "Em aberto",
-    id: "123456",
-  },{
-    titulo: "Introdução ao TypeScript",
-    descricao: "Um guia completo sobre como usar TypeScript em seus projetos.",
-    data: "2024-08-26",
-    autor: "João Silva",
-    status: "Em aberto",
-    id: "123456",
-  },{
-    titulo: "Introdução ao TypeScript",
-    descricao: "Um guia completo sobre como usar TypeScript em seus projetos.",
-    data: "2024-08-26",
-    autor: "João Silva",
-    status: "Em aberto",
-    id: "123456",
-  },{
-    titulo: "Introdução ao TypeScript",
-    descricao: "Um guia completo sobre como usar TypeScript em seus projetos.",
-    data: "2024-08-26",
-    autor: "João Silva",
-    status: "Em aberto",
-    id: "123456",
-  },{
-    titulo: "Introdução ao TypeScript",
-    descricao: "Um guia completo sobre como usar TypeScript em seus projetos.",
-    data: "2024-08-26",
-    autor: "João Silva",
-    status: "Em aberto",
-    id: "123456",
-  },{
-    titulo: "Introdução ao TypeScript",
-    descricao: "Um guia completo sobre como usar TypeScript em seus projetos.",
-    data: "2024-08-26",
-    autor: "João Silva",
-    status: "Em aberto",
-    id: "123456",
-  },{
-    titulo: "Introdução ao TypeScript",
-    descricao: "Um guia completo sobre como usar TypeScript em seus projetos.",
-    data: "2024-08-26",
-    autor: "João Silva",
-    status: "Em aberto",
-    id: "123456",
-  },
-  ]);
+  const [reports, setReports] = useState([]);
 
   useEffect(() => {
     getReports();
