@@ -27,7 +27,7 @@ function MainAdmin() {
   const getReports = async () => {
     try {
       const response = await axios.get(
-        `${baseUrl}/denuncias`
+        `${baseUrl}/denuncias/usuario/${userId}`
       );
       console.log(response.data);
       
@@ -69,9 +69,12 @@ function MainAdmin() {
           </Styles.ReportsTitle>
           <PerfectScrollbar style={{ width: "100%", height: "72vh" }}>
             <Styles.ReportList>
-              {reports.map((report, index) => (
-                <ReportAdmin key={index} report={report} />
-              ))}
+              {reports.map((report, index) => {
+                console.log(report);
+                
+                return <ReportAdmin key={index} report={report} />
+              }
+              )}
             </Styles.ReportList>
           </PerfectScrollbar>
         </Styles.Reports>
