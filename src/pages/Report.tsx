@@ -46,32 +46,66 @@ function Report(){
     const [report, setReport] = useState<IReportDetailsProps>();
     console.log(report);
     
-
-
-      
-      useEffect(() => {
-        // setReport(xumba)
+    useEffect(() => {
         const fetchReport = async () => {
-            try{   
-                
+            try {
                 const response = await axios.get(`${baseUrl}/denuncias/${reportId}/usuario/${userId}`);
-                console.log(response.data)
-                setReport({report:response.data});
-            }catch(error){
-                console.log('Erro ao buscar detalhes da denúncia: ', error)
+                console.log('Resposta da denúncia:', response.data);
+    
+                const reportDetalhes = {
+                    _id: response.data._id,
+                    titulo: response.data.titulo,
+                    data: response.data.data,
+                    status: response.data.status,
+                    descricao: response.data.descricao,
+                    usuarioId: response.data.usuarioId
+                };
+    
+                if (response.data.agente) {
+                    const reportAgent = await axios.get(`${baseUrl}/agentes/${response.data.agente}`);
+                    console.log('Resposta do agente:', reportAgent.data);
+    
+                    const fullReport: IReportDetailsProps = {
+                        report: reportDetalhes,
+                        agenteDetalhes: {
+                            _id: reportAgent.data._id,
+                            nome: reportAgent.data.nome,
+                            reports: reportAgent.data.reports,
+                            profile: reportAgent.data.profile
+                        }
+                    };
+    
+                    setReport(fullReport);
+                } else {
+                    const fullReport: IReportDetailsProps = {
+                        report: reportDetalhes,
+                        agenteDetalhes: undefined
+                    };
+    
+                    setReport(fullReport);
+                    console.log('Nenhum agente associado à denúncia');
+                }
+            } catch (error) {
+                console.log('Erro ao buscar detalhes da denúncia: ', error);
             }
         };
+    
         fetchReport();
-    }, [reportId])
+    }, [reportId, userId]);
+    
+    
+    
+
     return(
         <MainContainer>
-            {report?.report ?  <Details report={report.report}  /> : ""}
-            {admin? <InvestigateArea member={agentXumbado[0].member}></InvestigateArea>: ""}
-            {admin ? <Divisor admin={admin}></Divisor> : <Divisor></Divisor>}
-            
-            
-            <TimeLine />
-        </MainContainer>
+        {report?.report ? <Details report={report.report} /> : <p>Detalhes da denúncia não encontrados.</p>}
+        {admin && report?.agenteDetalhes ? (
+            // @ts-ignore
+            <InvestigateArea member={report.agenteDetalhes} />
+        ) : "Aguardando Atribuição!"}
+        {admin ? <Divisor admin={admin} /> : <Divisor />}
+        <TimeLine />
+    </MainContainer>
     )
 }
 

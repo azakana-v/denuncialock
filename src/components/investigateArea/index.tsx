@@ -12,6 +12,12 @@ import InvestigateAction from "../investigateAction";
 
 interface MemberCardProps extends IMember {
   selected?: boolean;
+  member: {
+    _id?: string,
+    nome: string,
+    reports: number;
+    profile: string
+  }
 }
 
 interface IInvestigateAction {
@@ -26,7 +32,7 @@ const InvestigateActionXumbada : IInvestigateAction = {
 
 
 function InvestigateArea({ member}: MemberCardProps) {
- 
+  const reportCount = member.reports;
   const [investigateAction, setInvestigateAction] = useState<IInvestigateAction[]>([InvestigateActionXumbada, InvestigateActionXumbada, InvestigateActionXumbada, InvestigateActionXumbada, ])
 
   return (
@@ -35,10 +41,6 @@ function InvestigateArea({ member}: MemberCardProps) {
         <Styles.ProfileImage alt={`foto do membro ${member.nome}`} src={member.profile ? member.profile : User}/>
         <Styles.InfoContainer>
           <Styles.Name>{member.nome}</Styles.Name>
-          <Styles.ReportsAttrContainer>
-              <Styles.CircleIcon status={"Em aberto"}></Styles.CircleIcon>
-              <Styles.ReportsAttr>{member.reports == 0 ? "" : member.reports} {member.reports == 1 ? "denúncia atribuída" : member.reports == 0 ? "Nenhuma denúncia atribuida" : "denúncias atribuídas" }</Styles.ReportsAttr>
-          </Styles.ReportsAttrContainer>
         </Styles.InfoContainer>
       </Styles.AgentContainer>
 
