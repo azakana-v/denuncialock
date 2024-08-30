@@ -24,10 +24,10 @@ function App() {
         <Navbar />
         <Sidebar /> 
         <Routes>
-          <Route path='/' element={ <HomeUser /> }></Route>
-          <Route path='/report/:reportId' element={ <Report /> }></Route>
+          <Route path='/' element={ <Login/>  }></Route>
+          <Route path='/home' element={ <HomeUser /> }></Route>
+          <Route path='/home/report/:reportId' element={ <Report /> }></Route>
           <Route path='/newReport' element={ <NewReport/>  }></Route>
-          <Route path='/Login' element={ <Login/>  }></Route>
         </Routes>
       </Router>
       </MainContainer>
