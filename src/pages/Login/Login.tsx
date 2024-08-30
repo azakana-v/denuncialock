@@ -30,6 +30,7 @@ const Login = () => {
       const decodedToken: { id: string, role: string } = parseJwt(token);
 
       localStorage.setItem('token', token);
+      setUserId(decodedToken.id);
       setLogged(true);
 
       const isAdmin = decodedToken.role === 'admin';

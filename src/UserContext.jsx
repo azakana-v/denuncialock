@@ -8,9 +8,7 @@ export const UserProvider = ({ children }) => {
     const [userData, setUserData] = useState(null);
     const [logged, setLogged] = useState(true);
     const [admin, setAdmin] = useState();
-    const [userId, setUserId] = useState('66c4bb87a93ff03ddc53d5cd')
-    const fakeId = '1234';
-
+    const [userId, setUserId] = useState('')
     // useEffect(() => {
     //     console.log('Estou funcionando até aqui!')
     //     const fetchUserData = async () => {

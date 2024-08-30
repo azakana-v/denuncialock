@@ -6,6 +6,7 @@ import FileUpload from "../components/fileUpload/FileUpload";
 import icon from "../assets/icons/multiply 1.svg";
 import send from "../assets/icons/send-message 1.svg";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../UserContext";
 
 interface SwitchProps {
     isChecked: boolean;
@@ -199,7 +200,7 @@ const Card = styled.div`
 
 function NewReport() {
   const baseUrl = "http://localhost:3000";
-  const userId = '66c4bb87a93ff03ddc53d5cd';
+  const { userId } = useUser();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [files, setFiles] = useState<File[]>([]);
@@ -238,7 +239,7 @@ function NewReport() {
           }
         })
         console.log(response.data);
-        navigate('/')
+        navigate('/home')
       }catch(error){
         console.log('Erro ao enviar denúncia: ', error)
       }

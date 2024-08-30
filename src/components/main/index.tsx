@@ -9,10 +9,11 @@ import comoFunciona from "../../assets/icons/comofunciona.svg";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import "./scrollbar.css";
+import { useUser } from "../../UserContext";
 
 function Main() {
   const baseUrl = "http://localhost:3000";
-  const userId = "66c4bb87a93ff03ddc53d5cd";
+  const { userId } = useUser();
   const navigate = useNavigate();
   const [reports, setReports] = useState([]);
 
@@ -21,6 +22,7 @@ function Main() {
   }, []);
 
   const getReports = async () => {
+    console.log('id do usuário', userId)
     try {
       const response = await axios.get(
         `${baseUrl}/denuncias/usuario/${userId}`
