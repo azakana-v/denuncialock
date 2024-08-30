@@ -29,19 +29,10 @@ margin-left: ${(props) => (props.admin ? '2%' : '10%')};
 
 `
 
-const agentXumbado = [{
-    member: {
-      nome: "Jose Fagundes",
-      reports: 1,
-      profile: "https://th.bing.com/th/id/OIP.0f3JWKSq-cAJK_IwP7mzYwAAAA?rs=1&pid=ImgDetMain",
-    }
-  }
-  ]
-
 function Report(){
     const { admin} = useUser();
     const baseUrl = "http://localhost:3000";
-    const userId = '66c4bb87a93ff03ddc53d5cd';
+    const {userId} = useUser();
     const { reportId } = useParams();
     const [report, setReport] = useState<IReportDetailsProps>();
     console.log(report);
