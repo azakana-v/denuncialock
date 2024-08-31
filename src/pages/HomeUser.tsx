@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Main from '../components/main'
 import MainAdmin from '../components/mainAdmin'
 import { useUser } from '../UserContext';
+import { useNavigate } from 'react-router-dom';
 
 
 const MainContainer = styled.div`
@@ -9,10 +10,17 @@ display: flex;
 `;
 
 function HomeUser(){
+    const navigate = useNavigate();
+
+    const handleLogout = () =>{
+        localStorage.removeItem('token');
+        navigate('/');
+    }
 
     const { admin} = useUser();
     return(
         <MainContainer>
+            <button onClick={handleLogout}>logout</button>
             {admin ? <MainAdmin/> : <Main />}  
         </MainContainer>
     )

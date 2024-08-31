@@ -10,6 +10,7 @@ import NewReport from './pages/NewReport';
 import { UserProvider } from './UserContext';
 import HomeUser from './pages/HomeUser';
 import Login from './pages/Login/Login';
+import { useNavigate } from 'react-router-dom';
 
 const MainContainer = styled.div`
   display: flex;
@@ -17,6 +18,8 @@ const MainContainer = styled.div`
 `;
 
 function App() {
+
+
   return (
     <UserProvider>
     <MainContainer>

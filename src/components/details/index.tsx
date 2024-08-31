@@ -38,7 +38,7 @@ const deleteReport = async () => {
   try {
     const response = await axios.delete(`${baseUrl}/denuncias/${userId}/${reportId}`);
     console.log('Denúncia deletada com sucesso', response.data);
-    navigate('/');
+    navigate('/home');
   } catch (error) {
     console.log('Erro ao deletar a denúncia', error);
   }
