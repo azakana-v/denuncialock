@@ -46,9 +46,13 @@ function Main() {
           </Styles.ReportsTitle>
           <PerfectScrollbar style={{ width: "100%", height: "72vh" }}>
             <Styles.ReportList>
-              {reports.map((report, index) => (
-                <Report key={index} report={report} />
-              ))}
+            {reports && reports.length > 0 ? (
+    reports.map((report, index) => (
+      <Report key={index} report={report} />
+    ))
+  ) : (
+    <p style={{ fontSize: '2rem', marginTop: '1rem', textAlign: 'center', fontWeight: 'bold' }}>Nenhuma denúncia gerada.</p>
+  )}
             </Styles.ReportList>
           </PerfectScrollbar>
         </Styles.Reports>
