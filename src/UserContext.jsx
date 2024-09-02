@@ -7,7 +7,7 @@ const UserContext = createContext();
 export const UserProvider = ({ children }) => {
     const [userData, setUserData] = useState(null);
     const [logged, setLogged] = useState(true);
-    const [admin, setAdmin] = useState();
+    const [admin, setAdmin] = useState(true);
     const [userId, setUserId] = useState('')
     // useEffect(() => {
     //     console.log('Estou funcionando até aqui!')

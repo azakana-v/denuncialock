@@ -11,6 +11,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { IReportDetailsProps } from "./IReportDetailsProps";
 import { useUser } from "../../UserContext";
 import AttrModal from "../attrModal";
+import SuccessAttrModal from "../successAttrModal";
+import FailedAttrModal from "../failedAttrModal";
 
 
 function Details({ report }: IReportDetailsProps) {
@@ -20,10 +22,14 @@ function Details({ report }: IReportDetailsProps) {
   const { userId } = useUser();
   const { reportId } = useParams<{ reportId: string }>();
   const [showModal, setShowModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showFailedModal, setShowFailedModal] = useState(false);
   const [selectedReportId, setSelectedReportId] = useState<string | null>(null);
   const closeModal = () => setShowModal(false);
   const openModal = () => setShowModal(true);
-  
+  const closeSuccessModal = () => setShowSuccessModal(false);
+  const closeFailedModal = () => setShowSuccessModal(false);
+
  
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -48,9 +54,10 @@ const attrReport = async (reportId: string, agentId: string) => {
   try {
     await axios.patch(`${baseUrl}/denuncias/${reportId}`, { agente: agentId });
     console.log('Denúncia atribuída com sucesso');
-    navigate('/home');
+    setShowSuccessModal(true);
   } catch (error) {
     console.error('Erro ao atribuir a denúncia', error);
+    setShowFailedModal(true);
   }
 };
 
@@ -111,6 +118,12 @@ const attrReport = async (reportId: string, agentId: string) => {
        onConfirm={attrReport}
        reportId={reportId || ''}
      />
+      )}
+          {showSuccessModal && (
+        <SuccessAttrModal isOpen={showSuccessModal} onClose={closeSuccessModal} />
+      )}
+          {showFailedModal && (
+        <FailedAttrModal isOpen={showFailedModal} onClose={closeFailedModal} />
       )}
     </Styles.DetailsContainer>
   );
