@@ -13,7 +13,7 @@ import { useUser } from "../../UserContext";
 
 function Main() {
   const baseUrl = "http://localhost:3000";
-  const userId = "66c4bb87a93ff03ddc53d5cd";
+  const { userId } = useUser();
   const navigate = useNavigate();
   const [reports, setReports] = useState([]);
   const { admin, agent} = useUser();
@@ -25,6 +25,7 @@ function Main() {
 
   //Ajustar para pegar somentes reports atribuidas ao agent, no caso de ser agent
   const getReports = async () => {
+    console.log('id do usuário', userId)
     try {
       const response = await axios.get(
         `${baseUrl}/denuncias/usuario/${userId}`
@@ -48,9 +49,13 @@ function Main() {
           </Styles.ReportsTitle>
           <PerfectScrollbar style={{ width: "100%", height: "72vh" }}>
             <Styles.ReportList>
-              {reports.map((report, index) => (
-                <Report key={index} report={report} />
-              ))}
+            {reports && reports.length > 0 ? (
+    reports.map((report, index) => (
+      <Report key={index} report={report} />
+    ))
+  ) : (
+    <p style={{ fontSize: '2rem', marginTop: '1rem', textAlign: 'center', fontWeight: 'bold' }}>Nenhuma denúncia gerada.</p>
+  )}
             </Styles.ReportList>
           </PerfectScrollbar>
         </Styles.Reports>

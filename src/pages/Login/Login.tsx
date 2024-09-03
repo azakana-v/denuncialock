@@ -4,16 +4,7 @@ import styled from 'styled-components';
 import logo from "./logo-branco-info.png"
 import "./Login.css";
 import axios from 'axios';
-
-
-const Container = styled.div``;
-const Form = styled.form``;
-
-const Label = styled.label``;
-
-const Input = styled.input``;
-
-const Botao = styled.button``;
+import { useUser } from '../../UserContext';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -21,20 +12,37 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [loginInvalido, setLoginInvalido] = useState(false);
+  const { setLogged, setAdmin, setUserId } = useUser();
+
+  const parseJwt = (token: any) => {
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace("-", "+").replace("_", "/");
+    return JSON.parse(atob(base64));
+  };
 
 
   const onLogin = async (event: FormEvent) => {
     event.preventDefault();
     try {
       const response = await axios.post(`${baseUrl}/login`, {email, senha});
-
       const token = response.data.token;
-      localStorage.setItem('token', token);
-      navigate('/home');
-      
-    } catch (error) {
 
+      const decodedToken: { id: string, role: string } = parseJwt(token);
+
+      localStorage.setItem('token', token);
+      setUserId(decodedToken.id);
+      setLogged(true);
+
+      const isAdmin = decodedToken.role === 'admin';
+      setAdmin(isAdmin);
+      if (isAdmin) {
+        navigate('/home');
+      } else {
+        navigate('/home');
+      }
+    } catch (error) {
       console.error('Erro ao fazer login:', error);
+      setLoginInvalido(true);
     }
   };
 

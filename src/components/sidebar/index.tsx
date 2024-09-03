@@ -15,7 +15,7 @@ function Sidebar(){
     const navigate = useNavigate();
 
     const handleRedirect = () =>{
-        navigate('/')
+        navigate('/home')
     }
     return(
         <>{logged ?         
