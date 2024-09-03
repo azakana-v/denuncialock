@@ -8,7 +8,7 @@ import "react-perfect-scrollbar/dist/css/styles.css";
 import "./scrollbar.css";
 import User from "../../assets/icons/profile.svg"
 import { IMember } from "../memberCard/IMember";
-import InvestigateAction from "../investigateAction";
+import InvestigateActionCard from "../investigateActionCard";
 
 interface MemberCardProps extends IMember {
   selected?: boolean;
@@ -45,7 +45,7 @@ function InvestigateArea({ member}: MemberCardProps) {
       <Styles.InvestigateAreaContainer>
         <Styles.InvestigateAreaTittle>Ações investigativas</Styles.InvestigateAreaTittle>
         {investigateAction.map((action, index) => (
-                  <InvestigateAction investigateActionDate={action.date}  investigateActionTittle={action.title} key={index}/>
+                  <InvestigateActionCard investigateActionDate={action.date}  investigateActionTittle={action.title} key={index}/>
                 ))}
       </Styles.InvestigateAreaContainer>
     </Styles.MainContainer>

@@ -1,6 +1,7 @@
 import * as Styles from "./styles";
 import Logo from "../../assets/Logo2.svg";
 import Trash from '../../assets/icons/trash.svg';
+import Conclude from '../../assets/icons/ConcludeIcon.svg'
 import DeleteModal from "../modal";
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
@@ -14,7 +15,7 @@ import AttrModal from "../attrModal";
 
 
 function Details({ report }: IReportDetailsProps) {
-  const {admin} = useUser();
+  const {admin, agent} = useUser();
   const navigate = useNavigate();
   const baseUrl = "http://localhost:3000";
   const { userId } = useUser();
@@ -53,6 +54,17 @@ const attrReport = async (reportId: string, agentId: string) => {
     console.error('Erro ao atribuir a denúncia', error);
   }
 };
+
+const handleConclude = ()=>{
+  console.log("concluir report");
+  
+}
+
+const handleAddAction = ()=>{
+  console.log("adicionar report");
+  navigate(`/report/${reportId}/newAction`); // Navegação apropriada após atribuir
+  
+  }
 
   return (
     <Styles.DetailsContainer>
@@ -93,6 +105,15 @@ const attrReport = async (reportId: string, agentId: string) => {
         </Styles.Delete>
         :
 
+        agent ?         
+        <Styles.Conclude>
+          <Styles.AttrButton onClick={() => handleAddAction()}>
+              <div style={{color: "white", fontSize: "3rem"}}>+</div>
+              <Styles.BtnTitle>Adicionar ação</Styles.BtnTitle>
+          </Styles.AttrButton>
+        </Styles.Conclude> 
+        :
+
          <Styles.Delete>
             <Styles.DeleteButton onClick={() => setShowModal(true)}>
                 <Styles.Icon src={Trash}/>
@@ -100,6 +121,14 @@ const attrReport = async (reportId: string, agentId: string) => {
             </Styles.DeleteButton>
         </Styles.Delete>
         }
+
+        {         agent ? 
+        <Styles.Conclude>
+            <Styles.ConcludeButton onClick={() => handleConclude()}>
+                <Styles.Icon src={Conclude}/>
+                <Styles.BtnTitle>Concluir</Styles.BtnTitle>
+            </Styles.ConcludeButton>
+        </Styles.Conclude> : ""}
       </Styles.Details>
       {!admin && showModal && (
         <DeleteModal isOpen={showModal} onClose={closeModal} onConfirm={deleteReport} reportId={selectedReportId || ''} />

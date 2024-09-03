@@ -7,6 +7,7 @@ import axios from 'axios';
 import { IReportDetailsProps } from '../components/details/IReportDetailsProps';
 import { useUser } from '../UserContext';
 import InvestigateArea from '../components/investigateArea';
+import InvestigateAction from '../components/investigateAction';
 
 interface DivisorProps {
     admin?: boolean; // Prop opcional 'admin' que é um booleano
@@ -38,8 +39,8 @@ const agentXumbado = [{
   }
   ]
 
-function Report(){
-    const { admin, agent} = useUser();
+function Action(){
+    const { admin} = useUser();
     const baseUrl = "http://localhost:3000";
     const userId = '66c4bb87a93ff03ddc53d5cd';
     const { reportId } = useParams();
@@ -65,14 +66,12 @@ function Report(){
     }, [reportId])
     return(
         <MainContainer>
-            {report?.report ?  <Details report={report.report}  /> : ""}
-            {admin || agent ? <InvestigateArea member={agentXumbado[0].member}></InvestigateArea>: ""}
-            {admin || agent ? <Divisor admin></Divisor> : <Divisor></Divisor>}
-            
-            
+            <InvestigateAction /> 
+           <InvestigateArea member={agentXumbado[0].member}></InvestigateArea>
+            <Divisor admin></Divisor>
             <TimeLine />
         </MainContainer>
     )
 }
 
-export default Report;
+export default Action;

@@ -9,21 +9,18 @@ import comoFunciona from "../../assets/icons/comofunciona.svg";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import "./scrollbar.css";
-import { useUser } from "../../UserContext";
 
-function Main() {
+function MainAgent() {
   const baseUrl = "http://localhost:3000";
   const userId = "66c4bb87a93ff03ddc53d5cd";
   const navigate = useNavigate();
   const [reports, setReports] = useState([]);
-  const { admin, agent} = useUser();
 
   useEffect(() => {
     getReports();
   }, []);
 
-
-  //Ajustar para pegar somentes reports atribuidas ao agent, no caso de ser agent
+  //Adicionar as rota das reports
   const getReports = async () => {
     try {
       const response = await axios.get(
@@ -44,7 +41,7 @@ function Main() {
         <Styles.Reports>
           <Styles.ReportsTitle>
             <Styles.ReportsLogo src={Logo} />
-            <Styles.Title>Denúncias <br /> {agent ? "pendentes" : "recentes" }.</Styles.Title>
+            <Styles.Title>Denúncias <br /> pendentes.</Styles.Title>
           </Styles.ReportsTitle>
           <PerfectScrollbar style={{ width: "100%", height: "72vh" }}>
             <Styles.ReportList>
@@ -54,15 +51,6 @@ function Main() {
             </Styles.ReportList>
           </PerfectScrollbar>
         </Styles.Reports>
-        
-        <Styles.Action >
-        {agent ? "" : <>
-          <Styles.NewBtn onClick={redirectNewReport} src={NewBtn} />
-          <Styles.NewReport>Adicionar Denúncia</Styles.NewReport>
-        </> 
-        }
-        </Styles.Action>
-        
         <Styles.Intro>
           <Styles.GhostDiv></Styles.GhostDiv>
           <Styles.SecondGhostDiv>
@@ -87,4 +75,4 @@ function Main() {
   );
 }
 
-export default Main;
+export default MainAgent;

@@ -2,6 +2,7 @@ import * as Styles from './styles';
 import Logo from '../../assets/Logo2.svg'
 import userIcon from '../../assets/icons/user.svg'
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../../UserContext';
 
 interface ReportProps {
     report: {
@@ -16,10 +17,11 @@ interface ReportProps {
 
 function Report({ report }: ReportProps){
     const navigate = useNavigate();
+    const { admin, agent} = useUser();
 
     const handleRedirect = () => {
         console.log('Report ID:', report.id);
-        navigate(`report/${report.id}`)
+        navigate( `report/${report.id}`)
     }
 
     const truncateDescription = (description: string, maxLength: number) => {

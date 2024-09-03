@@ -88,6 +88,12 @@ export const Delete = styled.div`
     margin-top: 2rem;
 `
 
+export const Conclude = styled.div`
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+`
+
 export const AttrButton = styled.div`
     display: flex;
     background-color: #5B0390;
@@ -108,6 +114,23 @@ export const AttrButton = styled.div`
 export const DeleteButton = styled.div`
     display: flex;
     background-color: #DD2445;
+    width: auto;
+    height: 3rem;
+    padding: 1rem 3rem;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: .2s;
+    &:hover{
+        scale: 1.05;
+    }
+`
+
+export const ConcludeButton = styled.div`
+    display: flex;
+    background-color: #00DE3E;
     width: auto;
     height: 3rem;
     padding: 1rem 3rem;

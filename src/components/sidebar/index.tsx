@@ -21,7 +21,7 @@ function Sidebar(){
         <>{logged ?         
         <Styles.SideContainer>
             <div>
-                <SideBtn icon={profile} toolTip='Perfil'/>
+                <SideBtn onClick={()=>{navigate("/Profile")}} icon={profile} toolTip='Perfil'/>
                 <SideBtn icon={report} toolTip='Denúncia' onClick={handleRedirect}/>
                 <SideBtn icon={customer} toolTip='Suporte'/>
                 {admin ? <SideBtn icon={user} toolTip='Membros'/> : ""}
