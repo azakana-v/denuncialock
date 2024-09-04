@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import * as Styles from "./styles";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Logo from "../../assets/Logo2.svg";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
@@ -19,6 +19,7 @@ interface MemberCardProps extends IMember {
     profile: string
   }
   actions?: IInvestigateAction[];
+  getActionIndex: (actionIndex: number)=> void;
 }
 
 interface IInvestigateAction {
@@ -35,9 +36,10 @@ interface IInvestigateAction {
 }
 
 
-function InvestigateArea({ member, actions}: MemberCardProps) {
+function InvestigateArea({ member, actions, getActionIndex}: MemberCardProps) {
   const baseUrl = "http://localhost:3000";
   const reportCount = member.reports;
+  const { reportId, } = useParams<{ reportId: string }>();
   // const [actions, setActions] = useState<IInvestigateAction[]>()
   const [actionIndex, setActionIndex] = useState<number>(0)
   const navigate = useNavigate();
@@ -68,7 +70,7 @@ console.log(actions);
 
      const redirectAction = () =>{
       console.log(actionIndex);
-      navigate(`action/${actions ? actions[actionIndex]._id : ""}`)
+      navigate(`/report/${reportId}/action/${actions ? actions[actionIndex]._id : ""}`)
       
       }
 
@@ -87,7 +89,7 @@ console.log(actions);
       <Styles.InvestigateAreaContainer>
         <Styles.InvestigateAreaTittle>Ações investigativas</Styles.InvestigateAreaTittle>
         {actions?.map((action: IInvestigateAction, index: number) => (
-                  <InvestigateActionCard onClick={()=>{setActionIndex(index); redirectAction()}} investigateActionDate={action?.createdAt}  investigateActionTittle={action?.titulo} key={index}/>
+                  <InvestigateActionCard onClick={()=>{getActionIndex(index); redirectAction()}} investigateActionDate={action?.createdAt}  investigateActionTittle={action?.titulo} key={index}/>
                 ))}
       </Styles.InvestigateAreaContainer>
     </Styles.MainContainer>

@@ -55,9 +55,14 @@ function Report({action}: IReportProps){
     const [report, setReport] = useState<IReportDetailsProps>();
     const [actions, setActions] = useState<IInvestigateAction[]>()
     const [agentId, setAgentId] = useState<string>("")
+    const [actionIndex, setActionIndex] = useState<number>(0)
     
     // console.log(report);
     
+    const getActionIndex = (actionIndex: number) =>{
+        setActionIndex(actionIndex)
+    }
+
 useEffect(() => {
     getAgentActions();
 }, [agentId])
@@ -66,7 +71,7 @@ const getAgentActions = async () =>{
     if(agentId){
 
         try {
-            const response = await axios.get(`${baseUrl}/agentes/${agentId}/actions`);
+            const response = await axios.get(`${baseUrl}/denuncias/${reportId}/actions`);
             console.log('Sucesso ao obter Ações: ', response.data);
             setActions(response.data)
         } catch (error) {
@@ -137,11 +142,22 @@ console.log(report);
 
     return(
         <MainContainer>
-        {report?.report ? action ? <DetailsAction report={report.report}/> : <Details report={report.report} /> : <p>Detalhes da denúncia não encontrados.</p>}
-        {(admin || agent) && report?.agenteDetalhes ? (
+        {report?.report ? (action && actions) ? <DetailsAction action={actions? actions[actionIndex] : undefined}/> : <Details agenteDetalhes={report.agenteDetalhes} report={report.report} /> : <p>Detalhes da denúncia não encontrados.</p>}
+        {/* {
+        (admin || agent) && report?.agenteDetalhes ? (
             // @ts-ignore
-            <InvestigateArea actions={actions} member={report.agenteDetalhes} />
-        ) : "Aguardando Atribuição!"}
+            <InvestigateArea getActionIndex={getActionIndex} actions={actions} member={report.agenteDetalhes} />
+        ) : "Aguardando Atribuição!"
+        
+        } */}
+
+        {
+        report?.agenteDetalhes ? (
+            // @ts-ignore
+            <InvestigateArea getActionIndex={getActionIndex} actions={actions} member={report.agenteDetalhes} />
+        ) : "Aguardando Atribuição!"
+        
+        }
         {(admin || agent) ? <Divisor admin={admin} /> : <Divisor />}
         <TimeLine />
     </MainContainer>
