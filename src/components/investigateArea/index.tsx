@@ -19,6 +19,7 @@ interface MemberCardProps extends IMember {
     profile: string
   }
   actions?: IInvestigateAction[];
+  getActionIndex: (actionIndex: number)=> void;
 }
 
 interface IInvestigateAction {
@@ -35,7 +36,7 @@ interface IInvestigateAction {
 }
 
 
-function InvestigateArea({ member, actions}: MemberCardProps) {
+function InvestigateArea({ member, actions, getActionIndex}: MemberCardProps) {
   const baseUrl = "http://localhost:3000";
   const reportCount = member.reports;
   // const [actions, setActions] = useState<IInvestigateAction[]>()
@@ -87,7 +88,7 @@ console.log(actions);
       <Styles.InvestigateAreaContainer>
         <Styles.InvestigateAreaTittle>Ações investigativas</Styles.InvestigateAreaTittle>
         {actions?.map((action: IInvestigateAction, index: number) => (
-                  <InvestigateActionCard onClick={()=>{setActionIndex(index); redirectAction()}} investigateActionDate={action?.createdAt}  investigateActionTittle={action?.titulo} key={index}/>
+                  <InvestigateActionCard onClick={()=>{getActionIndex(index); redirectAction()}} investigateActionDate={action?.createdAt}  investigateActionTittle={action?.titulo} key={index}/>
                 ))}
       </Styles.InvestigateAreaContainer>
     </Styles.MainContainer>

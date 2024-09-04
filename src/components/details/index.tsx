@@ -16,7 +16,7 @@ import SuccessAttrModal from "../successAttrModal";
 import FailedAttrModal from "../failedAttrModal";
 
 
-function Details({ report }: IReportDetailsProps) {
+function Details({ report, agenteDetalhes }: IReportDetailsProps) {
   const {admin, agent} = useUser();
   const navigate = useNavigate();
   const baseUrl = "http://localhost:3000";
@@ -69,7 +69,7 @@ const handleConclude = ()=>{
 
 const handleAddAction = ()=>{
   console.log("adicionar report");
-  navigate(`/report/${reportId}/newAction`); // Navegação apropriada após atribuir
+  navigate(`/report/${reportId}/newAction/${agenteDetalhes?._id}`); // Navegação apropriada após atribuir
   
   }
 

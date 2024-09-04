@@ -33,7 +33,7 @@ function App() {
         <Routes>
           <Route path='/' element={ <HomeUser /> }></Route>
           <Route path='/report/:reportId' element={ <Report /> }></Route>
-          <Route path='/report/:reportId/newAction' element={ <NewAction /> }></Route>
+          <Route path='/report/:reportId/newAction/:agentId' element={ <NewAction /> }></Route>
           <Route path='/newReport' element={ <NewReport/>  }></Route>
           <Route path='/newAction' element={ <Action/>  }></Route>
           <Route path='/Login' element={ <Login/>  }></Route>
@@ -41,7 +41,7 @@ function App() {
           <Route path='/' element={ <Login/>  }></Route>
           <Route path='/home' element={ <HomeUser /> }></Route>
           <Route path='/home/report/:reportId' element={ <Report /> }></Route>
-          <Route path='/home/report/:reportId/action/:actionId' element={ <Report action/> }></Route>
+          <Route path='/home/report/:reportId/action/:agentId' element={ <Report action/> }></Route>
           <Route path='/newReport' element={ <NewReport/>  }></Route>
         </Routes>
       </Router>

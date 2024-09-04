@@ -15,8 +15,23 @@ import AttrModal from "../attrModal";
 import SuccessAttrModal from "../successAttrModal";
 import FailedAttrModal from "../failedAttrModal";
 
+interface IInvestigateAction {
+  action?: {
+  _id: string,
+  titulo: string,
+  descricao: string,
+  usuarioId: string,
+  evidencias: string[],
+  status: string,
+  autor: string,
+  agente: string,
+  createdAt: string,
+  updatedAt?: string
+}
 
-function DetailsAction({ report }: IReportDetailsProps) {
+}
+
+function DetailsAction({ action }: IInvestigateAction) {
   const {admin, agent} = useUser();
   const navigate = useNavigate();
   const baseUrl = "http://localhost:3000";
@@ -92,20 +107,20 @@ const handleAddAction = ()=>{
       <Styles.DetailsTitle>
         <Styles.DetailsLogo src={Logo} />
         <Styles.Title>
-          "details da action"
+          {action?.titulo}
         </Styles.Title>
       </Styles.DetailsTitle>
       <Styles.Details>
         <Styles.Row>
-          <Styles.Date>Data: {formatDate(report?.data)}</Styles.Date>
+          <Styles.Date>Data: {action ? formatDate(action.createdAt): ""}</Styles.Date>
           <Styles.Status>
             <Styles.StatusCircle></Styles.StatusCircle>
-            <Styles.StatusText>{report?.status}</Styles.StatusText>
+            <Styles.StatusText>{action?.status}</Styles.StatusText>
           </Styles.Status>
         </Styles.Row>
         <PerfectScrollbar id="scrollbar-container" style={{ maxHeight: '38rem', overflow: 'auto' }}>
           <Styles.Text >
-            {report?.descricao}
+            {action?.descricao}
           </Styles.Text>
         </PerfectScrollbar>
         <Styles.Evidence>

@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import FileUpload from "../components/fileUpload/FileUpload";
 import icon from "../assets/icons/multiply 1.svg";
 import send from "../assets/icons/send-message 1.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface SwitchProps {
     isChecked: boolean;
@@ -202,6 +202,7 @@ function NewAction() {
   const userId = '66c4bb87a93ff03ddc53d5cd';
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const { reportId, agentId } = useParams<{ reportId: string; agentId: string }>();
   const [files, setFiles] = useState<File[]>([]);
   const [isChecked, setIsChecked] = useState(false);
   const navigate = useNavigate();
@@ -225,14 +226,14 @@ function NewAction() {
     const handleSubmit = async(event: React.FormEvent) => {
       event.preventDefault();
 
-      const reportData = {
+      const actionData = {
         titulo: title,
         descricao: description,
-        usuarioId: userId,
+        usuarioId: agentId,
         evidencias: files.map(file => file.name) 
       };
     try{
-        const response = await axios.post(`${baseUrl}/denuncias`, reportData, {
+        const response = await axios.post(`${baseUrl}/${reportId}/actions`, actionData, {
           headers: {
             'Content-Type': 'application/json'
           }
@@ -251,17 +252,17 @@ function NewAction() {
       </Title>
       <FormContainer>
         <FormStyle onSubmit={handleSubmit}>
-          <LabelForm>Descrição da Denúncia</LabelForm>
+          <LabelForm>Ação investigativa</LabelForm>
           <TitleInput
             type="text"
-            placeholder="Título da denúncia*"
+            placeholder="Título da ação*"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
           />
         </FormStyle>
         <ReportDescription
-          placeholder="Conteúdo da denúncia*"
+          placeholder="Conteúdo da ação*"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
@@ -289,10 +290,10 @@ function NewAction() {
           </DividerSection>
           <SendSection>
           <SwitchContainer>
-      <SwitchLabel>Permanecer Anônimo?</SwitchLabel>
+      {/* <SwitchLabel>Permanecer Anônimo?</SwitchLabel>
       <Switch onClick={toggleSwitch} isChecked={isChecked}>
         <SwitchButton isChecked={isChecked} />
-      </Switch>
+      </Switch> */}
     </SwitchContainer>
     {files.length > 0 ? (
               <Cards>
@@ -316,7 +317,7 @@ function NewAction() {
                   fontWeight: "bold",
                 }}
               >
-                Enviar Denúncia
+                Enviar Ação
               </span>
               <img src={send} alt="Icone de envio" />
             </SendButton>

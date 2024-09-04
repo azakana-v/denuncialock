@@ -66,10 +66,10 @@ function Action(){
     }, [reportId])
     return(
         <MainContainer>
-            <InvestigateAction /> 
+            {/* <InvestigateAction /> 
            <InvestigateArea member={agentXumbado[0].member}></InvestigateArea>
             <Divisor admin></Divisor>
-            <TimeLine />
+            <TimeLine /> */}
         </MainContainer>
     )
 }
