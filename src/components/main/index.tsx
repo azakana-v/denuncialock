@@ -78,9 +78,12 @@ function  Main() {
                 Bem-vindo ao seu canal de denúncias!
               </Styles.IntroTitle>
               <Styles.IntroText>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Accusantium excepturi ea iure odit quaerat iusto aut facilis,
-                soluta quisquam.
+
+Nosso canal de denúncias está disponível para você relatar qualquer irregularidade de forma segura e confidencial. Aqui, garantimos que sua voz seja ouvida e tratada com o máximo de sigilo, em conformidade com as normas éticas e legais.
+
+Acreditamos na transparência e na melhoria contínua, por isso incentivamos a comunicação aberta. Seu relato é fundamental para mantermos a integridade e responsabilidade de nossas operações.
+
+Conte com nosso comprometimento para investigar e resolver os casos reportados com seriedade e eficiência.
               </Styles.IntroText>
             </div>
             <Styles.IntroImage src={comoFunciona} />
