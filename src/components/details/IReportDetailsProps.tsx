@@ -6,6 +6,7 @@ export interface IReportDetailsProps {
       data: string;
       status: string;
       descricao: string;
+      evidencias: string[];
   };
   agenteDetalhes?: {
       _id: string;
