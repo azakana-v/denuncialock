@@ -84,7 +84,7 @@ const getAgentActions = async () =>{
     useEffect(() => {
         const fetchReport = async () => {
             try {
-                const response = await axios.get(`${baseUrl}/denuncias/${reportId}/usuario/${userId}`);
+                const response = await axios.get(`${baseUrl}/denuncias/${reportId}/usuario/66c4bb87a93ff03ddc53d5cd`);
                 console.log('Resposta da denúncia:', response.data);
     
                 const reportDetalhes = {
@@ -96,6 +96,10 @@ const getAgentActions = async () =>{
                     usuarioId: response.data.usuarioId,
                     evidencias: response.data.evidencias || []
                 };
+
+                setReport(response.data)
+                console.log(response.data, " dadossssssss");
+                
     
                 if (response.data.agente) {
                     setAgentId(response.data.agente)
@@ -137,13 +141,14 @@ const getAgentActions = async () =>{
         
     }, [actions])
     
-console.log(report);
+console.log(report, "vem report");
 
     
 
     return(
         <MainContainer>
-        {report?.report ? (action && actions) ? <DetailsAction action={actions? actions[actionIndex] : undefined}/> : <Details agenteDetalhes={report.agenteDetalhes} report={report.report} /> : <p>Detalhes da denúncia não encontrados.</p>}
+        {report?.report ? (action && actions) ? <DetailsAction action={actions? actions[actionIndex] : undefined}/> : 
+        <Details agenteDetalhes={report.agenteDetalhes} report={report.report} /> : <p>Detalhes da denúncia não encontrados.</p>}
         {/* {
         (admin || agent) && report?.agenteDetalhes ? (
             // @ts-ignore
