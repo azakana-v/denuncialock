@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import profile from '../assets/icons/profile.svg';
 import { useUser } from '../UserContext';
+import { Logout } from '../components/Logout';
 
 
 interface SwitchProps {
@@ -124,7 +125,7 @@ const Profile = () => {
                 </Switch>
             </SwitchContainer>
             </UserTypeSelectionContainer>
-
+            <Logout/>
         </ProfileContainer>
     </MainContainer>
   )

@@ -7,7 +7,7 @@ display: flex;
 padding: .5rem;
 justify-content: space-between;
 border-bottom: .1rem solid #EEEEEE;
-
+cursor: pointer;
 `
 export const ColumnOne = styled.div`
 display: flex;

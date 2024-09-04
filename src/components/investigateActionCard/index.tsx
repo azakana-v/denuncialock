@@ -15,12 +15,13 @@ import Alert from "../../assets/icons/alert.svg"
 interface InvestigateActionProps {
   investigateActionTittle: string;
   investigateActionDate: string;
+  onClick?: ()=>void;
 }
 
-function InvestigateActionCard({investigateActionTittle, investigateActionDate}: InvestigateActionProps) {
+function InvestigateActionCard({investigateActionTittle, investigateActionDate, onClick}: InvestigateActionProps) {
  
   return (
-        <Styles.InvestigateActionContainer>
+        <Styles.InvestigateActionContainer onClick={onClick}>
           <Styles.ColumnOne>
               <Styles.Icon src={Doc}></Styles.Icon>
               <Styles.InfoContainer>

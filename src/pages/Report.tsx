@@ -7,9 +7,26 @@ import axios from 'axios';
 import { IReportDetailsProps } from '../components/details/IReportDetailsProps';
 import { useUser } from '../UserContext';
 import InvestigateArea from '../components/investigateArea';
+import DetailsAction from '../components/detailsAction';
 
 interface DivisorProps {
     admin?: boolean; // Prop opcional 'admin' que é um booleano
+  }
+interface IReportProps {
+    action?: boolean; // Prop opcional 'admin' que é um booleano
+  }
+  
+  interface IInvestigateAction {
+    _id: string,
+    titulo: string,
+    descricao: string,
+    usuarioId: string,
+    evidencias: string[],
+    status: string,
+    autor: string,
+    agente: string,
+    createdAt: string,
+    updatedAt?: string
   }
   
 
@@ -29,14 +46,36 @@ margin-left: ${(props) => (props.admin ? '2%' : '10%')};
 
 `
 
-function Report(){
+
+function Report({action}: IReportProps){
     const { admin, agent} = useUser();
     const baseUrl = "http://localhost:3000";
     const {userId} = useUser();
-    const { reportId } = useParams();
+    const { reportId, actionId } = useParams<{ reportId: string; actionId?: string }>();
     const [report, setReport] = useState<IReportDetailsProps>();
-    console.log(report);
+    const [actions, setActions] = useState<IInvestigateAction[]>()
+    const [agentId, setAgentId] = useState<string>("")
     
+    // console.log(report);
+    
+useEffect(() => {
+    getAgentActions();
+}, [agentId])
+  
+const getAgentActions = async () =>{
+    if(agentId){
+
+        try {
+            const response = await axios.get(`${baseUrl}/agentes/${agentId}/actions`);
+            console.log('Sucesso ao obter Ações: ', response.data);
+            setActions(response.data)
+        } catch (error) {
+            console.error('Erro ao obter ações', error);
+        }
+    }
+    
+  };
+
     useEffect(() => {
         const fetchReport = async () => {
             try {
@@ -53,6 +92,8 @@ function Report(){
                 };
     
                 if (response.data.agente) {
+                    setAgentId(response.data.agente)
+                    
                     const reportAgent = await axios.get(`${baseUrl}/agentes/${response.data.agente}`);
                     console.log('Resposta do agente:', reportAgent.data);
     
@@ -84,17 +125,24 @@ function Report(){
         fetchReport();
     }, [reportId, userId]);
     
+
+    useEffect(() => {
+        console.log("Actions do agente responsavel: ", actions);
+        
+    }, [actions])
     
+console.log(report);
+
     
 
     return(
         <MainContainer>
-        {report?.report ? <Details report={report.report} /> : <p>Detalhes da denúncia não encontrados.</p>}
-        {admin || agent && report?.agenteDetalhes ? (
+        {report?.report ? action ? <DetailsAction report={report.report}/> : <Details report={report.report} /> : <p>Detalhes da denúncia não encontrados.</p>}
+        {(admin || agent) && report?.agenteDetalhes ? (
             // @ts-ignore
-            <InvestigateArea member={report.agenteDetalhes} />
+            <InvestigateArea actions={actions} member={report.agenteDetalhes} />
         ) : "Aguardando Atribuição!"}
-        {admin || agent ? <Divisor admin={admin} /> : <Divisor />}
+        {(admin || agent) ? <Divisor admin={admin} /> : <Divisor />}
         <TimeLine />
     </MainContainer>
     )

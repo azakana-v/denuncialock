@@ -11,7 +11,7 @@ import "react-perfect-scrollbar/dist/css/styles.css";
 import "./scrollbar.css";
 import { useUser } from "../../UserContext";
 
-function Main() {
+function  Main() {
   const baseUrl = "http://localhost:3000";
   const { userId } = useUser();
   const navigate = useNavigate();

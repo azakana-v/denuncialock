@@ -41,6 +41,7 @@ function App() {
           <Route path='/' element={ <Login/>  }></Route>
           <Route path='/home' element={ <HomeUser /> }></Route>
           <Route path='/home/report/:reportId' element={ <Report /> }></Route>
+          <Route path='/home/report/:reportId/action/:actionId' element={ <Report action/> }></Route>
           <Route path='/newReport' element={ <NewReport/>  }></Route>
         </Routes>
       </Router>

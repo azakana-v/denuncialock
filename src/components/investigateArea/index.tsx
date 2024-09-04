@@ -18,22 +18,62 @@ interface MemberCardProps extends IMember {
     reports: number;
     profile: string
   }
+  actions?: IInvestigateAction[];
 }
 
 interface IInvestigateAction {
-  date: string,
-  title: string,
+  _id: string,
+  titulo: string,
+  descricao: string,
+  usuarioId: string,
+  evidencias: string[],
+  status: string,
+  autor: string,
+  agente: string,
+  createdAt: string,
+  updatedAt?: string
 }
 
-const InvestigateActionXumbada : IInvestigateAction = {
-  date: "22/02/2024",
-  title: "Ação Exemplo"
-}
 
-
-function InvestigateArea({ member}: MemberCardProps) {
+function InvestigateArea({ member, actions}: MemberCardProps) {
+  const baseUrl = "http://localhost:3000";
   const reportCount = member.reports;
-  const [investigateAction, setInvestigateAction] = useState<IInvestigateAction[]>([InvestigateActionXumbada, InvestigateActionXumbada, InvestigateActionXumbada, InvestigateActionXumbada, ])
+  // const [actions, setActions] = useState<IInvestigateAction[]>()
+  const [actionIndex, setActionIndex] = useState<number>(0)
+  const navigate = useNavigate();
+  console.log(member);
+  
+  
+  // const getAgentActions = async () =>{
+  //   try {
+  //     const response = await axios.get(`${baseUrl}/agentes/${member._id}/actions`);
+  //     console.log('Sucesso ao obter Ações: ', response.data);
+  //     setActions(response.data)
+  //   } catch (error) {
+  //     console.error('Erro ao obter ações', error);
+  //   }
+  // };
+
+  useEffect(() => {
+    
+console.log(actions);
+
+  }, [actions])
+  
+  // useEffect(() => {
+    
+  //   getAgentActions()
+    
+  //     }, [])
+
+     const redirectAction = () =>{
+      console.log(actionIndex);
+      navigate(`action/${actions ? actions[actionIndex]._id : ""}`)
+      
+      }
+
+      console.log("bola123", actions);
+      
 
   return (
     <Styles.MainContainer>
@@ -46,8 +86,8 @@ function InvestigateArea({ member}: MemberCardProps) {
 
       <Styles.InvestigateAreaContainer>
         <Styles.InvestigateAreaTittle>Ações investigativas</Styles.InvestigateAreaTittle>
-        {investigateAction.map((action, index) => (
-                  <InvestigateActionCard investigateActionDate={action.date}  investigateActionTittle={action.title} key={index}/>
+        {actions?.map((action: IInvestigateAction, index: number) => (
+                  <InvestigateActionCard onClick={()=>{setActionIndex(index); redirectAction()}} investigateActionDate={action?.createdAt}  investigateActionTittle={action?.titulo} key={index}/>
                 ))}
       </Styles.InvestigateAreaContainer>
     </Styles.MainContainer>

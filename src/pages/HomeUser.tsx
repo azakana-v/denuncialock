@@ -13,15 +13,10 @@ display: flex;
 function HomeUser(){
     const navigate = useNavigate();
 
-    const handleLogout = () =>{
-        localStorage.removeItem('token');
-        navigate('/');
-    }
 
     const { admin, agent} = useUser();
     return(
         <MainContainer>
-            <button onClick={handleLogout}>logout</button>
             {admin ? <MainAdmin/> : <Main />}  
         </MainContainer>
     )
