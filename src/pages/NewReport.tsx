@@ -232,7 +232,7 @@ function NewReport() {
     formData.append('usuarioId', userId);
 
     files.forEach(file => {
-        formData.append('files', file); // Nome do campo deve corresponder ao nome esperado pelo Multer
+        formData.append('files', file);
     });
 
     try {

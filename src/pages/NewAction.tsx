@@ -202,7 +202,7 @@ function NewAction() {
   const userId = '66c4bb87a93ff03ddc53d5cd';
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const { reportId, agentId } = useParams<{ reportId: string; agentId: string }>();
+  const { reportId, agentId } = useParams<{ reportId: string; agentId: any }>();
   const [files, setFiles] = useState<File[]>([]);
   const [isChecked, setIsChecked] = useState(false);
   const navigate = useNavigate();
@@ -223,27 +223,30 @@ function NewAction() {
     setFiles([]);
   };
 
-    const handleSubmit = async(event: React.FormEvent) => {
-      event.preventDefault();
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
 
-      const actionData = {
-        titulo: title,
-        descricao: description,
-        usuarioId: agentId,
-        evidencias: files.map(file => file.name) 
-      };
-    try{
-        const response = await axios.post(`${baseUrl}/denuncias/${reportId}/actions`, actionData, {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
+    const formData = new FormData();
+    formData.append('titulo', title);
+    formData.append('descricao', description);
+    formData.append('agenteId', agentId);
+
+    files.forEach(file => {
+        formData.append('files', file);
+    });
+
+    try {
+        const response = await axios.post(`${baseUrl}/denuncias/${reportId}/actions`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
         console.log(response.data);
-        navigate('/')
-      }catch(error){
-        console.log('Erro ao enviar denúncia: ', error)
-      }
+        navigate('/');
+    } catch (error) {
+        console.log('Erro ao enviar denúncia: ', error);
     }
+}
   return (
     <MainContainer>
       <Title>
