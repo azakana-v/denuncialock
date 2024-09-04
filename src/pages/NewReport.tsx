@@ -223,27 +223,30 @@ function NewReport() {
     setFiles([]);
   };
 
-    const handleSubmit = async(event: React.FormEvent) => {
-      event.preventDefault();
+  const handleSubmit = async(event: React.FormEvent) => {
+    event.preventDefault();
 
-      const reportData = {
-        titulo: title,
-        descricao: description,
-        usuarioId: userId,
-        evidencias: files.map(file => file.name) 
-      };
-    try{
-        const response = await axios.post(`${baseUrl}/denuncias`, reportData, {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
+    const formData = new FormData();
+    formData.append('titulo', title);
+    formData.append('descricao', description);
+    formData.append('usuarioId', userId);
+
+    files.forEach(file => {
+        formData.append('files', file); // Nome do campo deve corresponder ao nome esperado pelo Multer
+    });
+
+    try {
+        const response = await axios.post(`${baseUrl}/denuncias`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
         console.log(response.data);
-        navigate('/home')
-      }catch(error){
-        console.log('Erro ao enviar denúncia: ', error)
-      }
+        navigate('/home');
+    } catch (error) {
+        console.log('Erro ao enviar denúncia: ', error);
     }
+};
   return (
     <MainContainer>
       <Title>

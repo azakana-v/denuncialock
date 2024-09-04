@@ -79,7 +79,7 @@ const getAgentActions = async () =>{
     useEffect(() => {
         const fetchReport = async () => {
             try {
-                const response = await axios.get(`${baseUrl}/denuncias/${reportId}/usuario/66c4bb87a93ff03ddc53d5cd`);
+                const response = await axios.get(`${baseUrl}/denuncias/${reportId}/usuario/${userId}`);
                 console.log('Resposta da denúncia:', response.data);
     
                 const reportDetalhes = {
