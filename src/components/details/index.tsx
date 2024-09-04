@@ -97,10 +97,14 @@ const handleAddAction = ()=>{
         <Styles.Evidence>
             <Styles.EvidenceTitle>Evidências</Styles.EvidenceTitle>
             <Styles.Slots>
-            <Styles.Slot></Styles.Slot>
-            <Styles.Slot></Styles.Slot>
-            <Styles.Slot></Styles.Slot>
-            <Styles.Slot></Styles.Slot>
+            {report?.evidencias.map((evidence, index) => (
+              <Styles.Slot key={index}>
+                <a href={`${baseUrl}/uploads/${evidence}`} download>
+                  {evidence}
+                </a>
+              </Styles.Slot>
+            ))}
+
             </Styles.Slots>
         </Styles.Evidence>
         {admin ? 

@@ -93,7 +93,8 @@ const getAgentActions = async () =>{
                     data: response.data.data,
                     status: response.data.status,
                     descricao: response.data.descricao,
-                    usuarioId: response.data.usuarioId
+                    usuarioId: response.data.usuarioId,
+                    evidencias: response.data.evidencias || []
                 };
     
                 if (response.data.agente) {
