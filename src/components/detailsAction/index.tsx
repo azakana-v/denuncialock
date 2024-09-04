@@ -150,12 +150,13 @@ const handleAddAction = ()=>{
         </Styles.Conclude> 
         :
 
-         <Styles.Delete>
-            <Styles.DeleteButton onClick={() => setShowModal(true)}>
-                <Styles.Icon src={Trash}/>
-                <Styles.BtnTitle>Deletar</Styles.BtnTitle>
-            </Styles.DeleteButton>
-        </Styles.Delete>
+        //  <Styles.Delete>
+        //     <Styles.DeleteButton onClick={() => setShowModal(true)}>
+        //         <Styles.Icon src={Trash}/>
+        //         <Styles.BtnTitle>Deletar</Styles.BtnTitle>
+        //     </Styles.DeleteButton>
+        // </Styles.Delete>
+        ""
         }
 
         {         agent ? 

@@ -233,7 +233,7 @@ function NewAction() {
         evidencias: files.map(file => file.name) 
       };
     try{
-        const response = await axios.post(`${baseUrl}/${reportId}/actions`, actionData, {
+        const response = await axios.post(`${baseUrl}/denuncias/${reportId}/actions`, actionData, {
           headers: {
             'Content-Type': 'application/json'
           }

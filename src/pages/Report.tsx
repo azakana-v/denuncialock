@@ -71,7 +71,7 @@ const getAgentActions = async () =>{
     if(agentId){
 
         try {
-            const response = await axios.get(`${baseUrl}/agentes/${agentId}/actions`);
+            const response = await axios.get(`${baseUrl}/denuncias/${reportId}/actions`);
             console.log('Sucesso ao obter Ações: ', response.data);
             setActions(response.data)
         } catch (error) {
@@ -150,7 +150,7 @@ console.log(report);
         ) : "Aguardando Atribuição!"
         
         } */}
-        
+
         {
         report?.agenteDetalhes ? (
             // @ts-ignore
