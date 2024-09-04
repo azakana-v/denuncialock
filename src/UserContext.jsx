@@ -3,14 +3,34 @@ import axios from 'axios';
 
 const UserContext = createContext();
 
+const parseJwt = (token) => {
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace("-", "+").replace("_", "/");
+    return JSON.parse(atob(base64));
+  };
+
+  const getUserId = ()=>{
+    const token = localStorage.getItem('token')
+    
+    const decodedToken = parseJwt(token);
+    if (token){
+        console.log("token: ", decodedToken.id);
+        return decodedToken.id
+    }
+    return ""
+}
+
 // criando o provider
 export const UserProvider = ({ children }) => {
     const [userData, setUserData] = useState(null);
     const [logged, setLogged] = useState(true);
     const [admin, setAdmin] = useState(false);
     const [agent, setAgent] = useState(true);
-    const [userId, setUserId] = useState('66c4bb87a93ff03ddc53d5cd')
+    const [userId, setUserId] = useState(getUserId())
     const fakeId = '1234';
+
+console.log(getUserId());
+
 
     // useEffect(() => {
     //     console.log('Estou funcionando até aqui!')
