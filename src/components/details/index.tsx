@@ -62,10 +62,16 @@ const attrReport = async (reportId: string, agentId: string) => {
   }
 };
 
-const handleConclude = ()=>{
-  console.log("concluir report");
-  
-}
+const handleConclude = async () => {
+  try {
+    const response = await axios.patch(`${baseUrl}/denuncias/${reportId}/status`, {
+      status: 'Encerrada',
+    });
+    navigate('/home')
+  } catch (error) {
+    console.error('Erro ao concluir a denúncia', error);
+  }
+};
 
 const handleAddAction = ()=>{
   console.log("adicionar report");
@@ -118,11 +124,11 @@ const handleAddAction = ()=>{
 
         agent ?         
         <Styles.Conclude>
-          <Styles.AttrButton onClick={() => handleAddAction()}>
-              <div style={{color: "white", fontSize: "3rem"}}>+</div>
-              <Styles.BtnTitle>Adicionar ação</Styles.BtnTitle>
-          </Styles.AttrButton>
-        </Styles.Conclude> 
+        <Styles.AttrButton onClick={() => handleAddAction()}>
+            <div style={{color: "white", fontSize: "3rem"}}>+</div>
+            <Styles.BtnTitle>Adicionar ação</Styles.BtnTitle>
+        </Styles.AttrButton>
+      </Styles.Conclude> 
         :
 
          <Styles.Delete>

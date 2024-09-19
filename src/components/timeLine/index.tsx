@@ -13,16 +13,16 @@ function TimeLine({ reportId }: { reportId: string }) {
     async function fetchReport() {
       try {
         const response = await axios.get(`${baseUrl}/denuncias/${reportId}/usuario/${userId}`);
-        console.log('Resposta da API quanto a timeline:', response.data); // Verifique a resposta
-        setTimeLineData(response.data.timeline);
-        console.log('Dados da timeline:', response.data.timeline); // Verifique o estado atualizado
+        const timeline = response.data.timeline;
+        console.log('Resposta da API quanto a timeline:', timeline); // Verifique a resposta
+        setTimeLineData(timeline); // Certifique-se de que você está substituindo corretamente o estado
       } catch (error) {
         console.error('Erro ao buscar denúncia:', error);
       }
     }
   
     fetchReport();
-  }, [reportId]);
+}, [reportId, userId]);
 
   return (
     <Styles.DetailsContainer>
