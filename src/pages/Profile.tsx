@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import profile from '../assets/icons/profile.svg';
 import { useUser } from '../UserContext';
 import { Logout } from '../components/Logout';
+import axios from 'axios';
 
 
 interface SwitchProps {
@@ -75,8 +76,32 @@ const Switch = styled.div<SwitchProps>`
 `;
 
 const Profile = () => {
-    const { admin, agent, setAdmin, setAgent} = useUser();
+    const { admin, agent, setAdmin, setAgent, userId} = useUser();
     const [isChecked, setIsChecked] = useState<boolean[]>([admin, agent, admin || agent ? false : true]);
+    const [userInfo, setUserInfo] = useState<any>({})
+    const baseUrl = "http://localhost:3000";
+
+    const getUserInfo= async () => {
+      try {
+        const response = await axios.get(
+          `${baseUrl}/usuarios/${userId}`
+        );
+        setUserInfo(response.data);
+      } catch (error) {
+        console.log("Erro ao buscar usuario", error);
+      }
+    };
+
+    useEffect(() => {
+      getUserInfo();
+    
+    }, [])
+    
+    useEffect(() => {
+  console.log(userInfo);
+  
+    }, [userInfo])
+    
 
     const toggleSwitch = (id:number) => {
         // setIsChecked(!isChecked);
@@ -103,7 +128,7 @@ const Profile = () => {
     <MainContainer>
         <ProfileContainer>
             <ProfileImg src={profile}></ProfileImg>
-            <ProfileName>Nome do user</ProfileName>
+            <ProfileName>{userInfo?.nome}</ProfileName>
             <UserTypeSelectionContainer>
 
             <SwitchContainer>

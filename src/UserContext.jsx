@@ -23,6 +23,17 @@ const parseJwt = (token) => {
     return ""
 }
 
+const getUserInfo = ()=>{
+    const token = localStorage.getItem('token')
+    
+    const decodedToken = parseJwt(token);
+    if (token){
+        console.log("token: ", decodedToken.id);
+        return decodedToken
+    }
+    return ""
+}
+
 // criando o provider
 export const UserProvider = ({ children }) => {
     const [userData, setUserData] = useState(null);
@@ -30,6 +41,7 @@ export const UserProvider = ({ children }) => {
     const [admin, setAdmin] = useState(false);
     const [agent, setAgent] = useState(true);
     const [userId, setUserId] = useState(getUserId())
+    const [userInfo, setUserInfo] = useState(getUserInfo())
     const fakeId = '1234';
 
 console.log(getUserId());
@@ -50,7 +62,7 @@ console.log(getUserId());
     // }, [])
 
     return(
-        <UserContext.Provider value={{ userData, setUserData, logged, setLogged, admin,  setAdmin, userId, setUserId, agent, setAgent}}>
+        <UserContext.Provider value={{ userData, setUserData, logged, setLogged, admin,  setAdmin, userId, setUserId, userInfo, agent, setAgent}}>
             {children}
         </UserContext.Provider>
     )
