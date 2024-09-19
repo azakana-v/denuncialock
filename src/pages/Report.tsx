@@ -94,7 +94,8 @@ const getAgentActions = async () =>{
                     status: response.data.status,
                     descricao: response.data.descricao,
                     usuarioId: response.data.usuarioId,
-                    evidencias: response.data.evidencias || []
+                    evidencias: response.data.evidencias || [],
+                    timeline: response.data.timeline
                 };
     
                 if (response.data.agente) {
@@ -160,7 +161,8 @@ console.log(report);
         
         }
         {(admin || agent) ? <Divisor admin={admin} /> : <Divisor />}
-        <TimeLine />
+        
+        {reportId && <TimeLine reportId={reportId} />}
     </MainContainer>
     )
 }
