@@ -20,7 +20,6 @@ function Report({ report }: ReportProps){
     const { admin, agent} = useUser();
 
     const handleRedirect = () => {
-        console.log('Report ID:', report.id);
         navigate( `report/${report.id}`)
     }
 

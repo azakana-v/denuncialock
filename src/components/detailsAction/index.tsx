@@ -89,15 +89,8 @@ const attrReport = async (reportId: string, agentId: string) => {
   }
 };
 
-const handleConclude = ()=>{
-  console.log("concluir report");
-  
-}
-
 const handleAddAction = ()=>{
-  console.log("adicionar report");
   navigate(`/report/${reportId}/newAction`); // Navegação apropriada após atribuir
-  
   }
 
 
@@ -162,13 +155,6 @@ const handleAddAction = ()=>{
         ""
         }
 
-        {         agent ? 
-        <Styles.Conclude>
-            <Styles.ConcludeButton onClick={() => handleConclude()}>
-                <Styles.Icon src={Conclude}/>
-                <Styles.BtnTitle>Concluir</Styles.BtnTitle>
-            </Styles.ConcludeButton>
-        </Styles.Conclude> : ""}
       </Styles.Details>
       {!admin && showModal && (
         <DeleteModal isOpen={showModal} onClose={closeModal} onConfirm={deleteReport} reportId={selectedReportId || ''} />

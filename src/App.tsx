@@ -15,6 +15,7 @@ import Action from './pages/Action';
 import NewAction from './pages/NewAction';
 import Profile from './pages/Profile';
 import { useNavigate } from 'react-router-dom';
+import NewConclusion from './pages/NewConclusion';
 
 const MainContainer = styled.div`
   display: flex;
@@ -43,6 +44,7 @@ function App() {
           <Route path='/home/report/:reportId' element={ <Report /> }></Route>
           <Route path='/report/:reportId/action/:agentId' element={ <Report action/> }></Route>
           <Route path='/newReport' element={ <NewReport/>  }></Route>
+          <Route path='/report/:reportId/newConclusion' element={ <NewConclusion/>  }></Route>
         </Routes>
       </Router>
       </MainContainer>

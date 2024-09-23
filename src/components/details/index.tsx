@@ -21,7 +21,7 @@ function Details({ report, agenteDetalhes }: IReportDetailsProps) {
   const navigate = useNavigate();
   const baseUrl = "http://localhost:3000";
   const { userId } = useUser();
-  const { reportId } = useParams<{ reportId: string }>();
+  const { reportId, agenteId } = useParams<{ reportId: string, agenteId: string }>();
   const [showModal, setShowModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showFailedModal, setShowFailedModal] = useState(false);
@@ -63,19 +63,12 @@ const attrReport = async (reportId: string, agentId: string) => {
 };
 
 const handleConclude = async () => {
-  try {
-    const response = await axios.patch(`${baseUrl}/denuncias/${reportId}/status`, {
-      status: 'Encerrada',
-    });
-    navigate('/home')
-  } catch (error) {
-    console.error('Erro ao concluir a denúncia', error);
-  }
+  navigate(`/report/${reportId}/newConclusion`)
 };
 
 const handleAddAction = ()=>{
   console.log("adicionar report");
-  navigate(`/report/${reportId}/newAction/${agenteDetalhes?._id}`); // Navegação apropriada após atribuir
+  navigate(`/report/${reportId}/newAction/${agenteDetalhes?._id}`);
   
   }
 
