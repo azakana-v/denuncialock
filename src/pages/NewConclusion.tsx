@@ -222,10 +222,10 @@ function NewConclusion() {
       }
     });
     console.log(response.data);
-    const updateTimeline = await axios.patch(`${baseUrl}/denuncias/${reportId}/status`, {
+    
+    await axios.patch(`${baseUrl}/denuncias/${reportId}/status`, {
       status: 'Encerrada',
     });
-    console.log(updateTimeline.status);
     navigate('/');
   } catch (error) {
     console.log('Erro ao enviar denúncia: ', error);
