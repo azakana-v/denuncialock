@@ -85,7 +85,7 @@ const getAgentActions = async () =>{
         const fetchConclusion = async () => {
             try {
                 //Aqui vem o método de get conclusion
-                const response = await axios.get(`${baseUrl}/conclusion/${conclusionId}`);
+                const response = await axios.get(`${baseUrl}/conclusions/${conclusionId}`);
                 console.log('Resposta da conclusion:', response.data);
     
                 //Mapa correto:
