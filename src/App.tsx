@@ -16,6 +16,8 @@ import NewAction from './pages/NewAction';
 import Profile from './pages/Profile';
 import { useNavigate } from 'react-router-dom';
 import NewConclusion from './pages/NewConclusion';
+import ConclusionDetails from './components/detailsConclusion';
+import Conclusion from './pages/Conclusion';
 
 const MainContainer = styled.div`
   display: flex;
@@ -24,6 +26,7 @@ const MainContainer = styled.div`
 
 function App() {
 
+ const mocado:any = ["", ""]
 
   return (
     <UserProvider>
@@ -45,6 +48,7 @@ function App() {
           <Route path='/report/:reportId/action/:agentId' element={ <Report action/> }></Route>
           <Route path='/newReport' element={ <NewReport/>  }></Route>
           <Route path='/report/:reportId/newConclusion' element={ <NewConclusion/>  }></Route>
+          <Route path='/report/:reportId/conclusion/:conclusionId' element={ <Conclusion/>  }></Route>
         </Routes>
       </Router>
       </MainContainer>

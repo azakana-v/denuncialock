@@ -23,6 +23,7 @@ function Details({ report, agenteDetalhes }: IReportDetailsProps) {
   const { userId } = useUser();
   const { reportId, agenteId } = useParams<{ reportId: string, agenteId: string }>();
   const [showModal, setShowModal] = useState(false);
+  const [isConcluded, setIsConcluded] = useState<boolean>(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showFailedModal, setShowFailedModal] = useState(false);
   const [selectedReportId, setSelectedReportId] = useState<string | null>(null);
@@ -63,8 +64,23 @@ const attrReport = async (reportId: string, agentId: string) => {
 };
 
 const handleConclude = async () => {
-  navigate(`/report/${reportId}/newConclusion`)
+  if(isConcluded){
+    //redireciona para a conclusion
+    console.log(report);
+    navigate(`/report/${reportId}/conclusion/${report.conclusions[report.conclusions.length-1]}`);
+  }else{
+    //redireciona para a new conclusion
+    navigate(`/report/${reportId}/newConclusion`);
+  }
 };
+
+useEffect(() => {
+  if(report.conclusions.length != 0){
+    setIsConcluded(true);
+  }
+
+}, [report.conclusions])
+
 
 const handleAddAction = ()=>{
   console.log("adicionar report");
@@ -106,7 +122,7 @@ const handleAddAction = ()=>{
 
             </Styles.Slots>
         </Styles.Evidence>
-        {admin ? 
+        {admin && report.status != "Encerrada" ? 
         <Styles.Delete>
               <Styles.AttrButton onClick={() => setShowModal(true)}>
                   <div style={{color: "white", fontSize: "3rem"}}>+</div>
@@ -115,7 +131,7 @@ const handleAddAction = ()=>{
         </Styles.Delete>
         :
 
-        agent ?         
+        agent && report.status != "Encerrada"   ?         
         <Styles.Conclude>
         <Styles.AttrButton onClick={() => handleAddAction()}>
             <div style={{color: "white", fontSize: "3rem"}}>+</div>
@@ -124,19 +140,23 @@ const handleAddAction = ()=>{
       </Styles.Conclude> 
         :
 
+        report.status != "Encerrada"  ?
+
          <Styles.Delete>
             <Styles.DeleteButton onClick={() => setShowModal(true)}>
                 <Styles.Icon src={Trash}/>
                 <Styles.BtnTitle>Deletar</Styles.BtnTitle>
             </Styles.DeleteButton>
         </Styles.Delete>
+        : ""
+        
         }
 
-        {         agent ? 
+        {         admin ? 
         <Styles.Conclude>
             <Styles.ConcludeButton onClick={() => handleConclude()}>
                 <Styles.Icon src={Conclude}/>
-                <Styles.BtnTitle>Concluir</Styles.BtnTitle>
+                <Styles.BtnTitle>{report.conclusions.length != 0 ? "Ver Conclusão" : "Concluir"}</Styles.BtnTitle>
             </Styles.ConcludeButton>
         </Styles.Conclude> : ""}
       </Styles.Details>

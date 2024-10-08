@@ -8,6 +8,8 @@ import { IReportDetailsProps } from '../components/details/IReportDetailsProps';
 import { useUser } from '../UserContext';
 import InvestigateArea from '../components/investigateArea';
 import DetailsAction from '../components/detailsAction';
+import ConclusionDetails from '../components/detailsConclusion';
+import { IConclusionDetailsProps } from '../components/detailsConclusion/IConclusionDetailsProps';
 
 interface DivisorProps {
     admin?: boolean; // Prop opcional 'admin' que é um booleano
@@ -47,18 +49,16 @@ margin-left: ${(props) => (props.admin ? '2%' : '10%')};
 `
 
 
-function Report({action}: IReportProps){
+function Conclusion({action}: IReportProps){
     const { admin, agent} = useUser();
     const baseUrl = "http://localhost:3000";
     const {userId} = useUser();
-    const { reportId, actionId } = useParams<{ reportId: string; actionId?: string }>();
-    const [report, setReport] = useState<IReportDetailsProps>();
+    const { reportId, actionId, conclusionId } = useParams<{ reportId: string; actionId?: string; conclusionId: string }>();
+    const [conclusion, setConclusion] = useState<IConclusionDetailsProps>();
     const [actions, setActions] = useState<IInvestigateAction[]>()
     const [agentId, setAgentId] = useState<string>("")
     const [actionIndex, setActionIndex] = useState<number>(0)
-    
-    // console.log(report);
-    
+
     const getActionIndex = (actionIndex: number) =>{
         setActionIndex(actionIndex)
     }
@@ -82,11 +82,19 @@ const getAgentActions = async () =>{
   };
 
     useEffect(() => {
-        const fetchReport = async () => {
+        const fetchConclusion = async () => {
             try {
-                const response = await axios.get(`${baseUrl}/denuncias/${reportId}/usuario/${userId}`);
-                console.log('Resposta da denúncia:', response.data);
+                //Aqui vem o método de get conclusion
+                const response = await axios.get(`${baseUrl}/conclusion/${conclusionId}`);
+                console.log('Resposta da conclusion:', response.data);
     
+                //Mapa correto:
+                // titulo: response.data.titulo,
+                // descricao: response.data.repodescricaortId,
+                // reportId: response.data.reportId,
+                // createdAt?: response.data.createdAt,
+                // updatedAt?: response.data.updatedAt
+
                 const reportDetalhes = {
                     _id: response.data._id,
                     titulo: response.data.titulo,
@@ -100,9 +108,7 @@ const getAgentActions = async () =>{
                     createdAt: response.data.createdAt
                 };
 
-                setReport(response.data)
-                console.log(response.data, " dadossssssss");
-                
+                setConclusion(response.data)                
     
                 if (response.data.agente) {
                     setAgentId(response.data.agente)
@@ -110,8 +116,8 @@ const getAgentActions = async () =>{
                     const reportAgent = await axios.get(`${baseUrl}/agentes/${response.data.agente}`);
                     console.log('Resposta do agente:', reportAgent.data);
     
-                    const fullReport: IReportDetailsProps = {
-                        report: reportDetalhes,
+                    const fullReport: IConclusionDetailsProps = {
+                        conclusion: reportDetalhes,
                         agenteDetalhes: {
                             _id: reportAgent.data._id,
                             nome: reportAgent.data.nome,
@@ -120,14 +126,14 @@ const getAgentActions = async () =>{
                         }
                     };
     
-                    setReport(fullReport);
+                    setConclusion(fullReport);
                 } else {
-                    const fullReport: IReportDetailsProps = {
-                        report: reportDetalhes,
+                    const fullReport: IConclusionDetailsProps = {
+                        conclusion: reportDetalhes,
                         agenteDetalhes: undefined
                     };
     
-                    setReport(fullReport);
+                    setConclusion(fullReport);
                     console.log('Nenhum agente associado à denúncia');
                 }
             } catch (error) {
@@ -135,7 +141,7 @@ const getAgentActions = async () =>{
             }
         };
     
-        fetchReport();
+        fetchConclusion();
     }, [reportId, userId]);
     
 
@@ -146,8 +152,8 @@ const getAgentActions = async () =>{
     
     return(
         <MainContainer>
-        {report?.report ? (action && actions) ? <DetailsAction action={actions? actions[actionIndex] : undefined}/> : 
-        <Details agenteDetalhes={report.agenteDetalhes} report={report.report} /> : <p>Detalhes da denúncia não encontrados.</p>}
+        {conclusion?.conclusion ? 
+        <ConclusionDetails agenteDetalhes={conclusion.agenteDetalhes} conclusion={conclusion.conclusion} /> : <p>Detalhes da denúncia não encontrados.</p>}
         {/* {
         (admin || agent) && report?.agenteDetalhes ? (
             // @ts-ignore
@@ -157,9 +163,9 @@ const getAgentActions = async () =>{
         } */}
 
         {
-        report?.agenteDetalhes ? (
+        conclusion?.agenteDetalhes ? (
             // @ts-ignore
-            <InvestigateArea getActionIndex={getActionIndex} actions={actions} member={report.agenteDetalhes} />
+            <InvestigateArea getActionIndex={getActionIndex} actions={actions} member={conclusion.agenteDetalhes} />
         ) : "Aguardando Atribuição!"
         
         }
@@ -170,4 +176,4 @@ const getAgentActions = async () =>{
     )
 }
 
-export default Report;
+export default Conclusion;
