@@ -226,7 +226,7 @@ function NewConclusion() {
     await axios.patch(`${baseUrl}/denuncias/${reportId}/status`, {
       status: 'Encerrada',
     });
-    navigate('/');
+    navigate('/home');
   } catch (error) {
     console.log('Erro ao enviar denúncia: ', error);
   }

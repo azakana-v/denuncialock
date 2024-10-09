@@ -39,7 +39,7 @@ const deleteReport = async () => {
   try {
     const response = await axios.delete(`${baseUrl}/denuncias/${userId}/${reportId}`);
     console.log('Denúncia deletada com sucesso', response.data);
-    navigate('/');
+    navigate('/home');
   } catch (error) {
     console.log('Erro ao deletar a denúncia', error);
   }
@@ -49,14 +49,14 @@ const attrReport = async (reportId: string, agentId: string) => {
   try {
     await axios.patch(`${baseUrl}/denuncias/${reportId}`, { agente: agentId });
     console.log('Denúncia atribuída com sucesso');
-    navigate('/'); // Navegação apropriada após atribuir
+    navigate('/home'); // Navegação apropriada após atribuir
   } catch (error) {
     console.error('Erro ao atribuir a denúncia', error);
   }
 };
 
 const handleRedirectNew = () =>{
-  navigate('/');
+  navigate('/home');
 }
 
   return (

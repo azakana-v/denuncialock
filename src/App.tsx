@@ -1,13 +1,13 @@
 import './App.css';
 import styled from 'styled-components';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Report from './pages/Report';
 import Navbar from './components/navbar';
 import Sidebar from './components/sidebar';
 import NewReport from './pages/NewReport';
 
 // provider
-import { UserProvider } from './UserContext';
+import { UserProvider, useUser } from './UserContext';
 import HomeUser from './pages/HomeUser';
 import Login from './pages/Login/Login';
 import InvestigateAction from './components/investigateAction';
@@ -24,10 +24,15 @@ const MainContainer = styled.div`
   overflow-y: hidden;
 `;
 
+const PrivateRoute = ({ children }: { children: JSX.Element }) => {
+  const { logged } = useUser();
+  if (!logged) {
+    return <Navigate to="/" />;
+  }
+  return children;
+};
+
 function App() {
-
- const mocado:any = ["", ""]
-
   return (
     <UserProvider>
     <MainContainer>
@@ -35,20 +40,71 @@ function App() {
         <Navbar />
         <Sidebar /> 
         <Routes>
-          <Route path='/' element={ <HomeUser /> }></Route>
-          <Route path='/report/:reportId' element={ <Report /> }></Route>
-          <Route path='/report/:reportId/newAction/:agentId' element={ <NewAction /> }></Route>
-          <Route path='/newReport' element={ <NewReport/>  }></Route>
-          <Route path='/newAction' element={ <Action/>  }></Route>
-          <Route path='/Login' element={ <Login/>  }></Route>
-          <Route path='/Profile' element={ <Profile/>  }></Route>
+          {/* <Route path='/' element={ <HomeUser /> }></Route> */}
           <Route path='/' element={ <Login/>  }></Route>
-          <Route path='/home' element={ <HomeUser /> }></Route>
-          <Route path='/home/report/:reportId' element={ <Report /> }></Route>
-          <Route path='/report/:reportId/action/:agentId' element={ <Report action/> }></Route>
-          <Route path='/newReport' element={ <NewReport/>  }></Route>
-          <Route path='/report/:reportId/newConclusion' element={ <NewConclusion/>  }></Route>
-          <Route path='/report/:reportId/conclusion/:conclusionId' element={ <Conclusion/>  }></Route>
+          
+          <Route path='/home' element={
+              <PrivateRoute>
+                <HomeUser />
+              </PrivateRoute>
+            } />
+          <Route path='/report/:reportId' 
+          element={ 
+          <PrivateRoute>
+            <Report /> 
+          </PrivateRoute>  
+          }
+          />
+          <Route path='/report/:reportId/newAction/:agentId' 
+          element={
+          <PrivateRoute> 
+            <NewAction /> 
+          </PrivateRoute> } 
+          />
+          <Route path='/newReport' 
+          element={ 
+          <PrivateRoute>
+            <NewReport/>
+          </PrivateRoute>
+          } 
+          />
+          <Route path='/newAction'
+           element={
+            <PrivateRoute>
+              <NewAction />
+            </PrivateRoute>
+           } />
+          <Route path='/profile' element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            } />
+          <Route path='/home/report/:reportId' 
+          element={ 
+          <PrivateRoute>
+            <Report />
+          </PrivateRoute> } />
+          <Route path='/report/:reportId/action/:agentId' 
+          element={
+          <PrivateRoute> 
+            <Report action/>
+          </PrivateRoute> } />
+          <Route path='/newReport' 
+          element={
+          <PrivateRoute> 
+            <NewReport/> 
+          </PrivateRoute> } 
+          />
+          <Route path='/report/:reportId/newConclusion' element={
+              <PrivateRoute>
+                <NewConclusion />
+              </PrivateRoute>
+            } />
+             <Route path='/report/:reportId/conclusion/:conclusionId' element={
+              <PrivateRoute>
+                <Conclusion />
+              </PrivateRoute>
+            } />
         </Routes>
       </Router>
       </MainContainer>

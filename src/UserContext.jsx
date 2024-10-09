@@ -37,7 +37,7 @@ const getUserInfo = ()=>{
 // criando o provider
 export const UserProvider = ({ children }) => {
     const [userData, setUserData] = useState(null);
-    const [logged, setLogged] = useState(true);
+    const [logged, setLogged] = useState(false);
     const [admin, setAdmin] = useState(false);
     const [agent, setAgent] = useState(true);
     const [userId, setUserId] = useState(getUserId())

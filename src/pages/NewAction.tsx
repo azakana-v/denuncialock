@@ -199,7 +199,6 @@ const Card = styled.div`
 
 function NewAction() {
   const baseUrl = "http://localhost:3000";
-  const userId = '66c4bb87a93ff03ddc53d5cd';
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const { reportId, agentId } = useParams<{ reportId: string; agentId: any }>();
@@ -242,7 +241,7 @@ function NewAction() {
             }
         });
         console.log(response.data);
-        navigate('/');
+        navigate('/home');
     } catch (error) {
         console.log('Erro ao enviar denúncia: ', error);
     }
