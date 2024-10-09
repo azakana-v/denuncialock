@@ -96,7 +96,7 @@ export default function NewUser() {
 
   return (
     <MainContainer>
-      <h1>Tela Muito Louca de Cadastro</h1>
+      <h1>Página de Cadastro</h1>
       <Form onSubmit={handleSubmit}>
         <Label htmlFor="nome">Nome</Label>
         <Input
@@ -136,11 +136,12 @@ export default function NewUser() {
           onChange={handleChange}
         >
           <option value="user">User</option>
-          <option value="admin">Admin</option>
-          <option value="agent">Agent</option>
+          <option value="admin" disabled>Admin</option>
+          <option value="agent" disabled>Agent</option>
         </Select>
 
         <Button type="submit">Criar Conta</Button>
+        <span onClick={()=> navigate('/')} style={{ margin: '1rem auto', color: 'purple', cursor: 'pointer' }}>voltar à tela inicial</span>
 
         {error && <ErrorMsg>{error}</ErrorMsg>}
       </Form>

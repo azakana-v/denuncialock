@@ -76,7 +76,7 @@ const Login = () => {
                 Entrar
               </button>
             </form>
-            <a href="">Esqueceu sua senha ?</a>
+            <a href="/forgotPassword">Esqueceu sua senha ?</a>
             {loginInvalido && <p>Login Inválido!</p>}
           </div>
           <div className="contract-section">

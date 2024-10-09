@@ -6,6 +6,7 @@ import Navbar from './components/navbar';
 import Sidebar from './components/sidebar';
 import NewReport from './pages/NewReport';
 import NewUser from './pages/NewUser';
+import NewPassword from './pages/NewPassword';
 
 // provider
 import { UserProvider, useUser } from './UserContext';
@@ -19,6 +20,7 @@ import { useNavigate } from 'react-router-dom';
 import NewConclusion from './pages/NewConclusion';
 import ConclusionDetails from './components/detailsConclusion';
 import Conclusion from './pages/Conclusion';
+import ForgotPassword from './pages/ForgotPassword';
 
 const MainContainer = styled.div`
   display: flex;
@@ -42,11 +44,13 @@ function App() {
         <Sidebar /> 
         <Routes>
           {/* <Route path='/' element={ <HomeUser /> }></Route> */}
+
           {/* Rotas não privadas */}
           <Route path='/' element={ <Login/>  }></Route>
           <Route path='/newUser' element={
-                <NewUser />
-            } />
+            <NewUser />
+          } />
+          <Route path='/forgotPassword' element={ <ForgotPassword/> }></Route>
           
           {/* Rotas privadas */}
           <Route path='/home' element={
