@@ -6,9 +6,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url(./background-login.png);
+  /* background: url(./background-login.png);
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: cover; */
 }
 
 .main-login-component {
@@ -34,7 +34,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   min-width: 50%;
+  min-height: 100%;
 }
 
 .main-login-form {
