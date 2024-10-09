@@ -5,6 +5,14 @@ import logo from "./logo-branco-info.png"
 import "./Login.css";
 import axios from 'axios';
 import { useUser } from '../../UserContext';
+import imgEmpresa from "../../assets/logoHevi.png"
+
+
+
+const LogoEmpresa = styled.img`
+width: 45%;
+`
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -81,14 +89,7 @@ const Login = () => {
           </div>
           <div className="contract-section">
             <div className="cantract-section-main-content">
-              <p className="salute">Olá, RH!</p>
-              <p className="salute-info">
-                Contrate agora para acessar todas as funcionalidades do gerador!
-              </p>
-              <div className="contract-buttons">
-                <button className="contract-button">Contrate</button>
-                <button className="test-button">Testar</button>
-              </div>
+            <LogoEmpresa src={imgEmpresa}/>
             </div>
             <img src={logo} alt="" />
           </div>
