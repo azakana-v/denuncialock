@@ -1,20 +1,16 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import * as Styles from "./styles";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/Logo2.svg";
-import NewBtn from "../../assets/icons/newBtn.svg";
-import comoFunciona from "../../assets/icons/comofunciona.svg";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import "./scrollbar.css";
 import MemberCard from "../memberCard";
-import {IMember} from "../memberCard/IMember"
 import ReportAdmin from "../reportAdmin";
 
 function MainAdmin() {
   const baseUrl = "http://localhost:3000";
-  const userId = "66c4bb87a93ff03ddc53d5cd";
   const navigate = useNavigate();
   const [reports, setReports] = useState([]);
   const [members, setMembers] = useState([]);

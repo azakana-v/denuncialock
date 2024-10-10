@@ -79,7 +79,7 @@ export const IntroTitle = styled.h3`
 `
 
 export const IntroText = styled.p`
-    font-size: 2.2rem;
+    font-size: 1.4rem;
     color: #5B0390;
     text-align: center;
 `
