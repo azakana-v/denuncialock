@@ -129,27 +129,32 @@ const Profile = () => {
         <ProfileContainer>
             <ProfileImg src={profile}></ProfileImg>
             <ProfileName>{userInfo?.nome}</ProfileName>
-            <UserTypeSelectionContainer>
+            {userInfo.role == "admin" ? (
+               <UserTypeSelectionContainer>
 
-            <SwitchContainer>
-                <SwitchLabel>Admin</SwitchLabel>
-                <Switch onClick={()=>toggleSwitch(0)} isChecked={isChecked[0]}>
-                    <SwitchButton isChecked={isChecked[0]} />
-                </Switch>
-            </SwitchContainer>
-            <SwitchContainer>
-                <SwitchLabel>Agent</SwitchLabel>
-                <Switch onClick={()=>toggleSwitch(1)} isChecked={isChecked[1]}>
-                    <SwitchButton isChecked={isChecked[1]} />
-                </Switch>
-            </SwitchContainer>
-            <SwitchContainer>
-                <SwitchLabel>User</SwitchLabel>
-                <Switch onClick={()=>toggleSwitch(2)} isChecked={isChecked[2]}>
-                    <SwitchButton isChecked={isChecked[2]} />
-                </Switch>
-            </SwitchContainer>
-            </UserTypeSelectionContainer>
+               <SwitchContainer>
+                   <SwitchLabel>Admin</SwitchLabel>
+                   <Switch onClick={()=>toggleSwitch(0)} isChecked={isChecked[0]}>
+                       <SwitchButton isChecked={isChecked[0]} />
+                   </Switch>
+               </SwitchContainer>
+               <SwitchContainer>
+                   <SwitchLabel>Agent</SwitchLabel>
+                   <Switch onClick={()=>toggleSwitch(1)} isChecked={isChecked[1]}>
+                       <SwitchButton isChecked={isChecked[1]} />
+                   </Switch>
+               </SwitchContainer>
+               <SwitchContainer>
+                   <SwitchLabel>User</SwitchLabel>
+                   <Switch onClick={()=>toggleSwitch(2)} isChecked={isChecked[2]}>
+                       <SwitchButton isChecked={isChecked[2]} />
+                   </Switch>
+               </SwitchContainer>
+               </UserTypeSelectionContainer>
+            ) : (
+              " "
+            )}
+           
             <Logout/>
         </ProfileContainer>
     </MainContainer>
