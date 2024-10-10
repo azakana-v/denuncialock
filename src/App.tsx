@@ -51,6 +51,7 @@ function App() {
             <NewUser />
           } />
           <Route path='/forgotPassword' element={ <ForgotPassword/> }></Route>
+          <Route path='/newPassword/:token' element={ <NewPassword/> }></Route>
           
           {/* Rotas privadas */}
           <Route path='/home' element={
