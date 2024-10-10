@@ -1,31 +1,22 @@
 import * as Styles from "./styles";
 import Checked from "../../assets/icons/checked2.png";
-import Trash from '../../assets/icons/trash.svg';
-import Conclude from '../../assets/icons/ConcludeIcon.svg'
-import DeleteModal from "../modal";
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import './scrollbar.css';
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from 'axios';
 import { useNavigate, useParams } from "react-router-dom";
 import { IConclusionDetailsProps } from "./IConclusionDetailsProps";
 import { useUser } from "../../UserContext";
-import AttrModal from "../attrModal";
-import SuccessAttrModal from "../successAttrModal";
-import FailedAttrModal from "../failedAttrModal";
-
 
 function ConclusionDetails({ conclusion, agenteDetalhes }: IConclusionDetailsProps) {
-  const {admin, agent} = useUser();
   const navigate = useNavigate();
   const baseUrl = "http://localhost:3000";
   const { userId } = useUser();
-  const { reportId, agenteId, conclusionId } = useParams<{ reportId: string, agenteId: string, conclusionId: string }>();
+  const { reportId } = useParams<{ reportId: string, agenteId: string, conclusionId: string }>();
   const [showModal, setShowModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showFailedModal, setShowFailedModal] = useState(false);
-  const [selectedReportId, setSelectedReportId] = useState<string | null>(null);
   const closeModal = () => setShowModal(false);
   const openModal = () => setShowModal(true);
   const closeSuccessModal = () => setShowSuccessModal(false);
@@ -39,37 +30,6 @@ function ConclusionDetails({ conclusion, agenteDetalhes }: IConclusionDetailsPro
         year: 'numeric',
     });
 };
-
-const deleteReport = async () => {
-  try {
-    const response = await axios.delete(`${baseUrl}/denuncias/${userId}/${reportId}`);
-    console.log('Denúncia deletada com sucesso', response.data);
-    navigate('/home');
-  } catch (error) {
-    console.log('Erro ao deletar a denúncia', error);
-  }
-};
-
-const attrReport = async (reportId: string, agentId: string) => {
-  try {
-    await axios.patch(`${baseUrl}/denuncias/${reportId}`, { agente: agentId });
-    console.log('Denúncia atribuída com sucesso');
-    setShowSuccessModal(true);
-  } catch (error) {
-    console.error('Erro ao atribuir a denúncia', error);
-    setShowFailedModal(true);
-  }
-};
-
-const handleConclude = async () => {
-  navigate(`/conclusion/${reportId}/newConclusion`)
-};
-
-const handleAddAction = ()=>{
-  console.log("adicionar conclusion");
-  navigate(`/conclusion/${reportId}/newAction/${agenteDetalhes?._id}`);
-  
-  }
 
   return (
     <Styles.DetailsContainer>
