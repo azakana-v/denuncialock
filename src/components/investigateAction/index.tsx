@@ -1,14 +1,12 @@
 import * as Styles from "./styles";
 import Logo from "../../assets/Logo2.svg";
-import Trash from '../../assets/icons/trash.svg';
 import DeleteModal from "../modal";
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import './scrollbar.css';
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from 'axios';
 import { useNavigate, useParams } from "react-router-dom";
-// import { IReportDetailsProps } from "./IReportDetailsProps";
 import { useUser } from "../../UserContext";
 import AttrModal from "../attrModal";
 import ConcludeIcon from "./ConcludeIcon.svg";
@@ -25,16 +23,6 @@ function InvestigateAction() {
   const closeModal = () => setShowModal(false);
   const openModal = () => setShowModal(true);
   
- 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('pt-BR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-    });
-};
-
 const deleteReport = async () => {
   try {
     const response = await axios.delete(`${baseUrl}/denuncias/${userId}/${reportId}`);
