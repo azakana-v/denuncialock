@@ -2,7 +2,6 @@ import axios from "axios";
 import styled from "styled-components";
 import logo from "../assets/Logo2.svg";
 import React, { useState } from "react";
-import FileUpload from "../components/fileUpload/FileUpload";
 import icon from "../assets/icons/multiply 1.svg";
 import send from "../assets/icons/send-message 1.svg";
 import { useNavigate, useParams } from "react-router-dom";
@@ -60,22 +59,6 @@ const LabelForm = styled.label`
   font-weight: bold;
   font-size: 1.9rem;
   margin-bottom: 1rem;
-`;
-
-const TitleInput = styled.input`
-  color: #5b0390;
-  font-size: 1.5rem;
-  width: 50%;
-  height: 3rem;
-  padding: 1.2rem;
-  border: 2px solid #5b0390;
-  outline: none;
-  border-radius: 0.6rem;
-  margin-bottom: 1rem;
-
-  ::placeholder {
-    color: #c2bebe;
-  }
 `;
 
 const ReportDescription = styled.textarea`
@@ -151,52 +134,6 @@ const SwitchContainer = styled.div`
   margin-top: 1rem;
 `;
 
-const SwitchLabel = styled.label`
-  font-size: 16px;
-  color: #5B0390; 
-  font-weight: bold;
-`;
-
-const Switch = styled.div<SwitchProps>`
-  position: relative;
-  width: 50px;
-  height: 25px;
-  background-color: ${({ isChecked }) => (isChecked ? '#5B0390' : '#ccc')};
-  border-radius: 25px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-`;
-
-const SwitchButton = styled.div<SwitchProps>`
-  position: absolute;
-  top: 2.5px;
-  left: ${({ isChecked }) => (isChecked ? '25px' : '2.5px')};
-  width: 20px;
-  height: 20px;
-  background-color: #fff;
-  border-radius: 50%;
-  transition: left 0.3s ease;
-`;
-const Cards = styled.div`  
-  display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
-    max-height: 200px; 
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-right: 1rem;
-   
-`
-const Card = styled.div`
-     width: 80px;
-    height: 80px;
-    background-color: #e0e0e0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 8px;
-    position: relative;
-`
 
 function NewConclusion() {
   const baseUrl = "http://localhost:3000";
@@ -268,10 +205,6 @@ function NewConclusion() {
           </DividerSection>
           <SendSection>
           <SwitchContainer>
-      {/* <SwitchLabel>Permanecer Anônimo?</SwitchLabel>
-      <Switch onClick={toggleSwitch} isChecked={isChecked}>
-        <SwitchButton isChecked={isChecked} />
-      </Switch> */}
     </SwitchContainer>
              <SendButton 
              onClick={handleSubmit} 

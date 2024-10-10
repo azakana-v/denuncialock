@@ -15,12 +15,6 @@ function ConclusionDetails({ conclusion, agenteDetalhes }: IConclusionDetailsPro
   const { userId } = useUser();
   const { reportId } = useParams<{ reportId: string, agenteId: string, conclusionId: string }>();
   const [showModal, setShowModal] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [showFailedModal, setShowFailedModal] = useState(false);
-  const closeModal = () => setShowModal(false);
-  const openModal = () => setShowModal(true);
-  const closeSuccessModal = () => setShowSuccessModal(false);
-  const closeFailedModal = () => setShowSuccessModal(false);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -43,32 +37,13 @@ function ConclusionDetails({ conclusion, agenteDetalhes }: IConclusionDetailsPro
         <Styles.Row>
           <Styles.Date>Conclusão: {
             conclusion?.createdAt ? formatDate(conclusion?.createdAt) : "Data não encontrada"
-          // formatDate(conclusion?.createdAt)
           }</Styles.Date>
-          {/* <Styles.Status>
-            <Styles.StatusCircle></Styles.StatusCircle>
-            <Styles.StatusText>{conclusion?.status}</Styles.StatusText>
-          </Styles.Status> */}
         </Styles.Row>
         <PerfectScrollbar id="scrollbar-container" style={{ maxHeight: '38rem', overflow: 'auto' }}>
           <Styles.Text >
             {conclusion?.descricao}
           </Styles.Text>
         </PerfectScrollbar>
-        {/* <Styles.Evidence>
-            <Styles.EvidenceTitle>Evidências</Styles.EvidenceTitle>
-            <Styles.Slots>
-            {conclusion?.evidencias.map((evidence: any, index: any) => (
-              <Styles.Slot key={index}>
-                <a href={`${baseUrl}/uploads/${evidence}`} download>
-                  {evidence}
-                </a>
-              </Styles.Slot>
-            ))}
-
-            </Styles.Slots>
-        </Styles.Evidence> */}
-
       </Styles.Details>
       
     </Styles.DetailsContainer>

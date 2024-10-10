@@ -49,7 +49,7 @@ const attrReport = async (reportId: string, agentId: string) => {
   try {
     await axios.patch(`${baseUrl}/denuncias/${reportId}`, { agente: agentId });
     console.log('Denúncia atribuída com sucesso');
-    navigate('/home'); // Navegação apropriada após atribuir
+    navigate('/home');
   } catch (error) {
     console.error('Erro ao atribuir a denúncia', error);
   }

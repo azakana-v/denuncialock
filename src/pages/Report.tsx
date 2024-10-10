@@ -10,10 +10,10 @@ import InvestigateArea from '../components/investigateArea';
 import DetailsAction from '../components/detailsAction';
 
 interface DivisorProps {
-    admin?: boolean; // Prop opcional 'admin' que é um booleano
+    admin?: boolean;
   }
 interface IReportProps {
-    action?: boolean; // Prop opcional 'admin' que é um booleano
+    action?: boolean; 
   }
   
   interface IInvestigateAction {
@@ -56,8 +56,6 @@ function Report({action}: IReportProps){
     const [actions, setActions] = useState<IInvestigateAction[]>()
     const [agentId, setAgentId] = useState<string>("")
     const [actionIndex, setActionIndex] = useState<number>(0)
-    
-    // console.log(report);
     
     const getActionIndex = (actionIndex: number) =>{
         setActionIndex(actionIndex)
@@ -147,15 +145,7 @@ const getAgentActions = async () =>{
     return(
         <MainContainer>
         {report?.report ? (action && actions) ? <DetailsAction action={actions? actions[actionIndex] : undefined}/> : 
-        <Details agenteDetalhes={report.agenteDetalhes} report={report.report} /> : <p>Detalhes da denúncia não encontrados.</p>}
-        {/* {
-        (admin || agent) && report?.agenteDetalhes ? (
-            // @ts-ignore
-            <InvestigateArea getActionIndex={getActionIndex} actions={actions} member={report.agenteDetalhes} />
-        ) : "Aguardando Atribuição!"
-        
-        } */}
-
+        <Details agenteDetalhes={report.agenteDetalhes} report={report.report} /> : <p>Detalhes da denúncia não encontrados.</p>}  
         {
         report?.agenteDetalhes ? (
             // @ts-ignore
