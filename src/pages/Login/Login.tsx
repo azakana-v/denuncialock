@@ -1,24 +1,21 @@
-import React, { useState, useContext, FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import logo from "./logo-branco-info.png"
+import { useState, FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import logo from "./logo-branco-info.png";
 import "./Login.css";
-import axios from 'axios';
-import { useUser } from '../../UserContext';
-import imgEmpresa from "../../assets/logoHevi.png"
-
-
+import axios from "axios";
+import { useUser } from "../../UserContext";
+import imgEmpresa from "../../assets/logoHevi.png";
 
 const LogoEmpresa = styled.img`
-width: 45%;
-`
-
+  width: 45%;
+`;
 
 const Login = () => {
   const navigate = useNavigate();
   const baseUrl = "http://localhost:3000";
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
   const [loginInvalido, setLoginInvalido] = useState(false);
   const { setLogged, setAdmin, setUserId } = useUser();
 
@@ -28,28 +25,27 @@ const Login = () => {
     return JSON.parse(atob(base64));
   };
 
-
   const onLogin = async (event: FormEvent) => {
     event.preventDefault();
     try {
-      const response = await axios.post(`${baseUrl}/login`, {email, senha});
+      const response = await axios.post(`${baseUrl}/login`, { email, senha });
       const token = response.data.token;
 
-      const decodedToken: { id: string, role: string } = parseJwt(token);
+      const decodedToken: { id: string; role: string } = parseJwt(token);
 
-      localStorage.setItem('token', token);
+      localStorage.setItem("token", token);
       setUserId(decodedToken.id);
       setLogged(true);
 
-      const isAdmin = decodedToken.role === 'admin';
+      const isAdmin = decodedToken.role === "admin";
       setAdmin(isAdmin);
       if (isAdmin) {
-        navigate('/home');
+        navigate("/home");
       } else {
-        navigate('/home');
+        navigate("/home");
       }
     } catch (error) {
-      console.error('Erro ao fazer login:', error);
+      console.error("Erro ao fazer login:", error);
       setLoginInvalido(true);
     }
   };
@@ -89,7 +85,7 @@ const Login = () => {
           </div>
           <div className="contract-section">
             <div className="cantract-section-main-content">
-            <LogoEmpresa src={imgEmpresa}/>
+              <LogoEmpresa src={imgEmpresa} />
             </div>
             <img src={logo} alt="" />
           </div>

@@ -12,13 +12,9 @@ import NewPassword from './pages/NewPassword';
 import { UserProvider, useUser } from './UserContext';
 import HomeUser from './pages/HomeUser';
 import Login from './pages/Login/Login';
-import InvestigateAction from './components/investigateAction';
-import Action from './pages/Action';
 import NewAction from './pages/NewAction';
 import Profile from './pages/Profile';
-import { useNavigate } from 'react-router-dom';
 import NewConclusion from './pages/NewConclusion';
-import ConclusionDetails from './components/detailsConclusion';
 import Conclusion from './pages/Conclusion';
 import ForgotPassword from './pages/ForgotPassword';
 

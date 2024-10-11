@@ -237,18 +237,6 @@ export default function NewUser() {
           placeholder="Insira sua senha"
         />
 
-        {/* <Label htmlFor="role">Role</Label>
-        <Select
-          id="role"
-          name="role"
-          value={formData.role}
-          onChange={handleChange}
-        >
-          <option value="user">User</option>
-          <option value="admin">Admin</option>
-          <option value="agent">Agent</option>
-        </Select> */}
-
         <Button type="submit">Criar</Button>
 
         {error && <ErrorMsg>{error}</ErrorMsg>}
