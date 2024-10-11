@@ -150,15 +150,13 @@ const handleAddAction = ()=>{
         </Styles.Delete>
         : ""
         
-        }
-
-        {         admin ? 
+        } 
         <Styles.Conclude>
             <Styles.ConcludeButton onClick={() => handleConclude()}>
                 <Styles.Icon src={Conclude}/>
                 <Styles.BtnTitle>{report.conclusions.length != 0 ? "Ver Conclusão" : "Concluir"}</Styles.BtnTitle>
             </Styles.ConcludeButton>
-        </Styles.Conclude> : ""}
+        </Styles.Conclude>
       </Styles.Details>
       {!admin && showModal && (
         <DeleteModal isOpen={showModal} onClose={closeModal} onConfirm={deleteReport} reportId={selectedReportId || ''} />
