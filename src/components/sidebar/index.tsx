@@ -3,6 +3,7 @@ import * as Styles from './styles';
 // @ts-ignore
 import profile from '../../assets/icons/profile.svg';
 import report from '../../assets/icons/report.svg';
+import play from '../../assets/icons/play.png';
 import customer from '../../assets/icons/customer-support.svg';
 import question from '../../assets/icons/question.svg';
 import user from '../../assets/icons/user2.svg';
@@ -23,13 +24,14 @@ function Sidebar(){
             <div>
                 <SideBtn onClick={()=>{navigate("/Profile")}} icon={profile} toolTip='Perfil'/>
                 <SideBtn icon={report} toolTip='Denúncia' onClick={handleRedirect}/>
-                <SideBtn icon={customer} toolTip='Suporte'/>
-                {admin ? <SideBtn icon={user} toolTip='Membros'/> : ""}
+                <SideBtn icon={play} toolTip='Treinamento' onClick={()=>{navigate("/Treinamento")}}/>
+                {/* <SideBtn icon={customer} toolTip='Suporte'/> */}
+                {/* {admin ? <SideBtn icon={user} toolTip='Membros'/> : ""} */}
                 
             </div>
             <div>
             <Styles.GhostDiv />
-                <SideBtn icon={question} toolTip='Ajuda'/>
+                {/* <SideBtn icon={question} toolTip='Ajuda'/> */}
        
             </div>
         </Styles.SideContainer> : ""}

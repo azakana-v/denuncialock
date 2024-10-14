@@ -43,6 +43,10 @@ function ReportAdmin({ report }: ReportProps){
         });
     };
 
+    function capitalize(string: string){
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     return(
         <Styles.ReportContainer onClick={handleRedirect}>
             <Styles.Row>
@@ -84,7 +88,7 @@ function ReportAdmin({ report }: ReportProps){
                 </Styles.OwnerAndUserContainer>
                 <Styles.Status>
                     <Styles.StatusCircle status={report.status}></Styles.StatusCircle>
-                    <Styles.StatusText>{report.status}</Styles.StatusText>
+                    <Styles.StatusText>{capitalize(report.status)}</Styles.StatusText>
                 </Styles.Status>
             </Styles.Row>
         </Styles.ReportContainer>

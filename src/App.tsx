@@ -1,6 +1,6 @@
 import './App.css';
 import styled from 'styled-components';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Report from './pages/Report';
 import Navbar from './components/navbar';
 import Sidebar from './components/sidebar';
@@ -17,10 +17,18 @@ import Profile from './pages/Profile';
 import NewConclusion from './pages/NewConclusion';
 import Conclusion from './pages/Conclusion';
 import ForgotPassword from './pages/ForgotPassword';
+import Treinamentos from './pages/Treinamento/Treinamentos';
+import { useEffect } from 'react';
+
+
+
+
+
 
 const MainContainer = styled.div`
   display: flex;
   overflow-y: hidden;
+  min-height: 100vh;
 `;
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -110,6 +118,12 @@ function App() {
              <Route path='/report/:reportId/conclusion/:conclusionId' element={
               <PrivateRoute>
                 <Conclusion />
+              </PrivateRoute>
+            } />
+
+            <Route path='/Treinamento' element={
+              <PrivateRoute>
+                <Treinamentos />
               </PrivateRoute>
             } />
         </Routes>
