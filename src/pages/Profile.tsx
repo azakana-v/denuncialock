@@ -77,7 +77,7 @@ const Switch = styled.div<SwitchProps>`
 
 const Profile = () => {
     const { admin, agent, setAdmin, setAgent, userId} = useUser();
-    const [isChecked, setIsChecked] = useState<boolean[]>([admin, agent, admin || agent ? false : true]);
+    const [isChecked, setIsChecked] = useState<boolean[]>([admin, !admin && agent, !admin && !agent]);
     const [userInfo, setUserInfo] = useState<any>({})
     const baseUrl = "http://localhost:3000";
 
