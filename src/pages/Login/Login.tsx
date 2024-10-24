@@ -80,7 +80,9 @@ const Login = () => {
                 Entrar
               </button>
             </form>
-            <a href="/forgotPassword">Esqueceu sua senha ?</a>
+            <a href="/forgotPassword" style={{ marginTop: '1rem', marginBottom: '1rem' }}>Esqueceu sua senha ?</a>
+            <p>ou</p>
+            <a href="/userlessReport" style={{ marginTop: '1rem', marginBottom: '1rem' }}>Gerar denúncia sem credencial</a>
             {loginInvalido && <p>Login Inválido!</p>}
           </div>
           <div className="contract-section">

@@ -7,6 +7,7 @@ import Sidebar from './components/sidebar';
 import NewReport from './pages/NewReport';
 import NewUser from './pages/NewUser';
 import NewPassword from './pages/NewPassword';
+import UserlessReport from './pages/UserlessReport';
 
 // provider
 import { UserProvider, useUser } from './UserContext';
@@ -56,7 +57,7 @@ function App() {
           } />
           <Route path='/forgotPassword' element={ <ForgotPassword/> }></Route>
           <Route path='/newPassword/:token' element={ <NewPassword/> }></Route>
-          
+          <Route path='/userlessReport' element={ <UserlessReport />}></Route>        
           {/* Rotas privadas */}
           <Route path='/home' element={
               <PrivateRoute>
