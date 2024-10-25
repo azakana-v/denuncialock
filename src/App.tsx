@@ -1,6 +1,6 @@
 import './App.css';
 import styled from 'styled-components';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Report from './pages/Report';
 import Navbar from './components/navbar';
 import Sidebar from './components/sidebar';
@@ -8,6 +8,7 @@ import NewReport from './pages/NewReport';
 import NewUser from './pages/NewUser';
 import NewPassword from './pages/NewPassword';
 import UserlessReport from './pages/UserlessReport';
+import Success from './pages/Success/Success';
 
 // provider
 import { UserProvider, useUser } from './UserContext';
@@ -58,6 +59,7 @@ function App() {
           <Route path='/forgotPassword' element={ <ForgotPassword/> }></Route>
           <Route path='/newPassword/:token' element={ <NewPassword/> }></Route>
           <Route path='/userlessReport' element={ <UserlessReport />}></Route>        
+          <Route path='/success' element={ <Success />}></Route>        
           {/* Rotas privadas */}
           <Route path='/home' element={
               <PrivateRoute>
