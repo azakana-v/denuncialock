@@ -241,7 +241,7 @@ function UserlessReport() {
             }
         });
         console.log(response.data);
-        navigate('/home');
+        navigate('/success');
     } catch (error) {
         console.log('Erro ao enviar denúncia: ', error);
     }
