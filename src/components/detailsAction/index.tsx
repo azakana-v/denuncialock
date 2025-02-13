@@ -30,7 +30,7 @@ interface IInvestigateAction {
 function DetailsAction({ action }: IInvestigateAction) {
   const { admin, agent } = useUser();
   const navigate = useNavigate();
-  const baseUrl = "http://localhost:3000";
+  const baseUrl = process.env.REACT_APP_BACKEND_URL;
   const { userId } = useUser();
   const { reportId, actionId } = useParams<{
     reportId: string;

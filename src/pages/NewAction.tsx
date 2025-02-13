@@ -193,7 +193,7 @@ const Card = styled.div`
 `;
 
 function NewAction() {
-  const baseUrl = "http://localhost:3000";
+  const baseUrl = process.env.REACT_APP_BACKEND_URL;
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const { reportId, agentId } = useParams<{ reportId: string; agentId: any }>();

@@ -7,10 +7,10 @@ import icon from "../assets/icons/multiply 1.svg";
 import send from "../assets/icons/send-message 1.svg";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../UserContext";
-
+import Trash from "../assets/icons/delete.svg";
 interface SwitchProps {
-    isChecked: boolean;
-  }
+  isChecked: boolean;
+}
 
 const MainContainer = styled.div`
   width: 100%;
@@ -27,7 +27,6 @@ const Title = styled.div`
   align-items: end;
   gap: 1rem;
   border-bottom: 3px solid #2c088d;
- 
 `;
 
 const TitleLogo = styled.img`
@@ -98,14 +97,13 @@ const ActionSection = styled.div`
 `;
 
 const DividerSection = styled.div`
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    gap: 2rem;
-    margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
 `;
-
 
 const SendSection = styled.div`
   text-align: center;
@@ -114,7 +112,6 @@ const SendSection = styled.div`
   align-items: center;
   gap: 1rem;
   justify-content: space-around;
-  
 `;
 
 const ClearButton = styled.div`
@@ -129,13 +126,12 @@ const ClearButton = styled.div`
   gap: 1rem;
 `;
 const SendButton = styled.div`
-
   cursor: pointer;
   width: 250px;
   height: 38px;
-  border: 2px solid #5B0390;
+  border: 2px solid #5b0390;
   color: #fff;
-  background: #5B0390;
+  background: #5b0390;
   border-radius: 1.2rem;
   display: flex;
   align-items: center;
@@ -153,7 +149,7 @@ const SwitchContainer = styled.div`
 
 const SwitchLabel = styled.label`
   font-size: 16px;
-  color: #5B0390; 
+  color: #5b0390;
   font-weight: bold;
 `;
 
@@ -161,7 +157,7 @@ const Switch = styled.div<SwitchProps>`
   position: relative;
   width: 50px;
   height: 25px;
-  background-color: ${({ isChecked }) => (isChecked ? '#5B0390' : '#ccc')};
+  background-color: ${({ isChecked }) => (isChecked ? "#5B0390" : "#ccc")};
   border-radius: 25px;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -170,36 +166,46 @@ const Switch = styled.div<SwitchProps>`
 const SwitchButton = styled.div<SwitchProps>`
   position: absolute;
   top: 2.5px;
-  left: ${({ isChecked }) => (isChecked ? '25px' : '2.5px')};
+  left: ${({ isChecked }) => (isChecked ? "25px" : "2.5px")};
   width: 20px;
   height: 20px;
   background-color: #fff;
   border-radius: 50%;
   transition: left 0.3s ease;
 `;
-const Cards = styled.div`  
+const Cards = styled.div`
   display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
-    max-height: 200px; 
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-right: 1rem;
-   
-`
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 1rem;
+`;
 const Card = styled.div`
-     width: 80px;
-    height: 80px;
-    background-color: #e0e0e0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 8px;
-    position: relative;
-`
+  width: 80px;
+  height: 80px;
+  background-color: #e0e0e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  position: relative;
+  cursor: pointer;
+  &:hover {
+    /* background-color: red; */
+    background-image: url(${Trash});
+    background-position: center;
+    background-size: 65%;
+    background-repeat: no-repeat;
+    span {
+      visibility: hidden;
+    }
+  }
+`;
 
 function NewReport() {
-  const baseUrl = "http://localhost:3000";
+  const baseUrl = process.env.REACT_APP_BACKEND_URL;
   const { userId } = useUser();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -223,30 +229,30 @@ function NewReport() {
     setFiles([]);
   };
 
-  const handleSubmit = async(event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     const formData = new FormData();
-    formData.append('titulo', title);
-    formData.append('descricao', description);
-    formData.append('usuarioId', userId);
+    formData.append("titulo", title);
+    formData.append("descricao", description);
+    formData.append("usuarioId", userId);
 
-    files.forEach(file => {
-        formData.append('files', file);
+    files.forEach((file) => {
+      formData.append("files", file);
     });
 
     try {
-        const response = await axios.post(`${baseUrl}/denuncias`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-        console.log(response.data);
-        navigate('/home');
+      const response = await axios.post(`${baseUrl}/denuncias`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(response.data);
+      navigate("/home");
     } catch (error) {
-        console.log('Erro ao enviar denúncia: ', error);
+      console.log("Erro ao enviar denúncia: ", error);
     }
-};
+  };
   return (
     <MainContainer>
       <Title>
@@ -273,7 +279,7 @@ function NewReport() {
         <ActionSection>
           <SendSection>
             <FileUpload onFileChange={handleFileChange} />
-          
+
             <ClearButton onClick={handleClear}>
               <span
                 style={{
@@ -288,32 +294,57 @@ function NewReport() {
             </ClearButton>
           </SendSection>
           <DividerSection>
-            <div className="ghostDiv" style={{ background: '#2C088D', height: '70%', width: '0.2rem'}}></div>
-            <img src={logo} style={{ width: '4rem', height: '4rem' }} />
+            <div
+              className="ghostDiv"
+              style={{ background: "#2C088D", height: "70%", width: "0.2rem" }}
+            ></div>
+            <img src={logo} style={{ width: "4rem", height: "4rem" }} />
           </DividerSection>
           <SendSection>
-          <SwitchContainer>
-      <SwitchLabel>Permanecer Anônimo?</SwitchLabel>
-      <Switch onClick={toggleSwitch} isChecked={isChecked}>
-        <SwitchButton isChecked={isChecked} />
-      </Switch>
-    </SwitchContainer>
-    {files.length > 0 ? (
+            <SwitchContainer>
+              <SwitchLabel>Permanecer Anônimo?</SwitchLabel>
+              <Switch onClick={toggleSwitch} isChecked={isChecked}>
+                <SwitchButton isChecked={isChecked} />
+              </Switch>
+            </SwitchContainer>
+            {files.length > 0 ? (
               <Cards>
                 {files.map((file, index) => (
-                  <Card key={index}>{file.name}</Card>
+                  <Card
+                    onClick={() => {
+                      const newArr = files.filter((items) => items != file);
+                      setFiles(newArr);
+                    }}
+                    key={index}
+                  >
+                    <span>
+                      {file.name.length > 26
+                        ? file.name.substring(0, 25) + "..."
+                        : file.name}
+                    </span>
+                  </Card>
                 ))}
               </Cards>
             ) : (
-                <div style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
-              <p style={{ color: "#5B0390", fontSize: "1.8rem", fontWeight: "bold" }}>
-                Suas evidências serão carregadas aqui!
-              </p>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  height: "100%",
+                }}
+              >
+                <p
+                  style={{
+                    color: "#5B0390",
+                    fontSize: "1.8rem",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Suas evidências serão carregadas aqui!
+                </p>
               </div>
             )}
-             <SendButton 
-             onClick={handleSubmit} 
-             >
+            <SendButton onClick={handleSubmit}>
               <span
                 style={{
                   fontSize: "1.8rem",

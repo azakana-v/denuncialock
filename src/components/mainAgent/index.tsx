@@ -11,7 +11,7 @@ import "react-perfect-scrollbar/dist/css/styles.css";
 import "./scrollbar.css";
 
 function MainAgent() {
-  const baseUrl = "http://localhost:3000";
+  const baseUrl = process.env.REACT_APP_BACKEND_URL;
   const userId = "66c4bb87a93ff03ddc53d5cd";
   const navigate = useNavigate();
   const [reports, setReports] = useState([]);
@@ -41,7 +41,9 @@ function MainAgent() {
         <Styles.Reports>
           <Styles.ReportsTitle>
             <Styles.ReportsLogo src={Logo} />
-            <Styles.Title>Denúncias <br /> pendentes.</Styles.Title>
+            <Styles.Title>
+              Denúncias <br /> pendentes.
+            </Styles.Title>
           </Styles.ReportsTitle>
           <PerfectScrollbar style={{ width: "100%", height: "72vh" }}>
             <Styles.ReportList>
@@ -61,11 +63,15 @@ function MainAgent() {
                 Bem-vindo ao seu canal de denúncias!
               </Styles.IntroTitle>
               <Styles.IntroText>
-              Nosso canal de denúncias está disponível para você relatar qualquer irregularidade de forma segura e confidencial. Aqui, garantimos que sua voz seja ouvida e tratada com o máximo de sigilo, em conformidade com as normas éticas e legais.
-
-Acreditamos na transparência e na melhoria contínua, por isso incentivamos a comunicação aberta. Seu relato é fundamental para mantermos a integridade e responsabilidade de nossas operações.
-
-Conte com nosso comprometimento para investigar e resolver os casos reportados com seriedade e eficiência.
+                Nosso canal de denúncias está disponível para você relatar
+                qualquer irregularidade de forma segura e confidencial. Aqui,
+                garantimos que sua voz seja ouvida e tratada com o máximo de
+                sigilo, em conformidade com as normas éticas e legais.
+                Acreditamos na transparência e na melhoria contínua, por isso
+                incentivamos a comunicação aberta. Seu relato é fundamental para
+                mantermos a integridade e responsabilidade de nossas operações.
+                Conte com nosso comprometimento para investigar e resolver os
+                casos reportados com seriedade e eficiência.
               </Styles.IntroText>
             </div>
             <Styles.IntroImage src={comoFunciona} />

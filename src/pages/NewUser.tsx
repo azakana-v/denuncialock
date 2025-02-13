@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import imgEmpresa from "../assets/logoHevi.png"
-import imgReportLock from "../pages/Login/logo-branco-info.png"
-
-
+import React, { useState } from "react";
+import styled from "styled-components";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import imgEmpresa from "../assets/logoHevi.png";
+import imgReportLock from "../pages/Login/logo-branco-info.png";
 
 const MainContainer = styled.div`
   display: flex;
@@ -24,9 +22,7 @@ const MainContainer = styled.div`
   background: url(./background-login.png);
   background-repeat: no-repeat;
   background-size: cover;
-
-  
-  `;
+`;
 
 const MainComponent = styled.div`
   font-family: "Montserrat", sans-serif;
@@ -39,45 +35,44 @@ const MainComponent = styled.div`
   /* padding: 20px; */
   align-items: center;
   justify-content: center;
-`
+`;
 const FirstSection = styled.div`
-width: 50%;
-padding: 1rem;
-margin-left: 2rem;
-`
+  width: 50%;
+  padding: 1rem;
+  margin-left: 2rem;
+`;
 const Tittle = styled.h1`
-color: #8600b3;
-font-size: 3.5rem;
-font-weight: 300;
-text-align: center;
-`
+  color: #8600b3;
+  font-size: 3.5rem;
+  font-weight: 300;
+  text-align: center;
+`;
 
 const ImgsContainer = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content:end;
-height: 60%;
-`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+  height: 60%;
+`;
 
-const ImgsContainer2= styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content:end;
-height: 50%;
-`
+const ImgsContainer2 = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+  height: 50%;
+`;
 
 const LogoEmpresa = styled.img`
-width: 45%;
-`
+  width: 45%;
+`;
 const LogoReportLock = styled.img`
-width: 35%;
-`
-
+  width: 35%;
+`;
 
 const SecondSection = styled.div`
-background: linear-gradient(
+  background: linear-gradient(
     0deg,
     rgba(21, 4, 66, 1) 0%,
     rgba(190, 0, 255, 1) 100%
@@ -93,8 +88,8 @@ background: linear-gradient(
   border-bottom-left-radius: 70px;
   border-top-left-radius: 70px;
   height: 100%;
-  min-width:50%;
-`
+  min-width: 50%;
+`;
 
 const Form = styled.form`
   display: flex;
@@ -142,7 +137,7 @@ const Button = styled.button`
   transition: all ease 100ms;
 
   &:hover {
-    background-color: #5a0070 ;
+    background-color: #5a0070;
   }
 
   width: 167px;
@@ -159,18 +154,20 @@ const ErrorMsg = styled.p`
 `;
 
 export default function NewUser() {
-  const baseUrl = "http://localhost:3000";
+  const baseUrl = process.env.REACT_APP_BACKEND_URL;
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    nome: '',
-    email: '',
-    senha: '',
-    role: 'user',
+    nome: "",
+    email: "",
+    senha: "",
+    role: "user",
   });
 
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -181,79 +178,73 @@ export default function NewUser() {
     e.preventDefault();
 
     if (!formData.nome || !formData.email || !formData.senha) {
-      setError('Preencha todos os campos.');
+      setError("Preencha todos os campos.");
       return;
     }
 
     try {
       const response = await axios.post(`${baseUrl}/usuarios`, formData, {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
-      alert('Conta criada com sucesso!');
-      navigate('/');
-      
+      alert("Conta criada com sucesso!");
+      navigate("/");
     } catch (error) {
-      setError('Erro ao criar a conta.');
+      setError("Erro ao criar a conta.");
     }
   };
 
   return (
     <MainContainer>
       <MainComponent>
+        <FirstSection>
+          <Tittle>Criar Conta</Tittle>
+          <Form onSubmit={handleSubmit}>
+            <Label htmlFor="nome">Nome</Label>
+            <Input
+              type="text"
+              id="nome"
+              name="nome"
+              value={formData.nome}
+              onChange={handleChange}
+              placeholder="Insira seu nome"
+            />
 
-      <FirstSection>
+            <Label htmlFor="email">Email</Label>
+            <Input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Insira seu email"
+            />
 
-      <Tittle>Criar Conta</Tittle>
-      <Form onSubmit={handleSubmit}>
-        <Label htmlFor="nome">Nome</Label>
-        <Input
-          type="text"
-          id="nome"
-          name="nome"
-          value={formData.nome}
-          onChange={handleChange}
-          placeholder="Insira seu nome"
-        />
+            <Label htmlFor="senha">Senha</Label>
+            <Input
+              type="password"
+              id="senha"
+              name="senha"
+              value={formData.senha}
+              onChange={handleChange}
+              placeholder="Insira sua senha"
+            />
 
-        <Label htmlFor="email">Email</Label>
-        <Input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Insira seu email"
-        />
+            <Button type="submit">Criar</Button>
 
-        <Label htmlFor="senha">Senha</Label>
-        <Input
-          type="password"
-          id="senha"
-          name="senha"
-          value={formData.senha}
-          onChange={handleChange}
-          placeholder="Insira sua senha"
-        />
+            {error && <ErrorMsg>{error}</ErrorMsg>}
+          </Form>
+        </FirstSection>
 
-        <Button type="submit">Criar</Button>
-
-        {error && <ErrorMsg>{error}</ErrorMsg>}
-      </Form>
-      </FirstSection>
-        
         <SecondSection>
           <ImgsContainer>
-          <LogoEmpresa src={imgEmpresa}></LogoEmpresa>
-          
+            <LogoEmpresa src={imgEmpresa}></LogoEmpresa>
           </ImgsContainer>
           <ImgsContainer2>
-          
-          <LogoReportLock src={imgReportLock}></LogoReportLock>
+            <LogoReportLock src={imgReportLock}></LogoReportLock>
           </ImgsContainer2>
         </SecondSection>
-
       </MainComponent>
     </MainContainer>
   );

@@ -1,22 +1,20 @@
-import { useState } from 'react';
-import axios from 'axios';
-import styled from 'styled-components';
-import imgEmpresa from '../assets/logoHevi.png'
-import imgReport from '../assets/logo-branco-info.png'
-
-
+import { useState } from "react";
+import axios from "axios";
+import styled from "styled-components";
+import imgEmpresa from "../assets/logoHevi.png";
+import imgReport from "../assets/logo-branco-info.png";
 
 const MainContainer = styled.div`
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-    gap: 1rem;
-    width: 100vw;
-    height: 100vh;
-    `
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  gap: 1rem;
+  width: 100vw;
+  height: 100vh;
+`;
 const MainComponent = styled.div`
   font-family: "Montserrat", sans-serif;
   display: flex;
@@ -28,38 +26,37 @@ const MainComponent = styled.div`
   /* padding: 20px; */
   /* align-items: center; */
   justify-content: center;
-  `
+`;
 
-  const FirstComponent = styled.div`
+const FirstComponent = styled.div`
   min-width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding:1.5rem;
-  
-  `
-  const ContainerImg1 = styled.div`
+  padding: 1.5rem;
+`;
+const ContainerImg1 = styled.div`
   display: flex;
- min-height: 55%;
- align-items: end;
- justify-content:center;
-  `
-  const ContainerImg2 = styled.div`
-    display: flex;
- min-height: 45%;
- align-items: end;
- justify-content:center;
-  `
-  const LogoEmpresa = styled.img`
+  min-height: 55%;
+  align-items: end;
+  justify-content: center;
+`;
+const ContainerImg2 = styled.div`
+  display: flex;
+  min-height: 45%;
+  align-items: end;
+  justify-content: center;
+`;
+const LogoEmpresa = styled.img`
   width: 40%;
-  `
-  
-  const ReportLockLogo = styled.img`
-  width: 40%;
-  `
+`;
 
-    const SecondComponent = styled.div`
+const ReportLockLogo = styled.img`
+  width: 40%;
+`;
+
+const SecondComponent = styled.div`
   min-width: 50%;
   background: linear-gradient(
     0deg,
@@ -77,16 +74,16 @@ const MainComponent = styled.div`
   border-bottom-left-radius: 70px;
   border-top-left-radius: 70px;
   height: 100%;
-  min-width:50%;
-    `
+  min-width: 50%;
+`;
 
 const Tittle = styled.h1`
-    font-family: "Montserrat", sans-serif;
-    color: #5b0390;
-    font-weight: 400;
-    font-size: 3rem;
-    margin-bottom: 20px;
-`
+  font-family: "Montserrat", sans-serif;
+  color: #5b0390;
+  font-weight: 400;
+  font-size: 3rem;
+  margin-bottom: 20px;
+`;
 
 const Input = styled.input`
   border: none;
@@ -97,13 +94,13 @@ const Input = styled.input`
   margin: 10px 0;
   /* margin-bottom: 20px; */
   padding: 0.5rem;
-`
+`;
 
 const Form = styled.form`
-display: flex;
-flex-direction: column;
-align-items: center;
-`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 const Button = styled.button`
   width: 167px;
   height: 37px;
@@ -112,20 +109,20 @@ const Button = styled.button`
   border-radius: 10px;
   border: none;
   cursor: pointer;
-`
+`;
 
 const ForgotPassword = () => {
-  const baseUrl = "http://localhost:3000";
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const baseUrl = process.env.REACT_APP_BACKEND_URL;
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     try {
-        await axios.post(`${baseUrl}/forgotPassword`, { email });
-      setMessage('Link de redefinição enviado para o seu email');
+      await axios.post(`${baseUrl}/forgotPassword`, { email });
+      setMessage("Link de redefinição enviado para o seu email");
     } catch (error) {
-      setMessage('Erro ao enviar o link');
+      setMessage("Erro ao enviar o link");
     }
   };
 
@@ -133,27 +130,26 @@ const ForgotPassword = () => {
     <MainContainer>
       <MainComponent>
         <FirstComponent>
-          
-            <Tittle>Redefinir Senha</Tittle>
-              <Form onSubmit={handleSubmit}>
-          <Input
-            type="email"
-            placeholder="Digite seu email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
-          <Button type="submit">Enviar link de redefinição</Button>
-          {message && <p>{message}</p>}
-              </Form>
+          <Tittle>Redefinir Senha</Tittle>
+          <Form onSubmit={handleSubmit}>
+            <Input
+              type="email"
+              placeholder="Digite seu email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+            <Button type="submit">Enviar link de redefinição</Button>
+            {message && <p>{message}</p>}
+          </Form>
         </FirstComponent>
         <SecondComponent>
           <ContainerImg1>
-            <LogoEmpresa src={imgEmpresa}/>
+            <LogoEmpresa src={imgEmpresa} />
           </ContainerImg1>
           <ContainerImg2>
             <ReportLockLogo src={imgReport}></ReportLockLogo>
           </ContainerImg2>
-          </SecondComponent>
+        </SecondComponent>
       </MainComponent>
     </MainContainer>
   );

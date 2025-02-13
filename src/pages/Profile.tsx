@@ -1,43 +1,41 @@
-import { useEffect, useState } from 'react'
-import styled from 'styled-components'
-import profile from '../assets/icons/profile.svg';
-import { useUser } from '../UserContext';
-import { Logout } from '../components/Logout';
-import axios from 'axios';
-
+import { useEffect, useState } from "react";
+import styled from "styled-components";
+import profile from "../assets/icons/profile.svg";
+import { useUser } from "../UserContext";
+import { Logout } from "../components/Logout";
+import axios from "axios";
 
 interface SwitchProps {
-    isChecked: boolean;
-  }
+  isChecked: boolean;
+}
 
 const MainContainer = styled.div`
-display: flex;
-width: 100%;
-align-items: center;
-justify-content: center;
-`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+`;
 
 const ProfileContainer = styled.div`
-display: flex;
-flex-direction: column;
-align-items : center;
-`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const ProfileImg = styled.img`
-    width: 150px;
-`
+  width: 150px;
+`;
 
 const ProfileName = styled.span`
-font-size: 2.6rem;
-color: #5B0390;
-border-bottom: 0.2rem solid #5B0390;
-padding: 1rem;
-`
+  font-size: 2.6rem;
+  color: #5b0390;
+  border-bottom: 0.2rem solid #5b0390;
+  padding: 1rem;
+`;
 
 const UserTypeSelectionContainer = styled.div`
-width: 85%;
-`
-
+  width: 85%;
+`;
 
 const SwitchContainer = styled.div`
   display: flex;
@@ -47,17 +45,16 @@ const SwitchContainer = styled.div`
   width: 100%;
 `;
 
-
 const SwitchLabel = styled.label`
   font-size: 16px;
-  color: #5B0390; 
+  color: #5b0390;
   font-weight: bold;
 `;
 
 const SwitchButton = styled.div<SwitchProps>`
   position: absolute;
   top: 2.5px;
-  left: ${({ isChecked }) => (isChecked ? '25px' : '2.5px')};
+  left: ${({ isChecked }) => (isChecked ? "25px" : "2.5px")};
   width: 20px;
   height: 20px;
   background-color: #fff;
@@ -69,96 +66,92 @@ const Switch = styled.div<SwitchProps>`
   position: relative;
   width: 50px;
   height: 25px;
-  background-color: ${({ isChecked }) => (isChecked ? '#5B0390' : '#ccc')};
+  background-color: ${({ isChecked }) => (isChecked ? "#5B0390" : "#ccc")};
   border-radius: 25px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 `;
 
 const Profile = () => {
-    const { admin, agent, setAdmin, setAgent, userId} = useUser();
-    const [isChecked, setIsChecked] = useState<boolean[]>([admin, !admin && agent, !admin && !agent]);
-    const [userInfo, setUserInfo] = useState<any>({})
-    const baseUrl = "http://localhost:3000";
+  const { admin, agent, setAdmin, setAgent, userId } = useUser();
+  const [isChecked, setIsChecked] = useState<boolean[]>([
+    admin,
+    !admin && agent,
+    !admin && !agent,
+  ]);
+  const [userInfo, setUserInfo] = useState<any>({});
+  const baseUrl = process.env.REACT_APP_BACKEND_URL;
 
-    const getUserInfo= async () => {
-      try {
-        const response = await axios.get(
-          `${baseUrl}/usuarios/${userId}`
-        );
-        setUserInfo(response.data);
-      } catch (error) {
-        console.log("Erro ao buscar usuario", error);
+  const getUserInfo = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/usuarios/${userId}`);
+      setUserInfo(response.data);
+    } catch (error) {
+      console.log("Erro ao buscar usuario", error);
+    }
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
+  useEffect(() => {
+    console.log(userInfo);
+  }, [userInfo]);
+
+  const toggleSwitch = (id: number) => {
+    // setIsChecked(!isChecked);
+    let newArr = [];
+    for (let index = 0; index < isChecked.length; index++) {
+      const element = isChecked[index];
+      if (id == index) {
+        newArr.push(true);
+      } else {
+        newArr.push(false);
       }
-    };
+    }
+    setIsChecked(newArr);
+  };
 
-    useEffect(() => {
-      getUserInfo();
-    
-    }, [])
-    
-    useEffect(() => {
-  console.log(userInfo);
-  
-    }, [userInfo])
-    
-
-    const toggleSwitch = (id:number) => {
-        // setIsChecked(!isChecked);
-        let newArr = [];
-        for (let index = 0; index < isChecked.length; index++) {
-            const element = isChecked[index];
-            if(id == index){
-                newArr.push(true)
-            }else{
-                newArr.push(false)
-            }
-        }
-        setIsChecked(newArr);
-      };
-
-      useEffect(() => {
-        setAdmin(isChecked[0]);
-        setAgent(isChecked[1]);
-
-      }, [isChecked])
-      
+  useEffect(() => {
+    setAdmin(isChecked[0]);
+    setAgent(isChecked[1]);
+  }, [isChecked]);
 
   return (
     <MainContainer>
-        <ProfileContainer>
-            <ProfileImg src={profile}></ProfileImg>
-            <ProfileName>{userInfo?.nome}</ProfileName>
-            {userInfo.role == "admin" ? (
-               <UserTypeSelectionContainer>
+      <ProfileContainer>
+        <ProfileImg src={profile}></ProfileImg>
+        <ProfileName>{userInfo?.nome}</ProfileName>
+        {userInfo.role == "admin" ? (
+          <UserTypeSelectionContainer>
+            <SwitchContainer>
+              <SwitchLabel>Admin</SwitchLabel>
+              <Switch onClick={() => toggleSwitch(0)} isChecked={isChecked[0]}>
+                <SwitchButton isChecked={isChecked[0]} />
+              </Switch>
+            </SwitchContainer>
+            <SwitchContainer>
+              <SwitchLabel>Agent</SwitchLabel>
+              <Switch onClick={() => toggleSwitch(1)} isChecked={isChecked[1]}>
+                <SwitchButton isChecked={isChecked[1]} />
+              </Switch>
+            </SwitchContainer>
+            <SwitchContainer>
+              <SwitchLabel>User</SwitchLabel>
+              <Switch onClick={() => toggleSwitch(2)} isChecked={isChecked[2]}>
+                <SwitchButton isChecked={isChecked[2]} />
+              </Switch>
+            </SwitchContainer>
+          </UserTypeSelectionContainer>
+        ) : (
+          " "
+        )}
 
-               <SwitchContainer>
-                   <SwitchLabel>Admin</SwitchLabel>
-                   <Switch onClick={()=>toggleSwitch(0)} isChecked={isChecked[0]}>
-                       <SwitchButton isChecked={isChecked[0]} />
-                   </Switch>
-               </SwitchContainer>
-               <SwitchContainer>
-                   <SwitchLabel>Agent</SwitchLabel>
-                   <Switch onClick={()=>toggleSwitch(1)} isChecked={isChecked[1]}>
-                       <SwitchButton isChecked={isChecked[1]} />
-                   </Switch>
-               </SwitchContainer>
-               <SwitchContainer>
-                   <SwitchLabel>User</SwitchLabel>
-                   <Switch onClick={()=>toggleSwitch(2)} isChecked={isChecked[2]}>
-                       <SwitchButton isChecked={isChecked[2]} />
-                   </Switch>
-               </SwitchContainer>
-               </UserTypeSelectionContainer>
-            ) : (
-              " "
-            )}
-           
-            <Logout/>
-        </ProfileContainer>
+        <Logout />
+      </ProfileContainer>
     </MainContainer>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;

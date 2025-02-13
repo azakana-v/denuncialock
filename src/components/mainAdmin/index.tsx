@@ -10,7 +10,7 @@ import MemberCard from "../memberCard";
 import ReportAdmin from "../reportAdmin";
 
 function MainAdmin() {
-  const baseUrl = "http://localhost:3000";
+  const baseUrl = process.env.REACT_APP_BACKEND_URL;
   const navigate = useNavigate();
   const [reports, setReports] = useState([]);
   const [members, setMembers] = useState([]);
@@ -22,22 +22,18 @@ function MainAdmin() {
 
   const getReports = async () => {
     try {
-      const response = await axios.get(
-        `${baseUrl}/denuncias`
-      ); 
+      const response = await axios.get(`${baseUrl}/denuncias`);
       setReports(response.data);
     } catch (error) {
       console.log("Erro ao buscar denúncias anteriores", error);
     }
   };
-  
+
   const getMembers = async () => {
     try {
-      const response = await axios.get(
-        `${baseUrl}/agentes`
-      );
+      const response = await axios.get(`${baseUrl}/agentes`);
       console.log(response.data);
-      
+
       setMembers(response.data);
     } catch (error) {
       console.log("Erro ao buscar denúncias anteriores", error);
@@ -59,35 +55,33 @@ function MainAdmin() {
         <Styles.Reports>
           <Styles.ReportsTitle>
             <Styles.ReportsLogo src={Logo} />
-            <Styles.Title>Denúncias <br /> recentes.</Styles.Title>
+            <Styles.Title>
+              Denúncias <br /> recentes.
+            </Styles.Title>
           </Styles.ReportsTitle>
           <PerfectScrollbar style={{ width: "100%", height: "72vh" }}>
             <Styles.ReportList>
               {reports.map((report, index) => {
                 console.log(report);
-                
-                return <ReportAdmin key={index} report={report} />
-              }
-              )}
+
+                return <ReportAdmin key={index} report={report} />;
+              })}
             </Styles.ReportList>
           </PerfectScrollbar>
         </Styles.Reports>
 
         <Styles.MembersContainer>
-              <Styles.MembersTittleContainer>
-                <Styles.MembersLogo  src={Logo}/>
-              <Styles.MembersTittle>
-                Membros
-              </Styles.MembersTittle>
-              </Styles.MembersTittleContainer>
-              <Styles.MembersContent>
-              <PerfectScrollbar style={{width: "100%", height: "72vh" }}>
+          <Styles.MembersTittleContainer>
+            <Styles.MembersLogo src={Logo} />
+            <Styles.MembersTittle>Membros</Styles.MembersTittle>
+          </Styles.MembersTittleContainer>
+          <Styles.MembersContent>
+            <PerfectScrollbar style={{ width: "100%", height: "72vh" }}>
               {members.map((member, index) => (
-                  
-                  <MemberCard member={member} key={index} />
+                <MemberCard member={member} key={index} />
               ))}
-              </PerfectScrollbar>
-              </Styles.MembersContent>
+            </PerfectScrollbar>
+          </Styles.MembersContent>
         </Styles.MembersContainer>
       </Styles.Grid>
     </Styles.MainContainer>

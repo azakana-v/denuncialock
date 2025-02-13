@@ -7,8 +7,8 @@ import send from "../assets/icons/send-message 1.svg";
 import { useNavigate, useParams } from "react-router-dom";
 
 interface SwitchProps {
-    isChecked: boolean;
-  }
+  isChecked: boolean;
+}
 
 const MainContainer = styled.div`
   width: 100%;
@@ -25,7 +25,6 @@ const Title = styled.div`
   align-items: end;
   gap: 1rem;
   border-bottom: 3px solid #2c088d;
- 
 `;
 
 const TitleLogo = styled.img`
@@ -81,14 +80,13 @@ const ActionSection = styled.div`
 `;
 
 const DividerSection = styled.div`
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    gap: 2rem;
-    margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
 `;
-
 
 const SendSection = styled.div`
   text-align: center;
@@ -97,7 +95,6 @@ const SendSection = styled.div`
   align-items: center;
   gap: 1rem;
   justify-content: space-around;
-  
 `;
 
 const ClearButton = styled.div`
@@ -112,13 +109,12 @@ const ClearButton = styled.div`
   gap: 1rem;
 `;
 const SendButton = styled.div`
-
   cursor: pointer;
   width: 250px;
   height: 38px;
-  border: 2px solid #5B0390;
+  border: 2px solid #5b0390;
   color: #fff;
-  background: #5B0390;
+  background: #5b0390;
   border-radius: 1.2rem;
   display: flex;
   align-items: center;
@@ -134,9 +130,8 @@ const SwitchContainer = styled.div`
   margin-top: 1rem;
 `;
 
-
 function NewConclusion() {
-  const baseUrl = "http://localhost:3000";
+  const baseUrl = process.env.REACT_APP_BACKEND_URL;
   const [description, setDescription] = useState("");
   const { reportId } = useParams<{ reportId: string }>();
   const navigate = useNavigate();
@@ -146,28 +141,32 @@ function NewConclusion() {
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
-  event.preventDefault();
+    event.preventDefault();
 
-  const data = {
-    descricao: description
+    const data = {
+      descricao: description,
+    };
+
+    try {
+      const response = await axios.post(
+        `${baseUrl}/denuncias/${reportId}/conclusions`,
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response.data);
+
+      await axios.patch(`${baseUrl}/denuncias/${reportId}/status`, {
+        status: "Encerrada",
+      });
+      navigate("/home");
+    } catch (error) {
+      console.log("Erro ao enviar denúncia: ", error);
+    }
   };
-
-  try {
-    const response = await axios.post(`${baseUrl}/denuncias/${reportId}/conclusions`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    console.log(response.data);
-    
-    await axios.patch(`${baseUrl}/denuncias/${reportId}/status`, {
-      status: 'Encerrada',
-    });
-    navigate('/home');
-  } catch (error) {
-    console.log('Erro ao enviar denúncia: ', error);
-  }
-};
   return (
     <MainContainer>
       <Title>
@@ -200,15 +199,15 @@ function NewConclusion() {
             </ClearButton>
           </SendSection>
           <DividerSection>
-            <div className="ghostDiv" style={{ background: '#2C088D', height: '70%', width: '0.2rem'}}></div>
-            <img src={logo} style={{ width: '4rem', height: '4rem' }} />
+            <div
+              className="ghostDiv"
+              style={{ background: "#2C088D", height: "70%", width: "0.2rem" }}
+            ></div>
+            <img src={logo} style={{ width: "4rem", height: "4rem" }} />
           </DividerSection>
           <SendSection>
-          <SwitchContainer>
-    </SwitchContainer>
-             <SendButton 
-             onClick={handleSubmit} 
-             >
+            <SwitchContainer></SwitchContainer>
+            <SendButton onClick={handleSubmit}>
               <span
                 style={{
                   fontSize: "1.8rem",
