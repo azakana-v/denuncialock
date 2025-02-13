@@ -11,7 +11,7 @@ const MainContainer = styled.div`
 `;
 
 function Action() {
-  const baseUrl = "http://localhost:3000";
+  const baseUrl = process.env.REACT_APP_BACKEND_URL;
   const userId = "66c4bb87a93ff03ddc53d5cd";
   const { reportId } = useParams();
   const [report, setReport] = useState<IReportDetailsProps>();

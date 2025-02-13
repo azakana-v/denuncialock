@@ -13,7 +13,7 @@ const LogoEmpresa = styled.img`
 
 const Login = () => {
   const navigate = useNavigate();
-  const baseUrl = "http://localhost:3000";
+  const baseUrl = process.env.REACT_APP_BACKEND_URL;
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [loginInvalido, setLoginInvalido] = useState(false);
@@ -80,9 +80,19 @@ const Login = () => {
                 Entrar
               </button>
             </form>
-            <a href="/forgotPassword" style={{ marginTop: '1rem', marginBottom: '1rem' }}>Esqueceu sua senha ?</a>
+            <a
+              href="/forgotPassword"
+              style={{ marginTop: "1rem", marginBottom: "1rem" }}
+            >
+              Esqueceu sua senha ?
+            </a>
             <p>ou</p>
-            <a href="/userlessReport" style={{ marginTop: '1rem', marginBottom: '1rem' }}>Gerar denúncia sem credencial</a>
+            <a
+              href="/userlessReport"
+              style={{ marginTop: "1rem", marginBottom: "1rem" }}
+            >
+              Gerar denúncia sem credencial
+            </a>
             {loginInvalido && <p>Login Inválido!</p>}
           </div>
           <div className="contract-section">

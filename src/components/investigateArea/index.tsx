@@ -6,46 +6,44 @@ import Logo from "../../assets/Logo2.svg";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import "./scrollbar.css";
-import User from "../../assets/icons/profile.svg"
+import User from "../../assets/icons/profile.svg";
 import { IMember } from "../memberCard/IMember";
 import InvestigateActionCard from "../investigateActionCard";
 
 interface MemberCardProps extends IMember {
   selected?: boolean;
   member: {
-    _id?: string,
-    nome: string,
+    _id?: string;
+    nome: string;
     reports: number;
-    profile: string
-  }
+    profile: string;
+  };
   actions?: IInvestigateAction[];
-  getActionIndex: (actionIndex: number)=> void;
+  getActionIndex: (actionIndex: number) => void;
 }
 
 interface IInvestigateAction {
-  _id: string,
-  titulo: string,
-  descricao: string,
-  usuarioId: string,
-  evidencias: string[],
-  status: string,
-  autor: string,
-  agente: string,
-  createdAt: string,
-  updatedAt?: string
+  _id: string;
+  titulo: string;
+  descricao: string;
+  usuarioId: string;
+  evidencias: string[];
+  status: string;
+  autor: string;
+  agente: string;
+  createdAt: string;
+  updatedAt?: string;
 }
 
-
-function InvestigateArea({ member, actions, getActionIndex}: MemberCardProps) {
-  const baseUrl = "http://localhost:3000";
+function InvestigateArea({ member, actions, getActionIndex }: MemberCardProps) {
+  const baseUrl = process.env.REACT_APP_BACKEND_URL;
   const reportCount = member.reports;
-  const { reportId, } = useParams<{ reportId: string }>();
+  const { reportId } = useParams<{ reportId: string }>();
   // const [actions, setActions] = useState<IInvestigateAction[]>()
-  const [actionIndex, setActionIndex] = useState<number>(0)
+  const [actionIndex, setActionIndex] = useState<number>(0);
   const navigate = useNavigate();
   console.log(member);
-  
-  
+
   // const getAgentActions = async () =>{
   //   try {
   //     const response = await axios.get(`${baseUrl}/agentes/${member._id}/actions`);
@@ -57,40 +55,51 @@ function InvestigateArea({ member, actions, getActionIndex}: MemberCardProps) {
   // };
 
   useEffect(() => {
-    
-console.log(actions);
+    console.log(actions);
+  }, [actions]);
 
-  }, [actions])
-  
   // useEffect(() => {
-    
+
   //   getAgentActions()
-    
+
   //     }, [])
 
-     const redirectAction = () =>{
-      console.log(actionIndex);
-      navigate(`/report/${reportId}/action/${actions ? actions[actionIndex]._id : ""}`)
-      
-      }
+  const redirectAction = () => {
+    console.log(actionIndex);
+    navigate(
+      `/report/${reportId}/action/${actions ? actions[actionIndex]._id : ""}`
+    );
+  };
 
-      console.log("bola123", actions);
-      
+  console.log("bola123", actions);
 
   return (
     <Styles.MainContainer>
-      <Styles.AgentContainer>  
-        <Styles.ProfileImage alt={`foto do membro ${member.nome}`} src={member.profile ? member.profile : User}/>
+      <Styles.AgentContainer>
+        <Styles.ProfileImage
+          alt={`foto do membro ${member.nome}`}
+          src={member.profile ? member.profile : User}
+        />
         <Styles.InfoContainer>
           <Styles.Name>{member.nome}</Styles.Name>
         </Styles.InfoContainer>
       </Styles.AgentContainer>
 
       <Styles.InvestigateAreaContainer>
-        <Styles.InvestigateAreaTittle>Ações investigativas</Styles.InvestigateAreaTittle>
+        <Styles.InvestigateAreaTittle>
+          Ações investigativas
+        </Styles.InvestigateAreaTittle>
         {actions?.map((action: IInvestigateAction, index: number) => (
-                  <InvestigateActionCard onClick={()=>{getActionIndex(index); redirectAction()}} investigateActionDate={action?.createdAt}  investigateActionTittle={action?.titulo} key={index}/>
-                ))}
+          <InvestigateActionCard
+            onClick={() => {
+              getActionIndex(index);
+              redirectAction();
+            }}
+            investigateActionDate={action?.createdAt}
+            investigateActionTittle={action?.titulo}
+            key={index}
+          />
+        ))}
       </Styles.InvestigateAreaContainer>
     </Styles.MainContainer>
   );

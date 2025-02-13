@@ -44,7 +44,7 @@ const Divisor = styled.div<DivisorProps>`
 
 function Conclusion({ action }: IReportProps) {
   const { admin, agent } = useUser();
-  const baseUrl = "http://localhost:3000";
+  const baseUrl = process.env.REACT_APP_BACKEND_URL;
   const { userId } = useUser();
   const { reportId, actionId, conclusionId } = useParams<{
     reportId: string;
