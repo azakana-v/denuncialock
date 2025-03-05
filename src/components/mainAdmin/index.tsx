@@ -58,6 +58,9 @@ function MainAdmin() {
             <Styles.Title>
               Denúncias <br /> recentes.
             </Styles.Title>
+            <Styles.Title>
+              Denúncias <br /> recentes.
+            </Styles.Title>
           </Styles.ReportsTitle>
           <PerfectScrollbar style={{ width: "100%", height: "72vh" }}>
             <Styles.ReportList>

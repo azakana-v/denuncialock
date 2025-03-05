@@ -12,4 +12,5 @@ export const NavContainer = styled.nav`
 
 export const NavLogo = styled.img`
     padding: 0.8rem;
+    cursor: pointer;
 `;
