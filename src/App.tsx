@@ -21,6 +21,7 @@ import Conclusion from './pages/Conclusion';
 import ForgotPassword from './pages/ForgotPassword';
 import Treinamentos from './pages/Treinamento/Treinamentos';
 import { useEffect } from 'react';
+import RelatorioPage from './pages/RelatorioPage';
 
 
 
@@ -129,6 +130,13 @@ function App() {
                 <Treinamentos />
               </PrivateRoute>
             } />
+
+          <Route path='/RelatorioPage' element={
+            <PrivateRoute>
+              <RelatorioPage />
+            </PrivateRoute>
+            } />
+
         </Routes>
       </Router>
       </MainContainer>

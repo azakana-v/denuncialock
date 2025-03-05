@@ -8,6 +8,7 @@ import send from "../assets/icons/send-message 1.svg";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../UserContext";
 import Trash from "../assets/icons/delete.svg";
+
 interface SwitchProps {
   isChecked: boolean;
 }
@@ -34,6 +35,7 @@ const TitleLogo = styled.img`
   height: 90px;
   padding-bottom: 1.5rem;
 `;
+
 const TitleText = styled.h2`
   font-size: 4.5rem;
   font-weight: bold;
@@ -50,7 +52,21 @@ const FormContainer = styled.div`
   box-shadow: 0px 4px 8px 5px rgba(230, 223, 230, 1);
   padding: 2rem;
 `;
+
 const FormStyle = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
+
+// Container para colocar título e tipo na mesma linha
+const TitleAndTypeWrapper = styled.div`
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
+`;
+
+const FieldContainer = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
 `;
@@ -64,7 +80,7 @@ const LabelForm = styled.label`
 const TitleInput = styled.input`
   color: #5b0390;
   font-size: 1.5rem;
-  width: 50%;
+  width: 100%;
   height: 3rem;
   padding: 1.2rem;
   border: 2px solid #5b0390;
@@ -75,6 +91,17 @@ const TitleInput = styled.input`
   ::placeholder {
     color: #c2bebe;
   }
+`;
+
+const TipoSelect = styled.select`
+  color: #5b0390;
+  font-size: 1.5rem;
+  width: 100%;
+  height: 3rem;
+  border: 2px solid #5b0390;
+  outline: none;
+  border-radius: 0.6rem;
+  margin-bottom: 1rem;
 `;
 
 const ReportDescription = styled.textarea`
@@ -125,6 +152,7 @@ const ClearButton = styled.div`
   justify-content: center;
   gap: 1rem;
 `;
+
 const SendButton = styled.div`
   cursor: pointer;
   width: 250px;
@@ -173,6 +201,7 @@ const SwitchButton = styled.div<SwitchProps>`
   border-radius: 50%;
   transition: left 0.3s ease;
 `;
+
 const Cards = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -182,6 +211,7 @@ const Cards = styled.div`
   overflow-x: hidden;
   padding-right: 1rem;
 `;
+
 const Card = styled.div`
   width: 80px;
   height: 80px;
@@ -192,8 +222,8 @@ const Card = styled.div`
   border-radius: 8px;
   position: relative;
   cursor: pointer;
+
   &:hover {
-    /* background-color: red; */
     background-image: url(${Trash});
     background-position: center;
     background-size: 65%;
@@ -209,6 +239,7 @@ function NewReport() {
   const { userId } = useUser();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [tipo, setTipo] = useState("");
   const [files, setFiles] = useState<File[]>([]);
   const [isChecked, setIsChecked] = useState(false);
   const navigate = useNavigate();
@@ -226,6 +257,7 @@ function NewReport() {
   const handleClear = () => {
     setTitle("");
     setDescription("");
+    setTipo("");
     setFiles([]);
   };
 
@@ -235,6 +267,7 @@ function NewReport() {
     const formData = new FormData();
     formData.append("titulo", title);
     formData.append("descricao", description);
+    formData.append("tipo", tipo);
     formData.append("usuarioId", userId);
 
     files.forEach((file) => {
@@ -253,6 +286,7 @@ function NewReport() {
       console.log("Erro ao enviar denúncia: ", error);
     }
   };
+
   return (
     <MainContainer>
       <Title>
@@ -261,25 +295,89 @@ function NewReport() {
       </Title>
       <FormContainer>
         <FormStyle onSubmit={handleSubmit}>
-          <LabelForm>Descrição da Denúncia</LabelForm>
-          <TitleInput
-            type="text"
-            placeholder="Título da denúncia*"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+          <TitleAndTypeWrapper>
+            <FieldContainer>
+              <LabelForm>Título da Denúncia</LabelForm>
+              <TitleInput
+                type="text"
+                placeholder="Título da denúncia*"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+              />
+            </FieldContainer>
+            <FieldContainer>
+              <LabelForm>Tipo de Denúncia</LabelForm>
+              <TipoSelect
+                value={tipo}
+                onChange={(e) => {
+                  setTipo(e.target.value);
+                  console.log(e.target.value);
+                }}
+                required
+              >
+                <option value="" disabled>
+                  Selecione o tipo*
+                </option>
+                <option value="assedio-moral">Assédio Moral</option>
+                <option value="assedio-sexual">Assédio Sexual</option>
+                <option value="discriminacao">
+                  Discriminação (raça, gênero, orientação sexual, deficiência,
+                  etc.)
+                </option>
+                <option value="corrupcao-suborno">Corrupção e Suborno</option>
+                <option value="fraude-financeira">Fraude Financeira</option>
+                <option value="desvio-recursos">Desvio de Recursos</option>
+                <option value="abuso-autoridade">Abuso de Autoridade</option>
+                <option value="conflito-interesses">
+                  Conflito de Interesses
+                </option>
+                <option value="falsificacao-documentos">
+                  Falsificação de Documentos
+                </option>
+                <option value="violacao-politicas">
+                  Violação de Políticas Internas
+                </option>
+                <option value="vazamento-informacoes">
+                  Vazamento de Informações Confidenciais
+                </option>
+                <option value="nepotismo">Nepotismo</option>
+                <option value="trabalho-infantil">
+                  Trabalho Infantil ou Análogo à Escravidão
+                </option>
+                <option value="conduta-anti-etica">
+                  Conduta Antiética ou Imoral
+                </option>
+                <option value="descumprimento-regulamentacoes">
+                  Descumprimento de Regulamentações
+                </option>
+                <option value="sabotagem">Sabotagem ou Vandalismo</option>
+                <option value="uso-indevido-recursos">
+                  Uso Indevido de Recursos da Empresa
+                </option>
+                <option value="falta-seguranca">
+                  Falta de Segurança no Trabalho
+                </option>
+                <option value="coacao-intimidacao">
+                  Coação ou Intimidação
+                </option>
+                <option value="maus-tratos">
+                  Maus-tratos e Violência Física ou Psicológica
+                </option>
+              </TipoSelect>
+            </FieldContainer>
+          </TitleAndTypeWrapper>
+          <LabelForm>Conteúdo da Denúncia</LabelForm>
+          <ReportDescription
+            placeholder="Conteúdo da denúncia*"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             required
           />
         </FormStyle>
-        <ReportDescription
-          placeholder="Conteúdo da denúncia*"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          required
-        />
         <ActionSection>
           <SendSection>
             <FileUpload onFileChange={handleFileChange} />
-
             <ClearButton onClick={handleClear}>
               <span
                 style={{
@@ -290,7 +388,7 @@ function NewReport() {
               >
                 Limpar Formulário
               </span>
-              <img src={icon} alt="" />
+              <img src={icon} alt="Ícone de limpar" />
             </ClearButton>
           </SendSection>
           <DividerSection>
@@ -312,7 +410,7 @@ function NewReport() {
                 {files.map((file, index) => (
                   <Card
                     onClick={() => {
-                      const newArr = files.filter((items) => items != file);
+                      const newArr = files.filter((item) => item !== file);
                       setFiles(newArr);
                     }}
                     key={index}
@@ -353,7 +451,7 @@ function NewReport() {
               >
                 Enviar Denúncia
               </span>
-              <img src={send} alt="Icone de envio" />
+              <img src={send} alt="Ícone de envio" />
             </SendButton>
           </SendSection>
         </ActionSection>
