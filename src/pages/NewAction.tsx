@@ -1,16 +1,37 @@
 import axios from "axios";
 import styled from "styled-components";
 import logo from "../assets/Logo2.svg";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FileUpload from "../components/fileUpload/FileUpload";
 import icon from "../assets/icons/multiply 1.svg";
 import send from "../assets/icons/send-message 1.svg";
 import { useNavigate, useParams } from "react-router-dom";
+import IAComponent from "../components/IAComponent";
 
+// Interfaces e Types
 interface SwitchProps {
   isChecked: boolean;
 }
 
+interface ActionDetails {
+  titulo?: string;
+  descricao?: string;
+}
+
+interface IAComponentProps {
+  title: string;
+  description: string;
+  onTitleChange: (newTitle: string) => void;
+  onDescriptionChange: (newDescription: string) => void;
+}
+
+// Corrigido: O tipo precisa ser compatível com Record<string, string | undefined>
+type RouteParams = {
+  reportId?: string;
+  agentId?: string;
+};
+
+// Styled Components
 const MainContainer = styled.div`
   width: 100%;
   display: flex;
@@ -33,6 +54,7 @@ const TitleLogo = styled.img`
   height: 90px;
   padding-bottom: 1.5rem;
 `;
+
 const TitleText = styled.h2`
   font-size: 4.5rem;
   font-weight: bold;
@@ -49,6 +71,7 @@ const FormContainer = styled.div`
   box-shadow: 0px 4px 8px 5px rgba(230, 223, 230, 1);
   padding: 2rem;
 `;
+
 const FormStyle = styled.form`
   display: flex;
   flex-direction: column;
@@ -85,6 +108,7 @@ const ReportDescription = styled.textarea`
   border-radius: 0.6rem;
   outline: none;
   padding: 1rem;
+
   ::placeholder {
     color: #c2bebe;
   }
@@ -124,6 +148,7 @@ const ClearButton = styled.div`
   justify-content: center;
   gap: 1rem;
 `;
+
 const SendButton = styled.div`
   cursor: pointer;
   width: 250px;
@@ -146,32 +171,12 @@ const SwitchContainer = styled.div`
   margin-top: 1rem;
 `;
 
-const SwitchLabel = styled.label`
-  font-size: 16px;
-  color: #5b0390;
-  font-weight: bold;
+const IAComponentWrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  margin: 10px 0;
 `;
 
-const Switch = styled.div<SwitchProps>`
-  position: relative;
-  width: 50px;
-  height: 25px;
-  background-color: ${({ isChecked }) => (isChecked ? "#5B0390" : "#ccc")};
-  border-radius: 25px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-`;
-
-const SwitchButton = styled.div<SwitchProps>`
-  position: absolute;
-  top: 2.5px;
-  left: ${({ isChecked }) => (isChecked ? "25px" : "2.5px")};
-  width: 20px;
-  height: 20px;
-  background-color: #fff;
-  border-radius: 50%;
-  transition: left 0.3s ease;
-`;
 const Cards = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -181,6 +186,7 @@ const Cards = styled.div`
   overflow-x: hidden;
   padding-right: 1rem;
 `;
+
 const Card = styled.div`
   width: 80px;
   height: 80px;
@@ -190,66 +196,158 @@ const Card = styled.div`
   align-items: center;
   border-radius: 8px;
   position: relative;
+  overflow: hidden;
+  &:hover span {
+    opacity: 1;
+  }
 `;
 
-function NewAction() {
+const TrashIcon = styled.span`
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+`;
+
+function NewAction(): React.ReactElement {
   const baseUrl = process.env.REACT_APP_BACKEND_URL;
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const { reportId, agentId } = useParams<{ reportId: string; agentId: any }>();
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const { reportId, agentId } = useParams<RouteParams>();
   const [files, setFiles] = useState<File[]>([]);
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [actionId, setActionId] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const toggleSwitch = () => {
-    setIsChecked(!isChecked);
-  };
+  // Limpar ou definir o actionId no localStorage quando o componente montar/desmontar
+  useEffect(() => {
+    // Verificar se estamos editando uma ação existente
+    const path = window.location.pathname;
+    const editMatch = path.match(/\/edit-action\/([^/]+)/);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setFiles([...files, ...Array.from(event.target.files)]);
+    if (editMatch && editMatch[1]) {
+      const currentActionId = editMatch[1];
+      setActionId(currentActionId);
+      localStorage.setItem("currentActionId", currentActionId);
+
+      // Buscar detalhes da ação se estiver editando
+      fetchActionDetails(currentActionId);
+    } else {
+      localStorage.removeItem("currentActionId");
+    }
+
+    return () => {
+      localStorage.removeItem("currentActionId");
+    };
+  }, []);
+
+  const fetchActionDetails = async (id: string): Promise<void> => {
+    try {
+      const response = await axios.get<ActionDetails>(
+        `${baseUrl}/actions/${id}`
+      );
+      if (response.data) {
+        setTitle(response.data.titulo || "");
+        setDescription(response.data.descricao || "");
+      }
+    } catch (error) {
+      console.error("Erro ao buscar detalhes da ação:", error);
     }
   };
 
-  const handleClear = () => {
+  const handleTitleChange = (newTitle: string): void => {
+    setTitle(newTitle);
+  };
+
+  const handleDescriptionChange = (newDescription: string): void => {
+    setDescription(newDescription);
+  };
+
+  const handleFileChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    if (event.target.files) {
+      setFiles([...files, ...Array.from(event.target.files)]);
+      event.target.value = "";
+    }
+  };
+
+  const handleDeleteFile = (indexToDelete: number): void => {
+    setFiles((prevFiles) =>
+      prevFiles.filter((_, index) => index !== indexToDelete)
+    );
+  };
+
+  const handleClear = (): void => {
     setTitle("");
     setDescription("");
     setFiles([]);
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent): Promise<void> => {
     event.preventDefault();
 
     const formData = new FormData();
     formData.append("titulo", title);
     formData.append("descricao", description);
-    formData.append("agenteId", agentId);
+    formData.append("agenteId", agentId || "");
 
     files.forEach((file) => {
       formData.append("files", file);
     });
 
     try {
-      const response = await axios.post(
-        `${baseUrl}/denuncias/${reportId}/actions`,
-        formData,
-        {
+      let response;
+
+      if (actionId) {
+        // Se temos um ID, estamos editando uma ação existente
+        response = await axios.put(`${baseUrl}/actions/${actionId}`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
+        });
+      } else {
+        // Caso contrário, estamos criando uma nova ação
+        if (reportId) {
+          response = await axios.post(
+            `${baseUrl}/denuncias/${reportId}/actions`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+        } else {
+          console.error("reportId é indefinido");
+          return;
         }
-      );
+      }
+
       console.log(response.data);
       navigate("/home");
     } catch (error) {
-      console.log("Erro ao enviar denúncia: ", error);
+      console.log("Erro ao enviar ação: ", error);
     }
   };
+
+  const formatString = (stringToFormat: string): string => {
+    if (!stringToFormat) return "-";
+    return stringToFormat.length > 8
+      ? stringToFormat.substring(0, 8) + "..."
+      : stringToFormat;
+  };
+
   return (
     <MainContainer>
       <Title>
-        <TitleLogo src={logo} />
-        <TitleText>Adicionar Action</TitleText>
+        <TitleLogo src={logo} alt="Logo" />
+        <TitleText>
+          {actionId ? "Editar" : "Adicionar"} Ação Investigativa
+        </TitleText>
       </Title>
       <FormContainer>
         <FormStyle onSubmit={handleSubmit}>
@@ -268,10 +366,19 @@ function NewAction() {
           onChange={(e) => setDescription(e.target.value)}
           required
         />
+
+        <IAComponentWrapper>
+          <IAComponent
+            title={title}
+            description={description}
+            onTitleChange={handleTitleChange}
+            onDescriptionChange={handleDescriptionChange}
+          />
+        </IAComponentWrapper>
+
         <ActionSection>
           <SendSection>
             <FileUpload onFileChange={handleFileChange} />
-
             <ClearButton onClick={handleClear}>
               <span
                 style={{
@@ -290,14 +397,22 @@ function NewAction() {
               className="ghostDiv"
               style={{ background: "#2C088D", height: "70%", width: "0.2rem" }}
             ></div>
-            <img src={logo} style={{ width: "4rem", height: "4rem" }} />
+            <img
+              src={logo}
+              alt="Logo"
+              style={{ width: "4rem", height: "4rem" }}
+            />
           </DividerSection>
           <SendSection>
-            <SwitchContainer></SwitchContainer>
             {files.length > 0 ? (
               <Cards>
                 {files.map((file, index) => (
-                  <Card key={index}>{file.name}</Card>
+                  <Card key={index}>
+                    {formatString(file.name)}
+                    <TrashIcon onClick={() => handleDeleteFile(index)}>
+                      🗑️
+                    </TrashIcon>
+                  </Card>
                 ))}
               </Cards>
             ) : (
@@ -319,6 +434,7 @@ function NewAction() {
                 </p>
               </div>
             )}
+
             <SendButton onClick={handleSubmit}>
               <span
                 style={{
@@ -326,7 +442,7 @@ function NewAction() {
                   fontWeight: "bold",
                 }}
               >
-                Enviar Ação
+                {actionId ? "Atualizar" : "Enviar"} Ação
               </span>
               <img src={send} alt="Icone de envio" />
             </SendButton>

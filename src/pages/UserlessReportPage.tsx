@@ -8,6 +8,7 @@ import { IReportDetailsProps } from "../components/details/IReportDetailsProps";
 import { useUser } from "../UserContext";
 import InvestigateArea from "../components/investigateArea";
 import DetailsAction from "../components/detailsAction";
+import DetailsVerifica from "../components/details";
 
 interface DivisorProps {
   admin?: boolean;
@@ -44,10 +45,10 @@ const Divisor = styled.div<DivisorProps>`
   margin-left: ${(props) => (props.admin ? "2%" : "10%")};
 `;
 
-function Report({ action }: IReportProps) {
+function UserlessReportPage({ action }: IReportProps) {
   const { admin, agent } = useUser();
   const baseUrl = process.env.REACT_APP_BACKEND_URL;
-  const { userId } = useUser();
+  const userId = "67d83d2aa27252c882ab5d34";
   const { reportId, actionId } = useParams<{
     reportId: string;
     actionId?: string;
@@ -147,7 +148,7 @@ function Report({ action }: IReportProps) {
         action && actions ? (
           <DetailsAction action={actions ? actions[actionIndex] : undefined} />
         ) : (
-          <Details
+          <DetailsVerifica
             agenteDetalhes={report.agenteDetalhes}
             report={report.report}
           />
@@ -176,4 +177,4 @@ function Report({ action }: IReportProps) {
   );
 }
 
-export default Report;
+export default UserlessReportPage;

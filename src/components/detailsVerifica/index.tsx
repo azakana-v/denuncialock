@@ -15,9 +15,8 @@ import AttrModal from "../attrModal";
 import SuccessAttrModal from "../successAttrModal";
 import FailedAttrModal from "../failedAttrModal";
 import ClassificationModal from "../ClassificationModal";
-import SugestaoAcoesComponent from "../SugestaoAcoesComponent ";
 
-function DetailsVerifica({ report, agenteDetalhes }: any) {
+function Details({ report, agenteDetalhes }: IReportDetailsProps) {
   const { admin, agent } = useUser();
   const navigate = useNavigate();
   const baseUrl = process.env.REACT_APP_BACKEND_URL;
@@ -112,9 +111,11 @@ function DetailsVerifica({ report, agenteDetalhes }: any) {
   };
 
   const handleConclude = async () => {
-    if (!admin) {
-      navigate(`/conclusion/${report?.conclusions[0]}/verifica`);
-    } else if (isConcluded) {
+    if (!riscoDenuncia) {
+      return; // Impede a conclusão se o risco não foi classificado
+    }
+
+    if (isConcluded) {
       //redireciona para a conclusion
       console.log(report);
       navigate(
@@ -202,7 +203,7 @@ function DetailsVerifica({ report, agenteDetalhes }: any) {
         <Styles.Evidence>
           <Styles.EvidenceTitle>Evidências</Styles.EvidenceTitle>
           <Styles.Slots>
-            {report?.evidencias.map((evidence: any, index: any) => (
+            {report?.evidencias.map((evidence, index) => (
               <Styles.Slot key={index}>
                 <a
                   target="_blank"
@@ -215,45 +216,6 @@ function DetailsVerifica({ report, agenteDetalhes }: any) {
             ))}
           </Styles.Slots>
         </Styles.Evidence>
-
-        <Styles.Conclude>
-          {report.conclusions?.length > 0 ? (
-            <Styles.ConcludeButton
-              onClick={() => handleConclude()}
-              disabled={!riscoDenuncia && !isConcluded}
-              style={{
-                opacity: !riscoDenuncia && !isConcluded ? 0.7 : 1,
-                cursor:
-                  !riscoDenuncia && !isConcluded ? "not-allowed" : "pointer",
-              }}
-            >
-              <Styles.Icon src={Conclude} />
-              <Styles.BtnTitle>Ver Conclusão</Styles.BtnTitle>
-            </Styles.ConcludeButton>
-          ) : admin ? (
-            <Styles.ConcludeButton
-              onClick={() => handleConclude()}
-              disabled={!riscoDenuncia && !isConcluded}
-              style={{
-                opacity: !riscoDenuncia && !isConcluded ? 0.7 : 1,
-                cursor:
-                  !riscoDenuncia && !isConcluded ? "not-allowed" : "pointer",
-              }}
-            >
-              <Styles.Icon src={Conclude} />
-              <Styles.BtnTitle>Concluir</Styles.BtnTitle>
-            </Styles.ConcludeButton>
-          ) : (
-            ""
-          )}
-        </Styles.Conclude>
-        {!isConcluded && report.status != "Encerrada" && admin && (
-          <Styles.Conclude>
-            <Styles.ClassifyButton onClick={openClassificationModal}>
-              <Styles.BtnTitle>Classificar</Styles.BtnTitle>
-            </Styles.ClassifyButton>
-          </Styles.Conclude>
-        )}
         {admin && report.status != "Encerrada" ? (
           <Styles.Delete>
             <Styles.AttrButton onClick={() => setShowModal(true)}>
@@ -267,9 +229,8 @@ function DetailsVerifica({ report, agenteDetalhes }: any) {
               <div style={{ color: "white", fontSize: "3rem" }}>+</div>
               <Styles.BtnTitle>Adicionar ação</Styles.BtnTitle>
             </Styles.AttrButton>
-            <SugestaoAcoesComponent />
           </Styles.Conclude>
-        ) : report.status != "Encerrada" && admin ? (
+        ) : report.status != "Encerrada" ? (
           <Styles.Delete>
             <Styles.DeleteButton onClick={() => setShowModal(true)}>
               <Styles.Icon src={Trash} />
@@ -278,6 +239,29 @@ function DetailsVerifica({ report, agenteDetalhes }: any) {
           </Styles.Delete>
         ) : (
           ""
+        )}
+        <Styles.Conclude>
+          <Styles.ConcludeButton
+            onClick={() => handleConclude()}
+            disabled={!riscoDenuncia && !isConcluded}
+            style={{
+              opacity: !riscoDenuncia && !isConcluded ? 0.7 : 1,
+              cursor:
+                !riscoDenuncia && !isConcluded ? "not-allowed" : "pointer",
+            }}
+          >
+            <Styles.Icon src={Conclude} />
+            <Styles.BtnTitle>
+              {report.conclusions?.length > 0 ? "Ver Conclusão" : "Concluir"}
+            </Styles.BtnTitle>
+          </Styles.ConcludeButton>
+        </Styles.Conclude>
+        {!isConcluded && report.status != "Encerrada" && (
+          <Styles.Conclude>
+            <Styles.ClassifyButton onClick={openClassificationModal}>
+              <Styles.BtnTitle>Classificar</Styles.BtnTitle>
+            </Styles.ClassifyButton>
+          </Styles.Conclude>
         )}
       </Styles.Details>
       {!admin && showModal && (
@@ -314,4 +298,4 @@ function DetailsVerifica({ report, agenteDetalhes }: any) {
   );
 }
 
-export default DetailsVerifica;
+export default Details;

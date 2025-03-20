@@ -1,13 +1,11 @@
-import Details from "../components/details";
 import styled from "styled-components";
 import TimeLine from "../components/timeLine";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { IReportDetailsProps } from "../components/details/IReportDetailsProps";
 import { useUser } from "../UserContext";
-import InvestigateArea from "../components/investigateArea";
-import DetailsAction from "../components/detailsAction";
+import ConclusionDetails from "../components/detailsConclusion";
+import { IConclusionDetailsProps } from "../components/detailsConclusion/IConclusionDetailsProps";
 
 interface DivisorProps {
   admin?: boolean;
@@ -44,15 +42,16 @@ const Divisor = styled.div<DivisorProps>`
   margin-left: ${(props) => (props.admin ? "2%" : "10%")};
 `;
 
-function Report({ action }: IReportProps) {
+function ConclusionVerifica({ action }: IReportProps) {
   const { admin, agent } = useUser();
   const baseUrl = process.env.REACT_APP_BACKEND_URL;
   const { userId } = useUser();
-  const { reportId, actionId } = useParams<{
+  const { reportId, actionId, conclusionId } = useParams<{
     reportId: string;
     actionId?: string;
+    conclusionId: string;
   }>();
-  const [report, setReport] = useState<IReportDetailsProps>();
+  const [conclusion, setConclusion] = useState<IConclusionDetailsProps>();
   const [actions, setActions] = useState<IInvestigateAction[]>();
   const [agentId, setAgentId] = useState<string>("");
   const [actionIndex, setActionIndex] = useState<number>(0);
@@ -80,10 +79,13 @@ function Report({ action }: IReportProps) {
   };
 
   useEffect(() => {
-    const fetchReport = async () => {
+    const fetchConclusion = async () => {
       try {
-        const response = await axios.get(`${baseUrl}/denuncias/${reportId}`);
-        console.log("Resposta da denúncia:", response.data);
+        //Aqui vem o método de get conclusion
+        const response = await axios.get(
+          `${baseUrl}/conclusions/${conclusionId}`
+        );
+        console.log("Resposta da conclusion:", response.data);
 
         const reportDetalhes = {
           _id: response.data._id,
@@ -96,11 +98,9 @@ function Report({ action }: IReportProps) {
           timeline: response.data.timeline,
           conclusions: response.data.conclusions || [],
           createdAt: response.data.createdAt,
-          risk: response.data.risk,
         };
 
-        setReport(response.data);
-        console.log(response.data, " dadossssssss");
+        setConclusion(response.data);
 
         if (response.data.agente) {
           setAgentId(response.data.agente);
@@ -110,8 +110,8 @@ function Report({ action }: IReportProps) {
           );
           console.log("Resposta do agente:", reportAgent.data);
 
-          const fullReport: IReportDetailsProps = {
-            report: reportDetalhes,
+          const fullReport: IConclusionDetailsProps = {
+            conclusion: reportDetalhes,
             agenteDetalhes: {
               _id: reportAgent.data._id,
               nome: reportAgent.data.nome,
@@ -119,22 +119,22 @@ function Report({ action }: IReportProps) {
               profile: reportAgent.data.profile,
             },
           };
-          setReport(fullReport);
+
+          setConclusion(fullReport);
         } else {
-          const fullReport: IReportDetailsProps = {
-            report: reportDetalhes,
+          const fullReport: IConclusionDetailsProps = {
+            conclusion: reportDetalhes,
             agenteDetalhes: undefined,
           };
 
-          setReport(fullReport);
-          console.log("Nenhum agente associado à denúncia");
+          setConclusion(fullReport);
         }
       } catch (error) {
         console.log("Erro ao buscar detalhes da denúncia: ", error);
       }
     };
 
-    fetchReport();
+    fetchConclusion();
   }, [reportId, userId]);
 
   useEffect(() => {
@@ -143,32 +143,15 @@ function Report({ action }: IReportProps) {
 
   return (
     <MainContainer>
-      {report?.report ? (
-        action && actions ? (
-          <DetailsAction action={actions ? actions[actionIndex] : undefined} />
-        ) : (
-          <Details
-            agenteDetalhes={report.agenteDetalhes}
-            report={report.report}
-          />
-        )
+      {conclusion?.conclusion ? (
+        <ConclusionDetails
+          agenteDetalhes={conclusion.agenteDetalhes}
+          conclusion={conclusion.conclusion}
+        />
       ) : (
         <p>Detalhes da denúncia não encontrados.</p>
       )}
-      {report?.agenteDetalhes ? (
-        // @ts-ignore
-        <InvestigateArea
-          getActionIndex={getActionIndex}
-          actions={actions}
-          member={{
-            nome: report.agenteDetalhes.nome,
-            reports: 0,
-            profile: "string",
-          }}
-        />
-      ) : (
-        "Aguardando Atribuição!"
-      )}
+
       {admin || agent ? <Divisor admin={admin} /> : <Divisor />}
 
       {reportId && <TimeLine reportId={reportId} />}
@@ -176,4 +159,4 @@ function Report({ action }: IReportProps) {
   );
 }
 
-export default Report;
+export default ConclusionVerifica;

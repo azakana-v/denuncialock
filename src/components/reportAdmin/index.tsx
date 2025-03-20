@@ -1,98 +1,98 @@
-import * as Styles from './styles';
-import Logo from '../../assets/Logo2.svg'
-import userIcon from '../../assets/icons/user.svg'
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import * as Styles from "./styles";
+import Logo from "../../assets/Logo2.svg";
+import userIcon from "../../assets/icons/user.svg";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
-interface ReportProps {
-    report: {
-        titulo: string;
-        descricao: string;
-        data: string;
-        autor: string;
-        agente: string;
-        status: string;
-        id: string;
-    };
+// Se houver mais campos dentro de "timeline", "conclusions" etc., ajuste conforme necessário
+interface TimelineItem {
+  title: string;
+  date: string;
 }
 
-function ReportAdmin({ report }: ReportProps){
-    const navigate = useNavigate();
-    const [agenteName, setAgentName] = useState<string | null>(null);
+interface Agente {
+  _id: string;
+  nome: string;
+}
 
-    
-    
+interface ReportType {
+  id: string;
+  usuarioId: string;
+  status: string;
+  descricao: string;
+  titulo: string;
+  data: string; // Ex.: "2025-03-20T07:43:50.367Z"
+  agente: Agente; // Continua existindo no retorno, mas não vamos usá-lo agora
+  risk: number;
+  evidencias: string[];
+  conclusions: any[];
+  timeline: TimelineItem[];
+  tipoDenuncia: string;
+}
 
-    const handleRedirect = () => {
-        console.log('Report ID:', report.id);
-        navigate(`report/${report.id}`)
-    }
+interface ReportProps {
+  report: ReportType;
+}
 
-    const truncateDescription = (description: string, maxLength: number) => {
-        if (description.length <= maxLength) return description;
-        return description.slice(0, maxLength) + '...';
-    };
+function ReportAdmin({ report }: ReportProps) {
+  const navigate = useNavigate();
 
-    const formatDate = (dateString: string) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('pt-BR', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-        });
-    };
+  // Ajuste a baseURL conforme sua configuração
+  const baseURL = process.env.REACT_APP_BACKEND_URL;
 
-    function capitalize(string: string){
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
+  const handleRedirect = () => {
+    navigate(`report/${report.id}`);
+  };
 
-    return(
-        <Styles.ReportContainer onClick={handleRedirect}>
-            <Styles.Row>
-                <Styles.ReportTitleDescription>
-                    <Styles.Title>
-                        {report.titulo}
-                    </Styles.Title>
-                    {/* <Styles.Logo src={Logo}/> */}
-                    <Styles.ReportDate>
-                        <Styles.Date>
-                            {formatDate(report.data)}
-                        </Styles.Date>
-                    </Styles.ReportDate>
-                    {/* <Styles.Description>
-                        {truncateDescription(report.descricao, 150)}
-                    </Styles.Description> */}
-                </Styles.ReportTitleDescription>
-            </Styles.Row>
-            <Styles.Row>
-                <Styles.OwnerAndUserContainer>
-                    <Styles.User>
-                        <Styles.UserIcon src={userIcon} />
-                        <Styles.UserName>
-                            Responsável:
-                            <Styles.Name>
-                            {agenteName ? agenteName : "Requer atribuição!"}
-                            </Styles.Name>
-                        </Styles.UserName>
-                    </Styles.User>
-                    <Styles.User>
-                        <Styles.UserIcon src={userIcon} />
-                        <Styles.UserName>
-                            Denunciante:
-                            <Styles.Name>
-                                {report.autor ? report.autor : "Anônimo"}
-                            </Styles.Name>
-                        </Styles.UserName>
-                    </Styles.User>
-                </Styles.OwnerAndUserContainer>
-                <Styles.Status>
-                    <Styles.StatusCircle status={report.status}></Styles.StatusCircle>
-                    <Styles.StatusText>{capitalize(report.status)}</Styles.StatusText>
-                </Styles.Status>
-            </Styles.Row>
-        </Styles.ReportContainer>
-    )
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  };
+
+  function capitalize(str: string) {
+    if (!str) return "";
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  return (
+    <Styles.ReportContainer onClick={handleRedirect}>
+      <Styles.Row>
+        <Styles.ReportTitleDescription>
+          <Styles.Title>{report.titulo}</Styles.Title>
+          <Styles.ReportDate>
+            <Styles.Date>{formatDate(report.data)}</Styles.Date>
+          </Styles.ReportDate>
+        </Styles.ReportTitleDescription>
+      </Styles.Row>
+
+      <Styles.Row>
+        <Styles.OwnerAndUserContainer>
+          {/* Campo "Responsável" */}
+          <Styles.User>
+            <Styles.UserIcon src={userIcon} />
+            <Styles.UserName>
+              Responsável:
+              <Styles.Name>
+                {report?.agente?.nome
+                  ? report.agente.nome
+                  : "Requer atribuição!"}
+              </Styles.Name>
+            </Styles.UserName>
+          </Styles.User>
+        </Styles.OwnerAndUserContainer>
+
+        <Styles.Status>
+          <Styles.StatusCircle status={report.status} />
+          <Styles.StatusText>{capitalize(report.status)}</Styles.StatusText>
+        </Styles.Status>
+      </Styles.Row>
+    </Styles.ReportContainer>
+  );
 }
 
 export default ReportAdmin;

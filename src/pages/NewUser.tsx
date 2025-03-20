@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import imgEmpresa from "../assets/logoHevi.png";
+import imgEmpresa from "../assets/logo-branco-info.png";
 import imgReportLock from "../pages/Login/logo-branco-info.png";
 
 const MainContainer = styled.div`

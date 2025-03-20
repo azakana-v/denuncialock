@@ -4,18 +4,18 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { videoArray } from "./videoArray.js";
 import YouTube from "react-youtube";
 import ListaDeVideos from "./ListaDeVideos";
-import empresaLogo from "../../assets/logoHevi.png";
+import empresaLogo from "../../assets/logo-branco-info.png";
 import styled from "styled-components";
 
 const DownloadButton = styled.button`
-  background-color: #5B0390;
+  background-color: #5b0390;
   color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
-  font-family: "Montserrat", 'sans-serif';
+  font-family: "Montserrat", "sans-serif";
   margin-top: 20px;
   &:hover {
     background-color: #470270;
@@ -51,12 +51,22 @@ const Treinamentos = () => {
             opts={opts}
             title={"Teste"}
           />
-          {videoIndex == 0 || videoIndex == 2 ||  videoIndex == 3 || videoIndex == 7 ?
-                     <DownloadButton>
-
-<a style={{textDecoration: 'none', color:"white"}} target="blank" href={require(`./aula${videoIndex + 1}.pdf`)}>Baixar material de apoio</a>
-</DownloadButton> : "" }
-
+          {videoIndex == 0 ||
+          videoIndex == 2 ||
+          videoIndex == 3 ||
+          videoIndex == 7 ? (
+            <DownloadButton>
+              <a
+                style={{ textDecoration: "none", color: "white" }}
+                target="blank"
+                href={require(`./aula${videoIndex + 1}.pdf`)}
+              >
+                Baixar material de apoio
+              </a>
+            </DownloadButton>
+          ) : (
+            ""
+          )}
         </div>
         <div className="playlist-section">
           <div className="progress-section">

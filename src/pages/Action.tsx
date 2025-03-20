@@ -20,9 +20,7 @@ function Action() {
   useEffect(() => {
     const fetchReport = async () => {
       try {
-        const response = await axios.get(
-          `${baseUrl}/denuncias/${reportId}/usuario/${userId}`
-        );
+        const response = await axios.get(`${baseUrl}/denuncias/${reportId}`);
         console.log(response.data);
         setReport({ report: response.data });
       } catch (error) {
