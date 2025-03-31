@@ -8,6 +8,7 @@ import customer from "../../assets/icons/customer-support.svg";
 import question from "../../assets/icons/question.svg";
 import user from "../../assets/icons/user2.svg";
 import calculator from "../../assets/icons/calculator.png";
+import MembrosImg from "../../assets/icons/group.png";
 
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../UserContext";
@@ -44,15 +45,37 @@ function Sidebar() {
                 navigate("/Treinamento");
               }}
             />
-            <SideBtn
-              icon={calculator}
-              toolTip="Relatórios"
-              onClick={() => {
-                navigate("/RelatorioPage");
-              }}
-            />
+            {admin ? (
+              <SideBtn
+                icon={calculator}
+                toolTip="Relatórios"
+                onClick={() => {
+                  navigate("/AdminDashboard/Relatorio");
+                }}
+              />
+            ) : (
+              ""
+            )}
+            {admin ? (
+              <SideBtn
+                icon={MembrosImg}
+                toolTip="Membros"
+                onClick={() => {
+                  navigate("/Membros");
+                }}
+              />
+            ) : (
+              ""
+            )}
+
             {/* <SideBtn icon={customer} toolTip='Suporte'/> */}
-            {/* {admin ? <SideBtn icon={user} toolTip='Membros'/> : ""} */}
+            {/* {admin ? <SideBtn
+              icon={MembrosImg}
+              toolTip="Membros"
+              onClick={() => {
+                navigate("/Membros");
+              }}
+            /> : ""} */}
           </div>
           {/* <Gabriel>escorpuxas</Gabriel> */}
           <div>

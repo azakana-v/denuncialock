@@ -3,9 +3,10 @@ import styled from "styled-components";
 import logo from "../assets/Logo2.svg";
 import React, { useState } from "react";
 import FileUpload from "../components/fileUpload/FileUpload";
-import icon from "../assets/icons/multiply 1.svg";
 import send from "../assets/icons/send-message 1.svg";
 import { useNavigate } from "react-router-dom";
+import icon from "../assets/icons/multiply 1.svg";
+import SuccessModal from "../components/SuccessModal";
 
 interface SwitchProps {
   isChecked: boolean;
@@ -33,11 +34,29 @@ const TitleLogo = styled.img`
   height: 90px;
   padding-bottom: 1.5rem;
 `;
+
 const TitleText = styled.h2`
   font-size: 4.5rem;
   font-weight: bold;
   color: #5b0390;
   padding-bottom: 1.5rem;
+`;
+
+const FieldContainer = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+`;
+
+const TipoSelect = styled.select`
+  color: #5b0390;
+  font-size: 1.5rem;
+  width: 50%;
+  height: 3rem;
+  border: 2px solid #5b0390;
+  outline: none;
+  border-radius: 0.6rem;
+  margin-bottom: 1rem;
 `;
 
 const FormContainer = styled.div`
@@ -49,6 +68,7 @@ const FormContainer = styled.div`
   box-shadow: 0px 4px 8px 5px rgba(230, 223, 230, 1);
   padding: 2rem;
 `;
+
 const FormStyle = styled.form`
   display: flex;
   flex-direction: column;
@@ -85,6 +105,7 @@ const ReportDescription = styled.textarea`
   border-radius: 0.6rem;
   outline: none;
   padding: 1rem;
+
   ::placeholder {
     color: #c2bebe;
   }
@@ -124,6 +145,7 @@ const ClearButton = styled.div`
   justify-content: center;
   gap: 1rem;
 `;
+
 const SendButton = styled.div`
   cursor: pointer;
   width: 250px;
@@ -172,6 +194,7 @@ const SwitchButton = styled.div<SwitchProps>`
   border-radius: 50%;
   transition: left 0.3s ease;
 `;
+
 const Cards = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -181,6 +204,8 @@ const Cards = styled.div`
   overflow-x: hidden;
   padding-right: 1rem;
 `;
+
+// Componente para o card com hover para mostrar a lixeira
 const Card = styled.div`
   width: 80px;
   height: 80px;
@@ -190,15 +215,35 @@ const Card = styled.div`
   align-items: center;
   border-radius: 8px;
   position: relative;
+  overflow: hidden;
+
+  &:hover span {
+    opacity: 1;
+  }
+`;
+
+// Styled component para a lixeira utilizando emoji
+const TrashIcon = styled.span`
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 `;
 
 function UserlessReport() {
   const baseUrl = process.env.REACT_APP_BACKEND_URL;
-  const userId = "671a9ff2a107cb902efbf032";
+  const userId = "67d83d2aa27252c882ab5d34";
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [files, setFiles] = useState<File[]>([]);
   const [isChecked, setIsChecked] = useState(false);
+  const [tipo, setTipo] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [reportId, setReportId] = useState("");
+
   const navigate = useNavigate();
 
   const toggleSwitch = () => {
@@ -208,12 +253,15 @@ function UserlessReport() {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setFiles([...files, ...Array.from(event.target.files)]);
+      // Reseta o valor do input para permitir a re-seleção dos mesmos arquivos
+      event.target.value = "";
     }
   };
 
   const handleClear = () => {
     setTitle("");
     setDescription("");
+    setTipo("");
     setFiles([]);
   };
 
@@ -223,6 +271,7 @@ function UserlessReport() {
     const formData = new FormData();
     formData.append("titulo", title);
     formData.append("descricao", description);
+    formData.append("tipoDenuncia", tipo);
     formData.append("usuarioId", userId);
 
     files.forEach((file) => {
@@ -235,21 +284,50 @@ function UserlessReport() {
           "Content-Type": "multipart/form-data",
         },
       });
+
       console.log(response.data);
-      navigate("/success");
+
+      // Armazenar o ID do relatório para mostrar na modal
+      setReportId(response.data._id);
+
+      // Mostrar a modal
+      setShowModal(true);
+
+      // Não redirecionar automaticamente, deixar o usuário ver a modal primeiro
     } catch (error) {
       console.log("Erro ao enviar denúncia: ", error);
     }
   };
+
+  const formatString = (stringToFormat: string): string => {
+    if (!stringToFormat) return "-";
+    return stringToFormat.length > 12
+      ? stringToFormat.substring(0, 12) + "..."
+      : stringToFormat;
+  };
+
+  // Função para remover o arquivo da lista
+  const handleDeleteFile = (indexToDelete: number) => {
+    setFiles((prevFiles) =>
+      prevFiles.filter((_, index) => index !== indexToDelete)
+    );
+  };
+
+  // Função para fechar a modal e navegar para a home
+  const handleCloseModal = () => {
+    setShowModal(false);
+    navigate("/home");
+  };
+
   return (
     <MainContainer>
       <Title>
-        <TitleLogo src={logo} />
+        <TitleLogo src={logo} alt="Logo" />
         <TitleText>Formulário de Denúncia</TitleText>
       </Title>
       <FormContainer>
         <FormStyle onSubmit={handleSubmit}>
-          <LabelForm>Descrição da Denúncia</LabelForm>
+          <LabelForm>Título</LabelForm>
           <TitleInput
             type="text"
             placeholder="Título da denúncia*"
@@ -258,6 +336,61 @@ function UserlessReport() {
             required
           />
         </FormStyle>
+        <FieldContainer>
+          <LabelForm>Tipo de Denúncia</LabelForm>
+          <TipoSelect
+            value={tipo}
+            onChange={(e) => {
+              setTipo(e.target.value);
+              console.log(e.target.value);
+            }}
+            required
+          >
+            <option value="" disabled>
+              Selecione o tipo*
+            </option>
+            <option value="assedio-moral">Assédio Moral</option>
+            <option value="assedio-sexual">Assédio Sexual</option>
+            <option value="discriminacao">
+              Discriminação (raça, gênero, orientação sexual, deficiência, etc.)
+            </option>
+            <option value="corrupcao-suborno">Corrupção e Suborno</option>
+            <option value="fraude-financeira">Fraude Financeira</option>
+            <option value="desvio-recursos">Desvio de Recursos</option>
+            <option value="abuso-autoridade">Abuso de Autoridade</option>
+            <option value="conflito-interesses">Conflito de Interesses</option>
+            <option value="falsificacao-documentos">
+              Falsificação de Documentos
+            </option>
+            <option value="violacao-politicas">
+              Violação de Políticas Internas
+            </option>
+            <option value="vazamento-informacoes">
+              Vazamento de Informações Confidenciais
+            </option>
+            <option value="nepotismo">Nepotismo</option>
+            <option value="trabalho-infantil">
+              Trabalho Infantil ou Análogo à Escravidão
+            </option>
+            <option value="conduta-anti-etica">
+              Conduta Antiética ou Imoral
+            </option>
+            <option value="descumprimento-regulamentacoes">
+              Descumprimento de Regulamentações
+            </option>
+            <option value="sabotagem">Sabotagem ou Vandalismo</option>
+            <option value="uso-indevido-recursos">
+              Uso Indevido de Recursos da Empresa
+            </option>
+            <option value="falta-seguranca">
+              Falta de Segurança no Trabalho
+            </option>
+            <option value="coacao-intimidacao">Coação ou Intimidação</option>
+            <option value="maus-tratos">
+              Maus-tratos e Violência Física ou Psicológica
+            </option>
+          </TipoSelect>
+        </FieldContainer>
         <ReportDescription
           placeholder="Conteúdo da denúncia*"
           value={description}
@@ -267,7 +400,6 @@ function UserlessReport() {
         <ActionSection>
           <SendSection>
             <FileUpload onFileChange={handleFileChange} />
-
             <ClearButton onClick={handleClear}>
               <span
                 style={{
@@ -286,13 +418,22 @@ function UserlessReport() {
               className="ghostDiv"
               style={{ background: "#2C088D", height: "70%", width: "0.2rem" }}
             ></div>
-            <img src={logo} style={{ width: "4rem", height: "4rem" }} />
+            <img
+              src={logo}
+              alt="Logo"
+              style={{ width: "4rem", height: "4rem" }}
+            />
           </DividerSection>
           <SendSection>
             {files.length > 0 ? (
               <Cards>
                 {files.map((file, index) => (
-                  <Card key={index}>{file.name}</Card>
+                  <Card key={index}>
+                    {formatString(file.name)}
+                    <TrashIcon onClick={() => handleDeleteFile(index)}>
+                      🗑️
+                    </TrashIcon>
+                  </Card>
                 ))}
               </Cards>
             ) : (
@@ -315,19 +456,21 @@ function UserlessReport() {
               </div>
             )}
             <SendButton onClick={handleSubmit}>
-              <span
-                style={{
-                  fontSize: "1.8rem",
-                  fontWeight: "bold",
-                }}
-              >
+              <span style={{ fontSize: "1.8rem", fontWeight: "bold" }}>
                 Enviar Denúncia
               </span>
-              <img src={send} alt="Icone de envio" />
+              <img src={send} alt="Ícone de envio" />
             </SendButton>
           </SendSection>
         </ActionSection>
       </FormContainer>
+
+      {/* Modal de sucesso com número de protocolo */}
+      <SuccessModal
+        isOpen={showModal}
+        onClose={handleCloseModal}
+        reportId={reportId}
+      />
     </MainContainer>
   );
 }

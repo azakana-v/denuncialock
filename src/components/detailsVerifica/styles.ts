@@ -12,7 +12,7 @@ export const DetailsTitle = styled.div`
   border-bottom: 3px solid #5b0390;
 `;
 export const DetailsLogo = styled.img``;
-export const Title: any = styled.h2`
+export const Title = styled.h2`
   color: #5b0390;
   font-weight: bold;
   font-size: 4rem;
@@ -46,7 +46,7 @@ export const Date = styled.span`
   font-size: 1.5rem;
   font-style: italic;
 `;
-export const Text: any = styled.p`
+export const Text = styled.p`
   color: #5b0390;
   font-size: 1.8rem;
   padding: 2rem 0rem;
@@ -129,21 +129,41 @@ export const DeleteButton = styled.div`
     scale: 1.05;
   }
 `;
-
-export const ConcludeButton = styled.div`
+export const ClassifyButton = styled.button`
   display: flex;
-  background-color: #00de3e;
-  width: auto;
-  height: 3rem;
-  padding: 1rem 3rem;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
-  border-radius: 0.5rem;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: background-color 0.2s ease;
+  /* margin-top: 12px; */
+
   &:hover {
-    scale: 1.05;
+    background-color: #0b7dda;
+  }
+`;
+export const ConcludeButton = styled.button`
+  display: flex;
+  /* flex-direction: column; */
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  background-color: #4caf50; // ou a cor original
+  color: white;
+  border: none;
+  border-radius: 8px; // ou o valor original
+  padding: 10px 16px; // ou o valor original
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
   }
 `;
 

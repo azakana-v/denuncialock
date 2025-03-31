@@ -4,17 +4,46 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import ExcelImg from "../assets/icons/logo_excel.png";
 import * as XLSX from "xlsx"; // Importa a biblioteca xlsx
+import WarningImg from "../assets/icons/warning.png";
+import TypesImg from "../assets/icons/types.png";
 
-const Container = styled.div`
+const SubContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
   max-height: 100vh;
-  padding-top: 8rem;
   overflow-y: auto;
+  display: flex;
+`;
+const MainContainer = styled.div`
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+  width: 100%;
+`;
+const Container = styled.div`
+  display: flex;
+  /* width: 100%; */
+  align-items: center;
+  /* justify-content: center; */
 `;
 
+const RelatorioContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: center; */
+  width: fit-content;
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
 const Title = styled.div`
   display: flex;
   align-items: end;
@@ -23,8 +52,43 @@ const Title = styled.div`
   font-weight: 600;
   color: #5b0390;
   border-bottom: 3px solid #5b0390;
+  text-align: center;
 `;
 
+const RelatorioNav = styled.div`
+  display: flex;
+  /* align-items: center; */
+  /* justify-content: center; */
+  flex-direction: column;
+  gap: 2rem;
+  height: 100%;
+  margin-top: 20vh;
+  margin-right: 2rem;
+  /* width: 100%; */
+`;
+const WarningIcon = styled.img`
+  width: 75%;
+  height: 75%;
+  min-width: 75%;
+  min-height: 75%;
+`;
+const TypesIcon = styled.img`
+  width: 75%;
+  height: 75%;
+  min-width: 75%;
+  min-height: 75%;
+`;
+const NavButton = styled.div`
+  width: 40px;
+  height: 40px;
+  margin: 0 auto;
+  border-radius: 10px;
+  background-color: #5b0390;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+`;
 const ContainerBordinha = styled.div`
   overflow: hidden;
   overflow-y: scroll;
@@ -46,12 +110,12 @@ const ExportButton = styled.button`
   border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
-  margin-top: 20px;
-  margin-left: -880px;
+  /* margin-top: 20px; */
+  /* margin-left: -880px; */
   display: flex;
   align-items: center;
   justify-content: center;
-
+  width: fit-content;
   &:hover {
     background-color: #470270;
   }
@@ -62,7 +126,7 @@ function RelatorioPage() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/denuncias")
+      .get(`${process.env.REACT_APP_BACKEND_URL}/denuncias`)
       .then((response) => {
         setDados(response.data);
       })
@@ -103,43 +167,68 @@ function RelatorioPage() {
 
   return (
     <Container>
-      <Title>Relatórios</Title>
-      <ContainerBordinha>
-        {/* Cabeçalho */}
-        <Bordinha
-          data="Data"
-          titulo="Título"
-          tipo="Tipo"
-          gravidade="Gravidade"
-          responsavel="Responsável"
-          status="Status"
-        />
-
-        {dados.length > 0 ? (
-          dados.map((item: any) => (
-            <Bordinha
-              id={item.id}
-              key={item.id}
-              data={new Date(item.data).toLocaleDateString() || "-"}
-              // Exibe o título truncado e utiliza o atributo "title" para o tooltip com o título completo
-              titulo={
-                <span title={item.titulo}>
-                  {formatTitulo(item.titulo)}
-                </span>
-              }
-              tipo={item.tipo || "-"}
-              gravidade={item.gravidade || "-"}
-              responsavel={item.responsavel || "-"}
-              status={item.status || "-"}
-            />
-          ))
-        ) : (
-          <p>Carregando ou nenhum dado disponível...</p>
-        )}
-      </ContainerBordinha>
-      <ExportButton onClick={exportToExcel}>
-        Exportar | <ImagemExcel src={ExcelImg} />
-      </ExportButton>
+      <MainContainer>
+        {/* <RelatorioNav>
+          <NavButton>
+            <WarningIcon src={WarningImg} />
+          </NavButton>
+          <NavButton>
+            <TypesIcon src={TypesImg} />
+          </NavButton>
+        </RelatorioNav> */}
+        <SubContainer>
+          <RelatorioContainer>
+            <TitleContainer>
+              <Title>Relatórios</Title>
+            </TitleContainer>
+            <ContainerBordinha>
+              {/* Cabeçalho */}
+              <Bordinha
+                data="Data"
+                titulo="Título"
+                tipo="Tipo"
+                gravidade="Gravidade"
+                responsavel="Responsável"
+                status="Status"
+              />
+              {dados.length > 0 ? (
+                dados.map((item: any) => (
+                  <Bordinha
+                    id={item.id}
+                    key={item.id}
+                    data={new Date(item.data).toLocaleDateString() || "-"}
+                    // Exibe o título truncado e utiliza o atributo "title" para o tooltip com o título completo
+                    titulo={
+                      <span title={item.titulo}>
+                        {formatTitulo(item.titulo)}
+                      </span>
+                    }
+                    tipo={item.tipoDenuncia || "-"}
+                    gravidade={
+                      item.risk == 0
+                        ? "Baixo"
+                        : item.risk == 1
+                        ? "Médio"
+                        : item.risk == 2
+                        ? "Alto"
+                        : "-"
+                    }
+                    responsavel={item.agente?.nome || "-"}
+                    status={item.status || "-"}
+                  />
+                ))
+              ) : (
+                <p>Carregando ou nenhum dado disponível...</p>
+              )}
+            </ContainerBordinha>
+          </RelatorioContainer>
+          <div style={{ width: "100%" }}>
+            <ExportButton onClick={exportToExcel}>
+              Exportar | <ImagemExcel src={ExcelImg} />
+            </ExportButton>
+          </div>
+        </SubContainer>
+      </MainContainer>
     </Container>
   );
 }

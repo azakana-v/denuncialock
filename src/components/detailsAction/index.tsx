@@ -43,7 +43,7 @@ function DetailsAction({ action }: IInvestigateAction) {
   const closeModal = () => setShowModal(false);
   const openModal = () => setShowModal(true);
   const closeSuccessModal = () => setShowSuccessModal(false);
-  const closeFailedModal = () => setShowSuccessModal(false);
+  const closeFailedModal = () => setShowFailedModal(false);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -82,12 +82,19 @@ function DetailsAction({ action }: IInvestigateAction) {
   const handleAddAction = () => {
     navigate(`/report/${reportId}/newAction`);
   };
-
+  const formatString = (stringToFormat: string): string => {
+    if (!stringToFormat) return "-";
+    return stringToFormat.length > 12
+      ? stringToFormat.substring(0, 12) + "..."
+      : stringToFormat;
+  };
   return (
     <Styles.DetailsContainer>
       <Styles.DetailsTitle>
         <Styles.DetailsLogo src={Logo} />
-        <Styles.Title>{action?.titulo}</Styles.Title>
+        <Styles.Title
+          dangerouslySetInnerHTML={{ __html: action?.titulo || "" }}
+        />
       </Styles.DetailsTitle>
       <Styles.Details>
         <Styles.Row>
@@ -103,15 +110,21 @@ function DetailsAction({ action }: IInvestigateAction) {
           id="scrollbar-container"
           style={{ maxHeight: "38rem", overflow: "auto" }}
         >
-          <Styles.Text>{action?.descricao}</Styles.Text>
+          <Styles.Text
+            dangerouslySetInnerHTML={{ __html: action?.descricao || "" }}
+          />
         </PerfectScrollbar>
         <Styles.Evidence>
           <Styles.EvidenceTitle>Evidências</Styles.EvidenceTitle>
           <Styles.Slots>
             {action?.evidencias.map((evidence, index) => (
               <Styles.Slot key={index}>
-                <a href={`${baseUrl}/uploads/${evidence}`} download>
-                  {evidence}
+                <a
+                  target="_blank"
+                  href={`${baseUrl}/uploads/${evidence}`}
+                  download
+                >
+                  {formatString(evidence)}
                 </a>
               </Styles.Slot>
             ))}
@@ -125,13 +138,14 @@ function DetailsAction({ action }: IInvestigateAction) {
             </Styles.AttrButton>
           </Styles.Delete>
         ) : agent ? (
-          <Styles.Conclude>
-            <Styles.AttrButton onClick={() => handleAddAction()}>
-              <div style={{ color: "white", fontSize: "3rem" }}>+</div>
-              <Styles.BtnTitle>Adicionar ação</Styles.BtnTitle>
-            </Styles.AttrButton>
-          </Styles.Conclude>
+          ""
         ) : (
+          // <Styles.Conclude>
+          //   <Styles.AttrButton onClick={() => handleAddAction()}>
+          //     <div style={{ color: "white", fontSize: "3rem" }}>+</div>
+          //     <Styles.BtnTitle>Adicionar ação</Styles.BtnTitle>
+          //   </Styles.AttrButton>
+          // </Styles.Conclude>
           ""
         )}
       </Styles.Details>

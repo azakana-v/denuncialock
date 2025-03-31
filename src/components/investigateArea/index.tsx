@@ -76,10 +76,7 @@ function InvestigateArea({ member, actions, getActionIndex }: MemberCardProps) {
   return (
     <Styles.MainContainer>
       <Styles.AgentContainer>
-        <Styles.ProfileImage
-          alt={`foto do membro ${member.nome}`}
-          src={member.profile ? member.profile : User}
-        />
+        <Styles.ProfileImage alt={`foto do membro ${member.nome}`} src={User} />
         <Styles.InfoContainer>
           <Styles.Name>{member.nome}</Styles.Name>
         </Styles.InfoContainer>

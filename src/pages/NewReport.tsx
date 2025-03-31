@@ -267,7 +267,7 @@ function NewReport() {
     const formData = new FormData();
     formData.append("titulo", title);
     formData.append("descricao", description);
-    formData.append("tipo", tipo);
+    formData.append("tipoDenuncia", tipo);
     formData.append("usuarioId", userId);
 
     files.forEach((file) => {

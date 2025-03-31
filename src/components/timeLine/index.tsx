@@ -12,9 +12,7 @@ function TimeLine({ reportId }: { reportId: string }) {
   useEffect(() => {
     async function fetchReport() {
       try {
-        const response = await axios.get(
-          `${baseUrl}/denuncias/${reportId}/usuario/${userId}`
-        );
+        const response = await axios.get(`${baseUrl}/denuncias/${reportId}`);
         const timeline = response.data.timeline;
         console.log("Resposta da API quanto a timeline:", timeline); // Verifique a resposta
         setTimeLineData(timeline); // Certifique-se de que você está substituindo corretamente o estado
