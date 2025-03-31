@@ -5,7 +5,6 @@ import {
   Routes,
   Route,
   Navigate,
-  useNavigate,
 } from "react-router-dom";
 import Report from "./pages/Report";
 import Navbar from "./components/navbar";
@@ -26,7 +25,6 @@ import NewConclusion from "./pages/NewConclusion";
 import Conclusion from "./pages/Conclusion";
 import ForgotPassword from "./pages/ForgotPassword";
 import Treinamentos from "./pages/Treinamento/Treinamentos";
-import { useEffect } from "react";
 import RelatorioPage from "./pages/RelatorioPage";
 import AdminPage from "./pages/AdminPage";
 import WarningImg from "./assets/icons/warning.png";
@@ -43,6 +41,7 @@ const MainContainer = styled.div`
   overflow-y: hidden;
   min-height: 100vh;
 `;
+
 const NavButton = styled.div`
   width: 40px;
   height: 40px;
@@ -54,28 +53,28 @@ const NavButton = styled.div`
   justify-content: center;
   cursor: pointer;
 `;
+
 const WarningIcon = styled.img`
   width: 75%;
   height: 75%;
   min-width: 75%;
   min-height: 75%;
 `;
+
 const TypesIcon = styled.img`
   width: 75%;
   height: 75%;
   min-width: 75%;
   min-height: 75%;
 `;
+
 const RelatorioNav = styled.div`
   display: flex;
-  /* align-items: center; */
-  /* justify-content: center; */
   flex-direction: column;
   gap: 2rem;
   height: 100%;
   margin-top: 20vh;
   margin-right: 2rem;
-  /* width: 100%; */
 `;
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -90,19 +89,18 @@ function App() {
   return (
     <UserProvider>
       <MainContainer>
-        <Router>
+        <Router basename="/">
           <Navbar />
           <Sidebar />
           <Routes>
-            {/* <Route path='/' element={ <HomeUser /> }></Route> */}
-
-            {/* Rotas não privadas */}
-            <Route path="/" element={<Login />}></Route>
+            {/* Rotas públicas */}
+            <Route path="/" element={<Login />} />
             <Route path="/newUser" element={<NewUser />} />
-            <Route path="/forgotPassword" element={<ForgotPassword />}></Route>
-            <Route path="/newPassword/:token" element={<NewPassword />}></Route>
-            <Route path="/userlessReport" element={<UserlessReport />}></Route>
-            <Route path="/success" element={<Success />}></Route>
+            <Route path="/forgotPassword" element={<ForgotPassword />} />
+            <Route path="/newPassword/:token" element={<NewPassword />} />
+            <Route path="/userlessReport" element={<UserlessReport />} />
+            <Route path="/success" element={<Success />} />
+
             {/* Rotas privadas */}
             <Route
               path="/home"
@@ -169,14 +167,6 @@ function App() {
               }
             />
             <Route
-              path="/newReport"
-              element={
-                <PrivateRoute>
-                  <NewReport />
-                </PrivateRoute>
-              }
-            />
-            <Route
               path="/report/:reportId/newConclusion"
               element={
                 <PrivateRoute>
@@ -196,7 +186,6 @@ function App() {
               path="/conclusion/:conclusionId/verifica"
               element={<ConclusionVerifica />}
             />
-
             <Route
               path="/Treinamento"
               element={
@@ -217,7 +206,6 @@ function App() {
               path="/verificar/:reportId"
               element={<UserlessReportPage />}
             />
-
             <Route
               path="/AdminDashboard"
               element={
@@ -226,16 +214,14 @@ function App() {
                 </PrivateRoute>
               }
             >
-              {/* Rota padrão para o dashboard */}
               <Route index element={<></>} />
-              {/* Rotas dos botões */}
               <Route path="Relatorio" element={<RelatorioPage />} />
-              <Route
-                path="TiposDenuncia"
-                element={<BarChartComponent></BarChartComponent>}
-              />
+              <Route path="TiposDenuncia" element={<BarChartComponent />} />
               <Route path="RiscoDenuncia" element={<PizzaChart />} />
             </Route>
+
+            {/* 🔁 Rota de fallback: redireciona 404 para /home */}
+            <Route path="*" element={<Navigate to="/home" replace />} />
           </Routes>
         </Router>
       </MainContainer>

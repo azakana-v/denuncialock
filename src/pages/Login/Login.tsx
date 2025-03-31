@@ -304,9 +304,9 @@ const Login = () => {
           </LoginSection>
           <ContractSection>
             <ContractSectionMainContent>
-              <LogoEmpresa src={imgEmpresa} alt="Logo da Empresa" />
+              {/* <LogoEmpresa src={imgEmpresa} alt="Logo da Empresa" /> */}
             </ContractSectionMainContent>
-            <LogoInfo src={logo} alt="Logo Info" />
+            {/* <LogoInfo src={logo} alt="Logo Info" /> */}
           </ContractSection>
         </MainLoginComponent>
 

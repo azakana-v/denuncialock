@@ -126,7 +126,7 @@ function RelatorioPage() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/denuncias")
+      .get(`${process.env.REACT_APP_BACKEND_URL}/denuncias`)
       .then((response) => {
         setDados(response.data);
       })
